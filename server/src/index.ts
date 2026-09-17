@@ -7,6 +7,7 @@ import { profileRouter } from './routes/profile.js';
 import { aiRouter } from './routes/ai.js';
 import { ritualsRouter } from './routes/rituals.js';
 import { actionsRouter } from './routes/actions.js';
+import { catalogRouter } from './routes/catalog.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use('/api/profile', profileRouter);
 app.use('/api/ai', aiRouter);
 app.use('/api/rituals', ritualsRouter);
 app.use('/api/actions', actionsRouter);
+app.use('/api/catalog', catalogRouter);
 
 // Health Check
 app.get('/api/health', (req, res) => {
