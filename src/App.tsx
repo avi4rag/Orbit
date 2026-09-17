@@ -1,122 +1,69 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RootLayout } from './components/layout/RootLayout';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Placeholder views before full component assembly
+const LandingView: React.FC = () => (
+  <div style={{ padding: '4rem 1.5rem', maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
+    <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }} className="gradient-text-cosmic">
+      Live From The Reality You Want
+    </h1>
+    <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto' }}>
+      Instead of constantly thinking about what you don't have, Orbit helps you visualize your desired life as though you are already living it.
+    </p>
+  </div>
+);
 
+const UniverseView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>My Celestial Universe</h1>
+  </div>
+);
+
+const ExploreView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>Explore Soundscapes & Visualizations</h1>
+  </div>
+);
+
+const SessionDetailView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>Session Detail</h1>
+  </div>
+);
+
+const ModesView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>5 Session Modes</h1>
+  </div>
+);
+
+const RitualView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>Daily Retention Ritual</h1>
+  </div>
+);
+
+const ActionsView: React.FC = () => (
+  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
+    <h1 style={{ fontSize: '2rem' }}>Aligned Action Board</h1>
+  </div>
+);
+
+export default function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<LandingView />} />
+          <Route path="app" element={<UniverseView />} />
+          <Route path="explore" element={<ExploreView />} />
+          <Route path="session/:id" element={<SessionDetailView />} />
+          <Route path="modes" element={<ModesView />} />
+          <Route path="ritual" element={<RitualView />} />
+          <Route path="actions" element={<ActionsView />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
