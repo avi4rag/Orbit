@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectDB, isDbConnected } from './db.js';
 import { authRouter } from './routes/auth.js';
 import { profileRouter } from './routes/profile.js';
+import { aiRouter } from './routes/ai.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/ai', aiRouter);
 
 // Health Check
 app.get('/api/health', (req, res) => {
