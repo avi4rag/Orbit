@@ -2,6 +2,8 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Orbit, ShieldCheck } from 'lucide-react';
+import MiniPlayer from '../player/MiniPlayer';
+import FullscreenPlayer from '../player/FullscreenPlayer';
 
 export const RootLayout: React.FC = () => {
   return (
@@ -9,16 +11,14 @@ export const RootLayout: React.FC = () => {
       {/* Top Navigation */}
       <Navbar />
 
-      {/* Persistent Audio Player Container mounted above the Route Outlet */}
-      <div id="orbit-persistent-player-root" style={{ position: 'relative', zIndex: 40 }} />
+      {/* Persistent Audio Player — survives route transitions */}
+      <MiniPlayer />
+      <FullscreenPlayer />
 
       {/* Main Content View Outlet */}
       <main id="main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Outlet />
       </main>
-
-      {/* Persistent Mini Player Slot (Fixed to bottom, above all route transitions) */}
-      <div id="orbit-mini-player-slot" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50 }} />
 
       {/* Global Footer & Standing Legal Disclaimer */}
       <footer style={{
