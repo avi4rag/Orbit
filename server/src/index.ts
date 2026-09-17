@@ -5,6 +5,8 @@ import { connectDB, isDbConnected } from './db.js';
 import { authRouter } from './routes/auth.js';
 import { profileRouter } from './routes/profile.js';
 import { aiRouter } from './routes/ai.js';
+import { ritualsRouter } from './routes/rituals.js';
+import { actionsRouter } from './routes/actions.js';
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/ai', aiRouter);
+app.use('/api/rituals', ritualsRouter);
+app.use('/api/actions', actionsRouter);
 
 // Health Check
 app.get('/api/health', (req, res) => {
