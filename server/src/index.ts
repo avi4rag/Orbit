@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB, isDbConnected } from './db.js';
 import { authRouter } from './routes/auth.js';
+import { profileRouter } from './routes/profile.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRouter);
+app.use('/api/profile', profileRouter);
 
 // Health Check
 app.get('/api/health', (req, res) => {
