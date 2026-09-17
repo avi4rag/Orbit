@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout } from './components/layout/RootLayout';
+import { PlayerProvider } from './context/PlayerContext';
 
 // Placeholder views before full component assembly
 const LandingView: React.FC = () => (
@@ -52,18 +53,20 @@ const ActionsView: React.FC = () => (
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<LandingView />} />
-          <Route path="app" element={<UniverseView />} />
-          <Route path="explore" element={<ExploreView />} />
-          <Route path="session/:id" element={<SessionDetailView />} />
-          <Route path="modes" element={<ModesView />} />
-          <Route path="ritual" element={<RitualView />} />
-          <Route path="actions" element={<ActionsView />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <PlayerProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<LandingView />} />
+            <Route path="app" element={<UniverseView />} />
+            <Route path="explore" element={<ExploreView />} />
+            <Route path="session/:id" element={<SessionDetailView />} />
+            <Route path="modes" element={<ModesView />} />
+            <Route path="ritual" element={<RitualView />} />
+            <Route path="actions" element={<ActionsView />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </PlayerProvider>
   );
 }
