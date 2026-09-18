@@ -2,18 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout } from './components/layout/RootLayout';
 import { PlayerProvider } from './context/PlayerContext';
-
-// Placeholder views before full component assembly
-const LandingView: React.FC = () => (
-  <div style={{ padding: '4rem 1.5rem', maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
-    <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }} className="gradient-text-cosmic">
-      Live From The Reality You Want
-    </h1>
-    <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto' }}>
-      Instead of constantly thinking about what you don't have, Orbit helps you visualize your desired life as though you are already living it.
-    </p>
-  </div>
-);
+import LandingPage from './pages/LandingPage';
 
 const UniverseView: React.FC = () => (
   <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
@@ -57,7 +46,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<RootLayout />}>
-            <Route index element={<LandingView />} />
+            <Route index element={<LandingPage />} />
             <Route path="app" element={<UniverseView />} />
             <Route path="explore" element={<ExploreView />} />
             <Route path="session/:id" element={<SessionDetailView />} />
