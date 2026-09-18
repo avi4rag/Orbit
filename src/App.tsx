@@ -8,12 +8,7 @@ import RitualPage from './pages/RitualPage';
 import ActionsPage from './pages/ActionsPage';
 import SessionDetailPage from './pages/SessionDetailPage';
 import SessionModesPage from './pages/SessionModesPage';
-
-const UniverseView: React.FC = () => (
-  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
-    <h1 style={{ fontSize: '2rem' }}>My Celestial Universe</h1>
-  </div>
-);
+import CelestialUniversePage from './pages/CelestialUniversePage';
 
 export default function App() {
   return (
@@ -22,7 +17,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<RootLayout />}>
             <Route index element={<LandingPage />} />
-            <Route path="app" element={<UniverseView />} />
+            <Route path="app" element={<CelestialUniversePage />} />
             <Route path="explore" element={<ExplorePage />} />
             <Route path="session/:id" element={<SessionDetailPage />} />
             <Route path="modes" element={<SessionModesPage />} />
