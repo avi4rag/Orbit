@@ -9,6 +9,7 @@ import ActionsPage from './pages/ActionsPage';
 import SessionDetailPage from './pages/SessionDetailPage';
 import SessionModesPage from './pages/SessionModesPage';
 import CelestialUniversePage from './pages/CelestialUniversePage';
+import AIGeneratorPage from './pages/AIGeneratorPage';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="modes" element={<SessionModesPage />} />
             <Route path="ritual" element={<RitualPage />} />
             <Route path="actions" element={<ActionsPage />} />
+            <Route path="generator" element={<AIGeneratorPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
