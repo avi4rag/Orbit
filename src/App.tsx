@@ -5,6 +5,7 @@ import { PlayerProvider } from './context/PlayerContext';
 import LandingPage from './pages/LandingPage';
 import ExplorePage from './pages/ExplorePage';
 import RitualPage from './pages/RitualPage';
+import ActionsPage from './pages/ActionsPage';
 
 const UniverseView: React.FC = () => (
   <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
@@ -24,12 +25,6 @@ const ModesView: React.FC = () => (
   </div>
 );
 
-const ActionsView: React.FC = () => (
-  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
-    <h1 style={{ fontSize: '2rem' }}>Aligned Action Board</h1>
-  </div>
-);
-
 export default function App() {
   return (
     <PlayerProvider>
@@ -42,7 +37,7 @@ export default function App() {
             <Route path="session/:id" element={<SessionDetailView />} />
             <Route path="modes" element={<ModesView />} />
             <Route path="ritual" element={<RitualPage />} />
-            <Route path="actions" element={<ActionsView />} />
+            <Route path="actions" element={<ActionsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
