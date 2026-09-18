@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Orbit, Compass, Sparkles, SunMoon, CheckCircle2, Headphones, User as UserIcon, LogOut } from 'lucide-react';
+import { Orbit, Compass, Sparkles, SunMoon, CheckCircle2, Headphones, User as UserIcon, LogOut, Wand2 } from 'lucide-react';
 import { api } from '../../services/api';
 
 export const Navbar: React.FC = () => {
@@ -71,6 +71,7 @@ export const Navbar: React.FC = () => {
     { path: '/app', label: 'My Universe', icon: Orbit },
     { path: '/explore', label: 'Soundscapes', icon: Headphones },
     { path: '/modes', label: '5 Modes', icon: Sparkles },
+    { path: '/generator', label: 'AI Architect', icon: Wand2 },
     { path: '/ritual', label: 'Daily Ritual', icon: SunMoon },
     { path: '/actions', label: 'Aligned Actions', icon: CheckCircle2 },
   ];
