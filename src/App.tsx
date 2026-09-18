@@ -4,6 +4,7 @@ import { RootLayout } from './components/layout/RootLayout';
 import { PlayerProvider } from './context/PlayerContext';
 import LandingPage from './pages/LandingPage';
 import ExplorePage from './pages/ExplorePage';
+import RitualPage from './pages/RitualPage';
 
 const UniverseView: React.FC = () => (
   <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
@@ -20,12 +21,6 @@ const SessionDetailView: React.FC = () => (
 const ModesView: React.FC = () => (
   <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
     <h1 style={{ fontSize: '2rem' }}>5 Session Modes</h1>
-  </div>
-);
-
-const RitualView: React.FC = () => (
-  <div style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
-    <h1 style={{ fontSize: '2rem' }}>Daily Retention Ritual</h1>
   </div>
 );
 
@@ -46,7 +41,7 @@ export default function App() {
             <Route path="explore" element={<ExplorePage />} />
             <Route path="session/:id" element={<SessionDetailView />} />
             <Route path="modes" element={<ModesView />} />
-            <Route path="ritual" element={<RitualView />} />
+            <Route path="ritual" element={<RitualPage />} />
             <Route path="actions" element={<ActionsView />} />
           </Route>
         </Routes>
