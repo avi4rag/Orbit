@@ -10,6 +10,7 @@ import SessionDetailPage from './pages/SessionDetailPage';
 import SessionModesPage from './pages/SessionModesPage';
 import CelestialUniversePage from './pages/CelestialUniversePage';
 import AIGeneratorPage from './pages/AIGeneratorPage';
+import ProfilePage from './pages/ProfilePage';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="ritual" element={<RitualPage />} />
             <Route path="actions" element={<ActionsPage />} />
             <Route path="generator" element={<AIGeneratorPage />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

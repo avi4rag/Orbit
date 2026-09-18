@@ -182,7 +182,7 @@ export const Navbar: React.FC = () => {
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                 <Link
-                  to="/app"
+                  to="/profile"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
