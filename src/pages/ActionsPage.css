@@ -1,0 +1,482 @@
+/* ActionsPage — Kanban action board */
+
+@media (prefers-reduced-motion: reduce) {
+  .action-card,
+  .actions-header__ring-fill {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── HEADER ── */
+.actions-page { min-height: 100dvh; }
+
+.actions-header {
+  background: linear-gradient(180deg, rgba(239,68,68,0.08) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 4rem 1.5rem 2rem;
+}
+
+.actions-header__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.actions-header__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.actions-header__subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Progress ring */
+.actions-header__progress {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions-header__ring {
+  width: 80px;
+  height: 80px;
+  transform: rotate(-90deg);
+}
+
+.actions-header__ring-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.07);
+  stroke-width: 7;
+}
+
+.actions-header__ring-fill {
+  fill: none;
+  stroke: #22c55e;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 213.62;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.actions-header__ring-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.actions-header__ring-pct {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #22c55e;
+  font-family: 'Outfit', sans-serif;
+}
+
+.actions-header__ring-sub {
+  font-size: 0.6rem;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.actions-header__stats {
+  font-size: 0.8rem;
+  color: #475569;
+  display: flex;
+  gap: 6px;
+}
+
+/* ── TOOLBAR ── */
+.actions-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  margin: 1.5rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.actions-toolbar__search {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.65rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.actions-toolbar__search::placeholder { color: #475569; }
+.actions-toolbar__search:focus { border-color: rgba(139,92,246,0.4); }
+
+.actions-toolbar__filters {
+  display: flex;
+  gap: 5px;
+}
+
+.actions-toolbar__filter {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.actions-toolbar__filter.is-active {
+  background: rgba(139,92,246,0.15);
+  border-color: rgba(139,92,246,0.4);
+  color: #a78bfa;
+}
+
+.actions-toolbar__filter:focus-visible { outline: 2px solid #8b5cf6; outline-offset: 2px; }
+
+.actions-toolbar__add-btn {
+  padding: 0.65rem 1.25rem;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.35);
+}
+
+.actions-toolbar__add-btn:hover { transform: scale(1.03); }
+.actions-toolbar__add-btn:focus-visible { outline: 2px solid #8b5cf6; outline-offset: 2px; }
+
+/* ── ADD FORM ── */
+.actions-form {
+  max-width: 1300px;
+  margin: 1rem auto 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.actions-form__row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.actions-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.actions-form__field--wide { flex: 2; }
+.actions-form__field--submit { justify-content: flex-end; min-width: auto; }
+
+.actions-form__field label {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.actions-form__input,
+.actions-form__select {
+  padding: 0.6rem 0.85rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.actions-form__input:focus,
+.actions-form__select:focus {
+  border-color: rgba(139,92,246,0.5);
+}
+
+.actions-form__submit {
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s;
+}
+
+.actions-form__submit:hover { transform: scale(1.03); }
+.actions-form__submit:focus-visible { outline: 2px solid #22c55e; outline-offset: 2px; }
+
+/* ── KANBAN BOARD ── */
+.actions-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  max-width: 1300px;
+  margin: 1.5rem auto 0;
+  padding: 0 1.5rem 2rem;
+  align-items: flex-start;
+}
+
+/* Column */
+.actions-col {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.actions-col--done { border-color: rgba(34,197,94,0.15); }
+.actions-col--doing { border-color: rgba(251,191,36,0.15); }
+
+.actions-col__heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.actions-col__count {
+  margin-left: auto;
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  padding: 1px 8px;
+  color: #475569;
+}
+
+.actions-col__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actions-col__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 2rem;
+  color: #334155;
+  font-size: 0.8rem;
+}
+
+/* ── ACTION CARD ── */
+.action-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: transform 0.15s ease, border-color 0.15s;
+  animation: card-in 0.3s ease backwards;
+  position: relative;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139,92,246,0.2);
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.action-card__priority-dot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.action-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 1.2rem;
+}
+
+.action-card__text {
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.action-card__goal {
+  font-size: 0.72rem;
+  color: #7c3aed;
+  font-style: italic;
+}
+
+.action-card__due {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+.action-card__note {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-style: italic;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  margin: 0;
+  border-left: 2px solid rgba(139,92,246,0.3);
+}
+
+/* Card action buttons */
+.action-card__actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.action-card__btn {
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #64748b;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.action-card__btn:hover { background: rgba(255,255,255,0.08); color: #cbd5e1; }
+.action-card__btn:active { transform: scale(0.94); }
+.action-card__btn:focus-visible { outline: 2px solid #8b5cf6; outline-offset: 2px; }
+
+.action-card__btn--advance {
+  background: rgba(34,197,94,0.1);
+  border-color: rgba(34,197,94,0.25);
+  color: #22c55e;
+}
+
+.action-card__btn--delete {
+  background: rgba(239,68,68,0.07);
+  border-color: rgba(239,68,68,0.2);
+  color: #ef4444;
+}
+
+.action-card__btn--note { color: #fbbf24; border-color: rgba(251,191,36,0.2); }
+
+/* Note editor */
+.action-card__note-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-card__note-input {
+  width: 100%;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 0.8rem;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.action-card__note-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.action-card__note-controls button {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #94a3b8;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.action-card__note-controls button:first-child {
+  background: rgba(34,197,94,0.15);
+  border-color: rgba(34,197,94,0.3);
+  color: #22c55e;
+}
+
+/* ── INSPIRATION FOOTER ── */
+.actions-inspiration {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.actions-inspiration p {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #475569;
+  margin: 0;
+}
+
+.actions-inspiration span {
+  font-size: 0.78rem;
+  color: #334155;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .actions-board { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .actions-board { grid-template-columns: 1fr; }
+  .actions-toolbar { flex-direction: column; align-items: stretch; }
+}
