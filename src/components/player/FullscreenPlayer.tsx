@@ -251,6 +251,28 @@ const FullscreenPlayer: React.FC = () => {
           </div>
         </div>
 
+        {/* Real-time Solfeggio Tuner */}
+        <div className="fs-player__freq-switcher" role="group" aria-label="Solfeggio Frequency Switcher">
+          <span className="fs-player__freq-label">Frequency:</span>
+          {[
+            { freq: 528, label: '528Hz Transformation' },
+            { freq: 432, label: '432Hz Healing' },
+            { freq: 639, label: '639Hz Heart' },
+            { freq: 396, label: '396Hz Focus' },
+            { freq: 174, label: '174Hz Sleep' },
+          ].map(f => (
+            <button
+              key={f.freq}
+              className={`fs-player__freq-chip ${track.carrierFreq === f.freq ? 'is-active' : ''}`}
+              onClick={() => player.setFrequency(f.freq, track.binauralFreq || 6.0)}
+              aria-label={`Switch to ${f.label}`}
+              title={f.label}
+            >
+              {f.freq}Hz
+            </button>
+          ))}
+        </div>
+
         {/* Binaural info badge */}
         {(track.binauralFreq || track.carrierFreq) && (
           <div className="fs-player__binaural-badge" aria-label={`Binaural beat: ${track.binauralFreq}Hz at ${track.carrierFreq}Hz carrier`}>

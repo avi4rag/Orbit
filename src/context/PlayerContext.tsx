@@ -45,6 +45,7 @@ interface PlayerContextType extends PlayerState {
   skipNext: () => void;
   openFullscreen: () => void;
   closeFullscreen: () => void;
+  setFrequency: (carrier: number, binaural?: number) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -259,6 +260,14 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const openFullscreen = useCallback(() => setState(prev => ({ ...prev, isFullscreen: true })), []);
   const closeFullscreen = useCallback(() => setState(prev => ({ ...prev, isFullscreen: false })), []);
 
+  const setFrequency = useCallback((carrier: number, binaural: number = 6.0) => {
+    webAudioEngine.setFrequencies(carrier, binaural);
+    setState(prev => prev.currentTrack ? {
+      ...prev,
+      currentTrack: { ...prev.currentTrack, carrierFreq: carrier, binauralFreq: binaural }
+    } : prev);
+  }, []);
+
   // MediaSession action handlers
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
@@ -274,6 +283,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       play, pause, resume, stop, seek,
       setVolume, setSpeed, toggleMute, setSleepTimer,
       addToQueue, skipNext, openFullscreen, closeFullscreen,
+      setFrequency,
     }}>
       {children}
     </PlayerContext.Provider>

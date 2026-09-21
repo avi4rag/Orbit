@@ -408,3 +408,54 @@
 .fs-player__binaural-sep {
   opacity: 0.5;
 }
+
+/* Real-time Solfeggio Tuner */
+.fs-player__freq-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.fs-player__freq-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+.fs-player__freq-chip {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fs-player__freq-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.fs-player__freq-chip.is-active {
+  background: rgba(124, 58, 237, 0.3);
+  border-color: #8b5cf6;
+  color: #f8fafc;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+.fs-player__freq-chip:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
