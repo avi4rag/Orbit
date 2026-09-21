@@ -33,6 +33,20 @@ export class WebAudioEngine {
     }
   }
 
+  public setFrequencies(carrierFreq: number, binauralFreq: number = 6.0) {
+    if (!this.ctx || !this.isRunning) return;
+    const now = this.ctx.currentTime;
+    if (this.leftOsc) {
+      this.leftOsc.frequency.setTargetAtTime(carrierFreq, now, 0.2);
+    }
+    if (this.rightOsc) {
+      this.rightOsc.frequency.setTargetAtTime(carrierFreq + binauralFreq, now, 0.2);
+    }
+    if (this.droneOsc) {
+      this.droneOsc.frequency.setTargetAtTime(carrierFreq / 4, now, 0.2);
+    }
+  }
+
   public startSoundscape(options: {
     carrierFreq?: number;
     binauralFreq?: number;
