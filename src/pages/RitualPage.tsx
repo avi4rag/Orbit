@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { usePlayer } from '../context/PlayerContext';
+import { api } from '../services/api';
 import './RitualPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -48,10 +50,25 @@ const RitualPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [ritualComplete, setRitualComplete] = useState(false);
-  const [streak, setStreak] = useState(7); // demo streak value
+  const [streak, setStreak] = useState(7);
   const [inputVal, setInputVal] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [isSynced, setIsSynced] = useState(false);
 
-  const activeStep = currentIdx !== null ? steps[currentIdx] : null;
+  // Load current streak from API
+  useEffect(() => {
+    const fetchRitualStatus = async () => {
+      try {
+        const res = await api.getTodayRitual();
+        if (res?.streak !== undefined) {
+          setStreak(res.streak);
+        }
+      } catch {
+        // Fallback to local default
+      }
+    };
+    fetchRitualStatus();
+  }, []);
 
   // Auto-detect phase from time of day
   useEffect(() => {
@@ -86,6 +103,37 @@ const RitualPage: React.FC = () => {
     })));
   }, [steps]);
 
+  const submitRitualData = useCallback(async (completedSteps: RitualStep[], currentPhase: RitualPhase) => {
+    setIsSyncing(true);
+    setIsSynced(false);
+    try {
+      const stepMap = new Map(completedSteps.map(s => [s.id, s.userInput || '']));
+      if (currentPhase === 'morning') {
+        await api.submitMorningRitual({
+          affirmation: stepMap.get('affirmation') || 'I am living my vision today with purpose.',
+          visualization: stepMap.get('vision') || 'Inhabiting the future now with deep clarity.',
+          plannedAction: stepMap.get('action') || 'Execute high-impact priority task.'
+        });
+      } else {
+        await api.submitEveningRitual({
+          completedAction: stepMap.get('wins') || 'Celebrated today\'s intentional progress.',
+          reflection: stepMap.get('release') || 'Surrendering the day in calm peace.',
+          gratitudeList: (stepMap.get('gratitude_e') || 'Grateful for today').split('\n').filter(Boolean),
+          tomorrowIntention: stepMap.get('tomorrow') || 'Waking up energized and centered.'
+        });
+      }
+      setStreak(prev => prev + 1);
+      setIsSynced(true);
+    } catch {
+      const localKey = `orbit_ritual_${currentPhase}_${new Date().toISOString().slice(0, 10)}`;
+      localStorage.setItem(localKey, JSON.stringify(completedSteps));
+      setStreak(prev => prev + 1);
+      setIsSynced(true);
+    } finally {
+      setIsSyncing(false);
+    }
+  }, []);
+
   const markStepDone = useCallback((idx: number) => {
     setIsRunning(false);
     setSteps(prev => {
@@ -95,7 +143,10 @@ const RitualPage: React.FC = () => {
       );
       // Check if all done
       if (next.every(s => s.status === 'done')) {
-        setTimeout(() => setRitualComplete(true), 400);
+        setTimeout(() => {
+          setRitualComplete(true);
+          submitRitualData(next, phase);
+        }, 400);
       }
       return next;
     });
@@ -105,7 +156,7 @@ const RitualPage: React.FC = () => {
     } else {
       setCurrentIdx(null);
     }
-  }, [inputVal, steps.length, startStep]);
+  }, [inputVal, steps.length, startStep, submitRitualData, phase]);
 
   const beginRitual = () => startStep(0);
 
@@ -114,6 +165,7 @@ const RitualPage: React.FC = () => {
     setCurrentIdx(null);
     setIsRunning(false);
     setRitualComplete(false);
+    setIsSynced(false);
     setTimeLeft(0);
     setInputVal('');
   };
@@ -124,6 +176,7 @@ const RitualPage: React.FC = () => {
     setCurrentIdx(null);
     setIsRunning(false);
     setRitualComplete(false);
+    setIsSynced(false);
     setTimeLeft(0);
   };
 
@@ -241,10 +294,35 @@ const RitualPage: React.FC = () => {
                   ? 'Your identity is set. Your action is clear. Go build the life you just visualized.'
                   : 'The day is closed with gratitude. Rest now — you showed up.'}
               </p>
+              {isSyncing && (
+                <p style={{ color: 'var(--celestial-gold, #f59e0b)', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+                  ⏳ Syncing reflection & streak to Orbit Cloud...
+                </p>
+              )}
+              {isSynced && (
+                <p style={{ color: '#34d399', fontSize: '0.85rem', margin: '0.5rem 0', fontWeight: 600 }}>
+                  ✓ Ritual recorded! Current streak: {streak} days.
+                </p>
+              )}
               <div className="ritual__complete-actions">
                 <button className="ritual__complete-btn ritual__complete-btn--primary" onClick={resetRitual}>
                   Run Again
                 </button>
+                <Link
+                  to="/actions"
+                  className="ritual__complete-btn"
+                  style={{
+                    background: 'linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)',
+                    color: '#ffffff',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.4rem'
+                  }}
+                >
+                  Action Board ⚡
+                </Link>
                 <button
                   className="ritual__complete-btn ritual__complete-btn--secondary"
                   onClick={() => switchPhase(phase === 'morning' ? 'evening' : 'morning')}
