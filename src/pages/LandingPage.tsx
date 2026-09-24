@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
@@ -8,6 +8,100 @@ const AFFIRMATIONS = [
   'I attract what I consistently act toward.',
   'My reality is shaped by my dominant thoughts and daily actions.',
   'I am the architect of my own universe.',
+];
+
+interface MorphPreset {
+  id: string;
+  category: string;
+  icon: string;
+  chasing: {
+    statement: string;
+    mindset: string;
+    pitfall: string;
+    feeling: string;
+  };
+  inhabiting: {
+    statement: string;
+    mindset: string;
+    action: string;
+    frequency: string;
+    feeling: string;
+  };
+}
+
+const MORPH_PRESETS: MorphPreset[] = [
+  {
+    id: 'wealth',
+    category: 'Financial Freedom',
+    icon: '💎',
+    chasing: {
+      statement: 'I hope I become wealthy someday so I never have to worry about bills.',
+      mindset: 'Future Longing & Scarcity',
+      pitfall: 'Focuses on what is missing now; breeds financial anxiety and reactive impulse spending.',
+      feeling: 'Anxious · Chasing · Deferred Life',
+    },
+    inhabiting: {
+      statement: 'I am already a conscious steward of financial security and mindful freedom.',
+      mindset: 'Present Identity & Stewardship',
+      action: 'Set up an automated $25 savings transfer or audit 3 non-essential subscriptions today.',
+      frequency: '528 Hz Solfeggio + 6 Hz Theta',
+      feeling: 'Composed · Disciplined · Empowered',
+    },
+  },
+  {
+    id: 'career',
+    category: 'Professional Mastery',
+    icon: '⚡',
+    chasing: {
+      statement: 'I want to be recognized as a senior leader and get that big promotion next year.',
+      mindset: 'External Validation Seeking',
+      pitfall: 'Waits for external permission before executing with excellence and ownership.',
+      feeling: 'Restless · Impostor Syndrome · Hesitant',
+    },
+    inhabiting: {
+      statement: 'I already lead with composure, craftsmanship, and decisive ownership in every task.',
+      mindset: 'Internal Standard of Craftsmanship',
+      action: 'Ship one high-leverage proposal or resolve a blocker for a colleague before 3 PM.',
+      frequency: '432 Hz + 10 Hz Alpha Flow',
+      feeling: 'Focused · Decisive · Capable',
+    },
+  },
+  {
+    id: 'peace',
+    category: 'Inner Peace & Calm',
+    icon: '🌊',
+    chasing: {
+      statement: 'I need life to slow down and stop being so stressful before I can feel peaceful.',
+      mindset: 'Conditional Serenity',
+      pitfall: 'Makes your state of mind hostage to external chaos and notifications.',
+      feeling: 'Overwhelmed · Reactive · Frustrated',
+    },
+    inhabiting: {
+      statement: 'Peace is my baseline. I respond to external demands from a center of quiet stillness.',
+      mindset: 'Unshakable Present Grounding',
+      action: 'Take 5 conscious box-breaths and step away from all screens for a 10-minute walk.',
+      frequency: '174 Hz Deep Calm + 4 Hz Delta',
+      feeling: 'Serene · Unhurried · Grounded',
+    },
+  },
+  {
+    id: 'confidence',
+    category: 'Unshakeable Confidence',
+    icon: '🏔',
+    chasing: {
+      statement: 'I will feel confident once everyone likes me and I never make mistakes.',
+      mindset: 'Perfectionism & Fear of Failure',
+      pitfall: 'Avoids bold decisions; paralyzes progress in over-analysis.',
+      feeling: 'Self-Doubt · Shrinking · Procrastination',
+    },
+    inhabiting: {
+      statement: 'I trust my resilience. I act with the confidence of someone who learns from mistakes.',
+      mindset: 'Self-Trust & Active Courage',
+      action: 'Speak up in your next meeting or send that email you have been putting off.',
+      frequency: '396 Hz Liberation + 12 Hz Alpha',
+      feeling: 'Courageous · Authentic · Bold',
+    },
+  },
 ];
 
 const PILLARS = [
@@ -27,6 +121,24 @@ const SOCIAL_PROOF = [
 const LandingPage: React.FC = () => {
   const affirmIdx = useRef(0);
   const affirmEl = useRef<HTMLSpanElement>(null);
+  const [activePresetId, setActivePresetId] = useState('wealth');
+  const [isInhabiting, setIsInhabiting] = useState(false);
+  const [customInput, setCustomInput] = useState('');
+  const [customResult, setCustomResult] = useState<{ statement: string; action: string } | null>(null);
+
+  const activePreset = MORPH_PRESETS.find((p) => p.id === activePresetId) || MORPH_PRESETS[0];
+
+  const handleCustomReframe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customInput.trim()) return;
+    const clean = customInput.trim().replace(/^(I want to|I wish I could|I hope I|I will)\s+/i, '');
+    const capitalized = clean.charAt(0).toUpperCase() + clean.slice(1);
+    setCustomResult({
+      statement: `I am already showing up as the person who embodies ${capitalized.toLowerCase()}. My daily choices prove it.`,
+      action: `Identify the single next 15-minute action that moves you closer to ${capitalized.toLowerCase()} and execute it today.`,
+    });
+    setIsInhabiting(true);
+  };
 
   useEffect(() => {
     const cycle = () => {
@@ -127,6 +239,152 @@ const LandingPage: React.FC = () => {
           <span className="eq-step">REFLECTION</span>
           <span className="eq-op">=</span>
           <span className="eq-result">ORBIT</span>
+        </div>
+      </section>
+
+      {/* ── THE CORE REFRAME: INTERACTIVE MORPH (§2.4 & §2.5) ── */}
+      <section className="morph-section" aria-labelledby="morph-heading">
+        <div className="morph-section__header">
+          <span className="morph-section__badge">✦ The Core Reframe (§2.4)</span>
+          <h2 id="morph-heading" className="section-heading">
+            Stop Thinking About Getting It in the Future.<br />
+            <span className="hero__headline--gradient">Inhabit It Right Now.</span>
+          </h2>
+          <p className="section-subheading">
+            Experience the fundamental mental shift that separates wishing from reality.
+            Toggle between the <em>chasing state</em> and the <em>inhabiting state</em>.
+          </p>
+        </div>
+
+        {/* Category Selector */}
+        <div className="morph-categories" role="tablist" aria-label="Manifestation Categories">
+          {MORPH_PRESETS.map((preset) => (
+            <button
+              key={preset.id}
+              role="tab"
+              aria-selected={activePresetId === preset.id}
+              className={`morph-cat-btn ${activePresetId === preset.id ? 'is-active' : ''}`}
+              onClick={() => {
+                setActivePresetId(preset.id);
+                setCustomResult(null);
+              }}
+            >
+              <span className="morph-cat-icon">{preset.icon}</span>
+              <span className="morph-cat-title">{preset.category}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Toggle Switch */}
+        <div className="morph-toggle-container">
+          <div className="morph-toggle-track" role="radiogroup" aria-label="Mindset State">
+            <button
+              type="button"
+              role="radio"
+              aria-checked={!isInhabiting}
+              className={`morph-toggle-btn chasing ${!isInhabiting ? 'is-selected' : ''}`}
+              onClick={() => setIsInhabiting(false)}
+            >
+              1. The Chasing State (Lack &amp; Future)
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={isInhabiting}
+              className={`morph-toggle-btn inhabiting ${isInhabiting ? 'is-selected' : ''}`}
+              onClick={() => setIsInhabiting(true)}
+            >
+              2. The Inhabiting State (Present &amp; Action)
+            </button>
+          </div>
+        </div>
+
+        {/* Morph Card Display */}
+        <div className="morph-card-wrapper">
+          <div className={`morph-card ${isInhabiting ? 'morph-card--inhabiting' : 'morph-card--chasing'}`}>
+            <div className="morph-card__glow" aria-hidden="true" />
+            <div className="morph-card__header">
+              <span className="morph-card__state-pill">
+                {isInhabiting ? '✨ Inhabiting Reality (Orbit)' : '⏳ Chasing Mindset (Someday...)'}
+              </span>
+              <span className="morph-card__feeling-tag">
+                {isInhabiting ? activePreset.inhabiting.feeling : activePreset.chasing.feeling}
+              </span>
+            </div>
+
+            <blockquote className="morph-card__quote">
+              &ldquo;
+              {customResult && isInhabiting
+                ? customResult.statement
+                : isInhabiting
+                ? activePreset.inhabiting.statement
+                : activePreset.chasing.statement}
+              &rdquo;
+            </blockquote>
+
+            <div className="morph-card__details">
+              <div className="morph-card__detail-item">
+                <span className="morph-detail-label">Underlying Psychology</span>
+                <p className="morph-detail-value">
+                  {isInhabiting ? activePreset.inhabiting.mindset : activePreset.chasing.mindset}
+                </p>
+              </div>
+
+              {isInhabiting ? (
+                <>
+                  <div className="morph-card__detail-item action-highlight">
+                    <span className="morph-detail-label">⚡ Today's Aligned Action (Controllable)</span>
+                    <p className="morph-detail-value">
+                      {customResult ? customResult.action : activePreset.inhabiting.action}
+                    </p>
+                  </div>
+                  <div className="morph-card__detail-item">
+                    <span className="morph-detail-label">🎵 Recommended Soundscape Frequency</span>
+                    <p className="morph-detail-value">{activePreset.inhabiting.frequency}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="morph-card__detail-item warning-highlight">
+                  <span className="morph-detail-label">⚠ The Trap of "Chasing"</span>
+                  <p className="morph-detail-value">{activePreset.chasing.pitfall}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="morph-card__cta-row">
+              <button
+                type="button"
+                className="morph-flip-btn"
+                onClick={() => setIsInhabiting(!isInhabiting)}
+              >
+                {isInhabiting ? '← View Chasing Perspective' : '✨ Morph to Inhabiting Reality →'}
+              </button>
+              <Link to="/app" className="morph-session-link">
+                Launch Session with This Reframe ✦
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Interactive Custom Reframe Sandbox */}
+        <div className="morph-sandbox">
+          <h3 className="morph-sandbox__title">Try Your Own Goal</h3>
+          <p className="morph-sandbox__desc">
+            Type what you have been chasing into the box below. We will instantly morph it into an active identity statement and a concrete next action.
+          </p>
+          <form className="morph-sandbox__form" onSubmit={handleCustomReframe}>
+            <input
+              type="text"
+              className="morph-sandbox__input"
+              placeholder="e.g. I want to build a successful startup and achieve financial freedom..."
+              value={customInput}
+              onChange={(e) => setCustomInput(e.target.value)}
+              aria-label="Enter your current aspiration"
+            />
+            <button type="submit" className="morph-sandbox__btn">
+              ⚡ Reframe to Present State
+            </button>
+          </form>
         </div>
       </section>
 
