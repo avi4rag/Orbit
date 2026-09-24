@@ -171,11 +171,30 @@ export const api = {
     goalTitle?: string;
     category?: string;
     text: string;
+    priority?: string;
+    dueDate?: string;
+    status?: string;
     vitalityPoints?: number;
   }) {
     return request('/actions', {
       method: 'POST',
       body: JSON.stringify(data),
+    });
+  },
+
+  async updateAction(id: string, updates: {
+    text?: string;
+    goalTitle?: string;
+    category?: string;
+    status?: string;
+    priority?: string;
+    dueDate?: string;
+    reflectionNote?: string;
+    vitalityPoints?: number;
+  }) {
+    return request(`/actions/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updates),
     });
   },
 
