@@ -426,6 +426,73 @@
 
 .session-card__play-btn:active { transform: scale(0.97); }
 
+.session-card__queue-btn {
+  padding: 0.55rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: #c4b5fd;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.session-card__queue-btn:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.45);
+  color: #ffffff;
+}
+
+.session-card__queue-btn:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Providers Banner (§3.2 & §3.3) */
+.explore__providers-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.explore__providers-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #a78bfa;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.explore__providers-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.explore__provider-chip {
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.explore__provider-chip:hover {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: rgba(139, 92, 246, 0.4);
+  color: #f8fafc;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .explore__body {
@@ -444,4 +511,5 @@
   .explore__sort-section { flex-direction: row; }
   .explore__filter-heading { display: none; }
   .explore__grid { grid-template-columns: 1fr; }
+  .explore__providers-banner { justify-content: flex-start; }
 }
