@@ -18,7 +18,6 @@ export class SpokenAffirmationEngine {
   private isSupported: boolean = false;
   private queue: string[] = [];
   private isPlaying: boolean = false;
-  private onWordCallback?: (word: string, index: number) => void;
 
   constructor() {
     if ('speechSynthesis' in window) {
@@ -65,7 +64,6 @@ export class SpokenAffirmationEngine {
 
     // Live caption word tracking
     if (onWord) {
-      this.onWordCallback = onWord;
       utterance.addEventListener('boundary', (e) => {
         if (e.name === 'word') {
           const word = text.slice(e.charIndex, e.charIndex + e.charLength);
@@ -137,11 +135,14 @@ export class SpokenAffirmationEngine {
     this.currentUtterance = null;
     this.isPlaying = false;
     this.queue = [];
-    this.onWordCallback = undefined;
   }
 
   public get playing(): boolean {
     return this.isPlaying;
+  }
+
+  public get activeUtterance(): SpeechSynthesisUtterance | null {
+    return this.currentUtterance;
   }
 }
 

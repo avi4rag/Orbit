@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout } from './components/layout/RootLayout';
 import { PlayerProvider } from './context/PlayerContext';
