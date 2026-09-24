@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { usePlayer } from '../../context/PlayerContext';
 import './MiniPlayer.css';
 
@@ -11,7 +11,6 @@ function formatTime(s: number): string {
 const MiniPlayer: React.FC = () => {
   const player = usePlayer();
   const track = player.currentTrack;
-  const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
 
   const progress = track ? (player.elapsed / track.duration) * 100 : 0;

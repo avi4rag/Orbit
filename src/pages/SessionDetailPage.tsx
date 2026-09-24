@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { usePlayer, SessionTrack } from '../context/PlayerContext';
+import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import './SessionDetailPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────

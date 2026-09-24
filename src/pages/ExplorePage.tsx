@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { usePlayer, SessionTrack } from '../context/PlayerContext';
+import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import './ExplorePage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────

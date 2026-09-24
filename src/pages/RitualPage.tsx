@@ -55,6 +55,8 @@ const RitualPage: React.FC = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
 
+  const activeStep = currentIdx !== null ? steps[currentIdx] : null;
+
   // Load current streak from API
   useEffect(() => {
     const fetchRitualStatus = async () => {

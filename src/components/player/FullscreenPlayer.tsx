@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { usePlayer, PlaybackSpeed, SleepTimer } from '../../context/PlayerContext';
+import { usePlayer, type PlaybackSpeed, type SleepTimer } from '../../context/PlayerContext';
 import { trapFocus } from '../../utils/a11y';
 import './FullscreenPlayer.css';
 
@@ -24,23 +24,21 @@ const FullscreenPlayer: React.FC = () => {
   const track = player.currentTrack;
   const dialogRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const releaseFocusTrap = useRef<(() => void) | null>(null);
 
   const progress = track ? (player.elapsed / track.duration) * 100 : 0;
 
   // Focus trap
   useEffect(() => {
     if (player.isFullscreen && dialogRef.current) {
-      releaseFocusTrap.current = trapFocus(dialogRef.current);
       dialogRef.current.focus();
     }
-    return () => {
-      releaseFocusTrap.current?.();
-    };
   }, [player.isFullscreen]);
 
   // Keyboard handler (Escape closes)
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (dialogRef.current) {
+      trapFocus(dialogRef.current, e.nativeEvent);
+    }
     switch (e.key) {
       case 'Escape':
         player.closeFullscreen();

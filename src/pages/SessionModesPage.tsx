@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePlayer, SessionTrack } from '../context/PlayerContext';
+import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import './SessionModesPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────

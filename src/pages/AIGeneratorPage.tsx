@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { usePlayer, SessionTrack } from '../context/PlayerContext';
+import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import { api } from '../services/api';
 import './AIGeneratorPage.css';
 
@@ -17,7 +16,6 @@ export interface GeneratedManifestationPlan {
 }
 
 export const AIGeneratorPage: React.FC = () => {
-  const navigate = useNavigate();
   const player = usePlayer();
 
   // Input states
