@@ -42,6 +42,8 @@ interface PlayerContextType extends PlayerState {
   toggleMute: () => void;
   setSleepTimer: (minutes: SleepTimer) => void;
   addToQueue: (track: SessionTrack) => void;
+  removeFromQueue: (index: number) => void;
+  clearQueue: () => void;
   skipNext: () => void;
   openFullscreen: () => void;
   closeFullscreen: () => void;
@@ -77,25 +79,81 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const affirmationIndexRef = useRef(0);
   const affirmationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Sync MediaSession API (lock screen / headphone controls)
-  const syncMediaSession = useCallback((track: SessionTrack, playing: boolean) => {
-    if (!('mediaSession' in navigator)) return;
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: track.title,
-      artist: track.creator,
-      album: 'Orbit — Celestial Soundscapes',
-      artwork: [{ src: track.thumbnail, sizes: '512x512', type: 'image/jpeg' }],
-    });
-    navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+  // Restore last session on relaunch
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('orbit_last_played_session');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.track && parsed.elapsed !== undefined) {
+          elapsedRef.current = parsed.elapsed;
+          setState(prev => ({
+            ...prev,
+            currentTrack: parsed.track,
+            elapsed: parsed.elapsed,
+            volume: parsed.volume ?? prev.volume,
+          }));
+        }
+      }
+    } catch {
+      // Ignore parse errors
+    }
   }, []);
+
+  // Persist session to local storage for resume-on-relaunch
+  useEffect(() => {
+    if (state.currentTrack) {
+      try {
+        localStorage.setItem('orbit_last_played_session', JSON.stringify({
+          track: state.currentTrack,
+          elapsed: state.elapsed,
+          volume: state.volume,
+          timestamp: Date.now(),
+        }));
+      } catch {
+        // Ignore quota errors
+      }
+    }
+  }, [state.currentTrack, state.elapsed, state.volume]);
+
+  // Sync MediaSession API (lock screen / headphone controls / progress bar)
+  const syncMediaSession = useCallback((track: SessionTrack, playing: boolean, currentElapsed?: number) => {
+    if (!('mediaSession' in navigator)) return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: track.title,
+        artist: track.creator,
+        album: 'Orbit — Celestial Soundscapes',
+        artwork: [
+          { src: track.thumbnail, sizes: '512x512', type: 'image/jpeg' },
+          { src: track.thumbnail, sizes: '256x256', type: 'image/jpeg' },
+        ],
+      });
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+      if ('setPositionState' in navigator.mediaSession && track.duration > 0) {
+        navigator.mediaSession.setPositionState({
+          duration: track.duration,
+          playbackRate: state.speed,
+          position: Math.min(track.duration, currentElapsed ?? elapsedRef.current),
+        });
+      }
+    } catch {
+      // Ignore unsupported browser features
+    }
+  }, [state.speed]);
 
   const startElapsedTimer = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       elapsedRef.current += 1;
-      setState(prev => ({ ...prev, elapsed: elapsedRef.current }));
+      setState(prev => {
+        if (prev.currentTrack && elapsedRef.current % 5 === 0) {
+          syncMediaSession(prev.currentTrack, true, elapsedRef.current);
+        }
+        return { ...prev, elapsed: elapsedRef.current };
+      });
     }, 1000);
-  }, []);
+  }, [syncMediaSession]);
 
   const stopElapsedTimer = useCallback(() => {
     if (intervalRef.current) {
@@ -236,16 +294,35 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     sleepIntervalRef.current = setInterval(() => {
       remaining -= 1;
       setState(prev => ({ ...prev, sleepRemainingSeconds: remaining }));
+
+      // Gentle audio fadeout in final 10 seconds for serene sleep transition
+      if (remaining <= 10 && remaining > 0) {
+        const ratio = remaining / 10;
+        webAudioEngine.setVolume(state.volume * ratio);
+      }
+
       if (remaining <= 0) {
         clearInterval(sleepIntervalRef.current!);
         stop();
+        webAudioEngine.setVolume(state.volume); // Restore target volume setting
         setState(prev => ({ ...prev, sleepTimer: null, sleepRemainingSeconds: null }));
       }
     }, 1000);
-  }, [stop]);
+  }, [stop, state.volume]);
 
   const addToQueue = useCallback((track: SessionTrack) => {
     setState(prev => ({ ...prev, queue: [...prev.queue, track] }));
+  }, []);
+
+  const removeFromQueue = useCallback((index: number) => {
+    setState(prev => ({
+      ...prev,
+      queue: prev.queue.filter((_, i) => i !== index),
+    }));
+  }, []);
+
+  const clearQueue = useCallback(() => {
+    setState(prev => ({ ...prev, queue: [] }));
   }, []);
 
   const skipNext = useCallback(() => {
@@ -268,21 +345,38 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } : prev);
   }, []);
 
-  // MediaSession action handlers
+  // MediaSession action handlers (play, pause, stop, skip, and scrubbing)
   useEffect(() => {
     if (!('mediaSession' in navigator)) return;
-    navigator.mediaSession.setActionHandler('play', resume);
-    navigator.mediaSession.setActionHandler('pause', pause);
-    navigator.mediaSession.setActionHandler('stop', stop);
-    navigator.mediaSession.setActionHandler('nexttrack', skipNext);
-  }, [resume, pause, stop, skipNext]);
+    try {
+      navigator.mediaSession.setActionHandler('play', resume);
+      navigator.mediaSession.setActionHandler('pause', pause);
+      navigator.mediaSession.setActionHandler('stop', stop);
+      navigator.mediaSession.setActionHandler('nexttrack', skipNext);
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime !== undefined) seek(details.seekTime);
+      });
+      navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+        const skip = details.seekOffset || 10;
+        seek(Math.max(0, elapsedRef.current - skip));
+      });
+      navigator.mediaSession.setActionHandler('seekforward', (details) => {
+        const skip = details.seekOffset || 10;
+        if (state.currentTrack) {
+          seek(Math.min(state.currentTrack.duration, elapsedRef.current + skip));
+        }
+      });
+    } catch {
+      // Ignore unsupported browser features
+    }
+  }, [resume, pause, stop, skipNext, seek, state.currentTrack]);
 
   return (
     <PlayerContext.Provider value={{
       ...state,
       play, pause, resume, stop, seek,
       setVolume, setSpeed, toggleMute, setSleepTimer,
-      addToQueue, skipNext, openFullscreen, closeFullscreen,
+      addToQueue, removeFromQueue, clearQueue, skipNext, openFullscreen, closeFullscreen,
       setFrequency,
     }}>
       {children}
