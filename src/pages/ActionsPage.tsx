@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { api } from '../services/api';
 import './ActionsPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -46,6 +47,8 @@ let nextId = 100;
 // ── Component ──────────────────────────────────────────────────────────
 const ActionsPage: React.FC = () => {
   const [actions, setActions] = useState<AlignedAction[]>(SEED_ACTIONS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSynced, setIsSynced] = useState(true);
   const [newText, setNewText]       = useState('');
   const [newGoal, setNewGoal]       = useState('');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
@@ -56,11 +59,50 @@ const ActionsPage: React.FC = () => {
   const [filter, setFilter]         = useState<Priority | 'all'>('all');
   const [searchQ, setSearchQ]       = useState('');
 
-  const addAction = useCallback((e: React.FormEvent) => {
+  // Fetch actions from API on mount
+  const loadActions = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await api.getActions();
+      if (res?.actions && Array.isArray(res.actions) && res.actions.length > 0) {
+        const mapped: AlignedAction[] = res.actions.map((a: any) => ({
+          id: a._id || a.id,
+          text: a.text,
+          goal: a.goalTitle || a.goal || 'General',
+          priority: (a.priority as Priority) || 'medium',
+          status: a.status === 'completed' || a.status === 'done'
+            ? 'done'
+            : a.status === 'doing'
+            ? 'doing'
+            : 'todo',
+          dueDate: a.dueDate,
+          note: a.reflectionNote || a.note,
+          createdAt: a.createdAt || new Date().toISOString(),
+        }));
+        setActions(mapped);
+      }
+      setIsSynced(true);
+    } catch {
+      const local = localStorage.getItem('orbit_aligned_actions');
+      if (local) {
+        try { setActions(JSON.parse(local)); } catch { /* ignore parse error */ }
+      }
+      setIsSynced(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadActions();
+  }, [loadActions]);
+
+  const addAction = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newText.trim()) return;
+    const tempId = 'act_' + (nextId++);
     const action: AlignedAction = {
-      id: String(nextId++),
+      id: tempId,
       text: newText.trim(),
       goal: newGoal.trim() || 'General',
       priority: newPriority,
@@ -71,19 +113,54 @@ const ActionsPage: React.FC = () => {
     setActions(prev => [action, ...prev]);
     setNewText(''); setNewGoal(''); setNewDue(''); setNewPriority('medium');
     setFormOpen(false);
+
+    try {
+      const res = await api.createAction({
+        text: action.text,
+        goalTitle: action.goal,
+        priority: action.priority,
+        dueDate: action.dueDate,
+        status: action.status,
+      });
+      if (res?.action) {
+        const realId = res.action._id || res.action.id;
+        setActions(prev => prev.map(a => a.id === tempId ? { ...a, id: realId } : a));
+      }
+      setIsSynced(true);
+    } catch {
+      setIsSynced(false);
+    }
   }, [newText, newGoal, newPriority, newDue]);
 
-  const moveAction = useCallback((id: string, status: ActionStatus) => {
+  const moveAction = useCallback(async (id: string, status: ActionStatus) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+    try {
+      await api.updateAction(id, { status });
+      setIsSynced(true);
+    } catch {
+      setIsSynced(false);
+    }
   }, []);
 
-  const deleteAction = useCallback((id: string) => {
+  const deleteAction = useCallback(async (id: string) => {
     setActions(prev => prev.filter(a => a.id !== id));
+    try {
+      await api.deleteAction(id);
+      setIsSynced(true);
+    } catch {
+      setIsSynced(false);
+    }
   }, []);
 
-  const saveNote = useCallback((id: string) => {
+  const saveNote = useCallback(async (id: string) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, note: editNote } : a));
     setEditingId(null);
+    try {
+      await api.updateAction(id, { reflectionNote: editNote });
+      setIsSynced(true);
+    } catch {
+      setIsSynced(false);
+    }
   }, [editNote]);
 
   const filtered = actions.filter(a => {
@@ -136,6 +213,10 @@ const ActionsPage: React.FC = () => {
             <span>{doneCount} completed</span>
             <span aria-hidden="true">·</span>
             <span>{totalCount - doneCount} remaining</span>
+            <span aria-hidden="true">·</span>
+            <span style={{ color: isSynced ? '#34d399' : '#fbbf24', fontSize: '0.85rem' }}>
+              {isLoading ? '⏳ Syncing…' : isSynced ? '✦ Cloud Synced' : '✦ Local Vault'}
+            </span>
           </div>
         </div>
       </section>
