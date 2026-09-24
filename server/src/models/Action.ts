@@ -7,7 +7,9 @@ export interface IAlignedAction extends Document {
   goalTitle?: string;
   category: 'career' | 'wealth' | 'peace' | 'confidence' | 'love' | 'travel';
   text: string;
-  status: 'pending' | 'completed';
+  status: 'todo' | 'doing' | 'done' | 'pending' | 'completed';
+  priority?: 'high' | 'medium' | 'low';
+  dueDate?: string;
   reflectionNote?: string;
   vitalityPoints: number;
   completedAt?: Date;
@@ -26,7 +28,17 @@ const ActionSchema = new Schema<IAlignedAction>(
       default: 'career',
     },
     text: { type: String, required: true },
-    status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
+    status: {
+      type: String,
+      enum: ['todo', 'doing', 'done', 'pending', 'completed'],
+      default: 'todo',
+    },
+    priority: {
+      type: String,
+      enum: ['high', 'medium', 'low'],
+      default: 'medium',
+    },
+    dueDate: String,
     reflectionNote: String,
     vitalityPoints: { type: Number, default: 15 },
     completedAt: Date,
@@ -48,11 +60,13 @@ export const ActionRepository = {
   },
 
   async create(userId: string, data: any) {
+    const initialStatus = data.status || 'todo';
     if (isDbConnected()) {
       return ActionModel.create({
         userId,
         ...data,
-        status: 'pending',
+        status: initialStatus,
+        priority: data.priority || 'medium',
         vitalityPoints: data.vitalityPoints || 15,
       });
     }
@@ -63,7 +77,8 @@ export const ActionRepository = {
       id,
       userId,
       ...data,
-      status: 'pending',
+      status: initialStatus,
+      priority: data.priority || 'medium',
       vitalityPoints: data.vitalityPoints || 15,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -74,12 +89,40 @@ export const ActionRepository = {
     return newAct;
   },
 
+  async update(userId: string, actionId: string, updates: Record<string, any>) {
+    if (isDbConnected()) {
+      const act = await ActionModel.findOne({ _id: actionId, userId });
+      if (!act) return null;
+      Object.assign(act, updates);
+      if (updates.status === 'done' || updates.status === 'completed') {
+        act.completedAt = new Date();
+      } else if (updates.status === 'todo' || updates.status === 'doing' || updates.status === 'pending') {
+        act.completedAt = undefined;
+      }
+      await act.save();
+      return act;
+    }
+
+    const list = memoryActions.get(userId) || [];
+    const act = list.find((a) => a.id === actionId || a._id === actionId);
+    if (!act) return null;
+    Object.assign(act, updates);
+    if (updates.status === 'done' || updates.status === 'completed') {
+      act.completedAt = new Date();
+    } else if (updates.status === 'todo' || updates.status === 'doing' || updates.status === 'pending') {
+      act.completedAt = undefined;
+    }
+    act.updatedAt = new Date();
+    return act;
+  },
+
   async toggleStatus(userId: string, actionId: string, reflectionNote?: string) {
     if (isDbConnected()) {
       const act = await ActionModel.findOne({ _id: actionId, userId });
       if (!act) return null;
-      act.status = act.status === 'completed' ? 'pending' : 'completed';
-      act.completedAt = act.status === 'completed' ? new Date() : undefined;
+      const isDone = act.status === 'completed' || act.status === 'done';
+      act.status = isDone ? 'todo' : 'done';
+      act.completedAt = !isDone ? new Date() : undefined;
       if (reflectionNote !== undefined) act.reflectionNote = reflectionNote;
       await act.save();
       return act;
@@ -88,8 +131,9 @@ export const ActionRepository = {
     const list = memoryActions.get(userId) || [];
     const act = list.find((a) => a.id === actionId || a._id === actionId);
     if (!act) return null;
-    act.status = act.status === 'completed' ? 'pending' : 'completed';
-    act.completedAt = act.status === 'completed' ? new Date() : undefined;
+    const isDone = act.status === 'completed' || act.status === 'done';
+    act.status = isDone ? 'todo' : 'done';
+    act.completedAt = !isDone ? new Date() : undefined;
     if (reflectionNote !== undefined) act.reflectionNote = reflectionNote;
     act.updatedAt = new Date();
     return act;
