@@ -209,7 +209,11 @@ export const api = {
     return request(`/actions/${id}`, { method: 'DELETE' });
   },
 
-  // Catalog
+  // Catalog & Content Providers (§3.2 & §3.3)
+  async getProviders() {
+    return request('/catalog/providers');
+  },
+
   async getSessions(params?: { category?: string; mode?: string; search?: string }) {
     const query = new URLSearchParams();
     if (params?.category) query.set('category', params.category);
@@ -224,7 +228,31 @@ export const api = {
   },
 
   async getVisuals(theme?: string) {
-    return request(`/catalog/visuals${theme ? `?theme=${theme}` : ''}`);
+    const query = theme ? `?theme=${encodeURIComponent(theme)}` : '';
+    return request(`/catalog/visuals${query}`);
+  },
+
+  async ingestYouTubeTrack(params: {
+    url: string;
+    title: string;
+    creator: string;
+    category: string;
+    duration?: number;
+    description?: string;
+    spokenAffirmations?: string[];
+    thenAction?: string;
+  }) {
+    return request('/catalog/youtube-preview', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  },
+
+  async uploadUserAudio(data: { sessionData: any; ownershipConfirmed: boolean }) {
+    return request('/catalog/user-upload', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
   },
 
   async toggleFavorite(sessionId: string) {

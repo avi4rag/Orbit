@@ -329,3 +329,382 @@ export const SEED_VISUALS: VisualAsset[] = [
     colorPalette: ['#09141f', '#19424e', '#38bdf8', '#e2f8ff'],
   },
 ];
+
+// --- Validation Functions (§3.2 and §3.3 Metadata Contract) ---
+
+export function validateAudioMetadata(s: Partial<AudioMetadata>): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!s.id) errors.push('Missing id');
+  if (!s.title) errors.push('Missing title');
+  if (!s.creator) errors.push('Missing creator');
+  if (!s.source || !['licensed', 'generated', 'user-uploaded', 'youtube-authorized'].includes(s.source)) {
+    errors.push('Invalid source type: must be licensed, generated, user-uploaded, or youtube-authorized');
+  }
+  if (!s.sourceUrl) errors.push('Missing sourceUrl');
+  if (!s.thumbnail) errors.push('Missing thumbnail');
+  if (!s.category) errors.push('Missing category');
+  if (!s.duration || s.duration <= 0) errors.push('Duration must be positive in seconds');
+  if (!s.credits) errors.push('Missing attribution credits');
+  if (!s.spokenAffirmations || s.spokenAffirmations.length === 0) {
+    errors.push('At least one spoken affirmation is required');
+  }
+  if (
+    !s.manifestationPractice ||
+    !s.manifestationPractice.insteadOf ||
+    !s.manifestationPractice.use ||
+    !s.manifestationPractice.thenAction
+  ) {
+    errors.push('manifestationPractice requires insteadOf, use, and thenAction properties');
+  }
+  return { valid: errors.length === 0, errors };
+}
+
+export function validateVisualAsset(v: Partial<VisualAsset>): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!v.id) errors.push('Missing id');
+  if (!v.theme) errors.push('Missing theme');
+  if (!v.imageUrl) errors.push('Missing imageUrl');
+  if (!v.creator) errors.push('Missing creator');
+  if (!v.license) errors.push('Missing license');
+  return { valid: errors.length === 0, errors };
+}
+
+// --- Concrete Audio Providers (§3.2) ---
+
+export class LicensedAudioProvider implements AudioProvider {
+  name = 'LicensedAudioProvider';
+  private sessions: AudioMetadata[] = [...SEED_SESSIONS];
+
+  async fetchSessions(): Promise<AudioMetadata[]> {
+    return this.sessions;
+  }
+
+  async fetchSessionById(id: string): Promise<AudioMetadata | null> {
+    return this.sessions.find((s) => s.id === id) || null;
+  }
+}
+
+export class YouTubeIngestionAdapter implements AudioProvider {
+  name = 'YouTubeIngestionAdapter';
+  private ingestedSessions: Map<string, AudioMetadata> = new Map();
+
+  parseYouTubeId(url: string): string | null {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  async fetchSessions(): Promise<AudioMetadata[]> {
+    return Array.from(this.ingestedSessions.values());
+  }
+
+  async fetchSessionById(id: string): Promise<AudioMetadata | null> {
+    return this.ingestedSessions.get(id) || null;
+  }
+
+  async ingestAuthorizedTrack(params: {
+    url: string;
+    title: string;
+    creator: string;
+    category: AudioMetadata['category'];
+    duration: number;
+    description: string;
+    spokenAffirmations: string[];
+    thenAction: string;
+  }): Promise<{ session?: AudioMetadata; error?: string }> {
+    const ytId = this.parseYouTubeId(params.url);
+    if (!ytId) {
+      return { error: 'Invalid YouTube URL: must contain a valid 11-character video ID' };
+    }
+
+    const sessionId = `yt-${ytId}`;
+    const session: AudioMetadata = {
+      id: sessionId,
+      title: params.title,
+      creator: params.creator,
+      source: 'youtube-authorized',
+      sourceUrl: `https://www.youtube.com/watch?v=${ytId}`,
+      thumbnail: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
+      category: params.category,
+      topics: ['YouTube Ingestion', params.category],
+      mood: 'inspiring & focused',
+      duration: Math.max(60, params.duration),
+      language: 'en',
+      tags: ['youtube', params.category, 'authorized-stream'],
+      description: params.description,
+      credits: `Content provided by ${params.creator} via YouTube embed. Orbit claims no copyright ownership.`,
+      defaultMode: 'deep-visualization',
+      spokenAffirmations: params.spokenAffirmations.length > 0 ? params.spokenAffirmations : [
+        'I am grounded in purposeful focus and active daily alignment.'
+      ],
+      manifestationPractice: {
+        insteadOf: 'I wish my external circumstances would shift automatically.',
+        use: `Immerse in the sensation of having mastered your goal in ${params.category}.`,
+        thenAction: params.thenAction || 'What is one concrete task you will complete right now?',
+      },
+    };
+
+    const validation = validateAudioMetadata(session);
+    if (!validation.valid) {
+      return { error: `Validation failure: ${validation.errors.join(', ')}` };
+    }
+
+    this.ingestedSessions.set(sessionId, session);
+    return { session };
+  }
+}
+
+export class UserUploadedAudioProvider implements AudioProvider {
+  name = 'UserUploadedAudioProvider';
+  private userSessions: Map<string, AudioMetadata> = new Map();
+
+  async fetchSessions(): Promise<AudioMetadata[]> {
+    return Array.from(this.userSessions.values());
+  }
+
+  async fetchSessionById(id: string): Promise<AudioMetadata | null> {
+    return this.userSessions.get(id) || null;
+  }
+
+  async registerUserSession(sessionData: AudioMetadata): Promise<{ session?: AudioMetadata; error?: string }> {
+    const validation = validateAudioMetadata(sessionData);
+    if (!validation.valid) {
+      return { error: `Invalid user upload session: ${validation.errors.join(', ')}` };
+    }
+    this.userSessions.set(sessionData.id, sessionData);
+    return { session: sessionData };
+  }
+}
+
+export class GeneratedAudioProvider implements AudioProvider {
+  name = 'GeneratedAudioProvider';
+  private generatedSessions: AudioMetadata[] = [
+    {
+      id: 'gen-528-solfeggio-pure',
+      title: '528Hz Solfeggio Harmonic Alignment',
+      creator: 'Orbit Soundscapes Synthesizer',
+      source: 'generated',
+      sourceUrl: 'https://orbit.app/catalog/generated/528-pure',
+      thumbnail: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80',
+      category: 'peace',
+      topics: ['Cellular Transformation', 'Clarity', 'Harmonics'],
+      mood: 'profound stillness',
+      duration: 1200,
+      language: 'en',
+      tags: ['528hz', 'solfeggio', 'synthesis', 'pure-wave'],
+      description: 'Procedurally generated pure sine resonance tuned precisely to 528Hz Miracle tone.',
+      credits: 'Procedurally synthesized in real-time by Orbit WebAudio Engine.',
+      carrierFreq: 528,
+      binauralFreq: 6,
+      defaultMode: 'deep-visualization',
+      spokenAffirmations: [
+        'I am clear, composed, and fully present in this moment.',
+        'My energy is conserved for meaningful, constructive action.',
+      ],
+      manifestationPractice: {
+        insteadOf: 'I feel scattered and overwhelmed by goals.',
+        use: 'Rest in pure harmonic stillness, knowing that simplicity precedes mastery.',
+        thenAction: 'Write down the single most important task for tomorrow morning.',
+      },
+    },
+    {
+      id: 'gen-theta-flow-deep',
+      title: '6Hz Theta Deep Subconscious Reframe',
+      creator: 'Orbit Soundscapes Synthesizer',
+      source: 'generated',
+      sourceUrl: 'https://orbit.app/catalog/generated/theta-flow',
+      thumbnail: 'https://images.unsplash.com/photo-1507499739999-097706ad8914?auto=format&fit=crop&w=1200&q=80',
+      category: 'confidence',
+      topics: ['Subconscious Reprogramming', 'Belief', 'Identity'],
+      mood: 'deeply calm & receptive',
+      duration: 1800,
+      language: 'en',
+      tags: ['theta', '6hz', 'identity-shift', 'subconscious'],
+      description: '6Hz differential binaural beat designed for receptive meditative state.',
+      credits: 'Synthesized by Orbit WebAudio Architecture.',
+      carrierFreq: 216,
+      binauralFreq: 6,
+      defaultMode: 'deep-visualization',
+      spokenAffirmations: [
+        'I act with the natural confidence of someone who has already achieved competence.',
+        'I welcome constructive challenges as proof of growth.',
+      ],
+      manifestationPractice: {
+        insteadOf: 'I doubt whether I have what it takes.',
+        use: 'See yourself handling your biggest responsibility calmly and effectively.',
+        thenAction: 'Identify one fear-inducing task and schedule 20 minutes to tackle it directly.',
+      },
+    },
+  ];
+
+  async fetchSessions(): Promise<AudioMetadata[]> {
+    return this.generatedSessions;
+  }
+
+  async fetchSessionById(id: string): Promise<AudioMetadata | null> {
+    return this.generatedSessions.find((s) => s.id === id) || null;
+  }
+}
+
+// --- Concrete Visual Providers (§3.3) ---
+
+export class LicensedImageProvider implements VisualProvider {
+  name = 'LicensedImageProvider';
+  private assets: VisualAsset[] = [...SEED_VISUALS];
+
+  async fetchAssets(theme?: string): Promise<VisualAsset[]> {
+    if (!theme) return this.assets;
+    return this.assets.filter((a) => a.theme.toLowerCase() === theme.toLowerCase());
+  }
+
+  async fetchAssetById(id: string): Promise<VisualAsset | null> {
+    return this.assets.find((a) => a.id === id) || null;
+  }
+}
+
+export class PublicDomainImageProvider implements VisualProvider {
+  name = 'PublicDomainImageProvider';
+  private assets: VisualAsset[] = [...SEED_VISUALS];
+
+  async fetchAssets(theme?: string): Promise<VisualAsset[]> {
+    if (!theme) return this.assets;
+    return this.assets.filter((a) => a.theme.toLowerCase() === theme.toLowerCase());
+  }
+}
+
+export class UserProvidedImageProvider implements VisualProvider {
+  name = 'UserProvidedImageProvider';
+  private userAssets: Map<string, VisualAsset> = new Map();
+
+  async fetchAssets(theme?: string): Promise<VisualAsset[]> {
+    const all = Array.from(this.userAssets.values());
+    if (!theme) return all;
+    return all.filter((a) => a.theme.toLowerCase() === theme.toLowerCase());
+  }
+
+  async registerUserAsset(asset: VisualAsset): Promise<{ asset?: VisualAsset; error?: string }> {
+    const validation = validateVisualAsset(asset);
+    if (!validation.valid) {
+      return { error: `Invalid visual asset: ${validation.errors.join(', ')}` };
+    }
+    this.userAssets.set(asset.id, asset);
+    return { asset };
+  }
+}
+
+export class GeneratedImageProvider implements VisualProvider {
+  name = 'GeneratedImageProvider';
+  private generatedAssets: VisualAsset[] = [
+    {
+      id: 'vis-gen-nebula-deep',
+      theme: 'peace',
+      title: 'Cosmic Stellar Nursery Nebula',
+      imageUrl: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80',
+      creator: 'Orbit Procedural Renderer',
+      license: 'Orbit Generated Creative Commons',
+      sourceUrl: 'https://orbit.app/catalog/generated/vis-nebula',
+      tags: ['space', 'nebula', 'cosmic', 'calm'],
+      colorPalette: ['#0b0416', '#2c1254', '#7c3aed', '#c084fc'],
+    },
+  ];
+
+  async fetchAssets(theme?: string): Promise<VisualAsset[]> {
+    if (!theme) return this.generatedAssets;
+    return this.generatedAssets.filter((a) => a.theme.toLowerCase() === theme.toLowerCase());
+  }
+}
+
+// --- Catalog Manager (§3.2 & §3.3 Aggregator & Verification) ---
+
+export class CatalogManager {
+  private audioProviders: AudioProvider[] = [];
+  private visualProviders: VisualProvider[] = [];
+  public youtubeAdapter: YouTubeIngestionAdapter;
+  public userAudioProvider: UserUploadedAudioProvider;
+  public userImageProvider: UserProvidedImageProvider;
+
+  constructor() {
+    const licensedAudio = new LicensedAudioProvider();
+    this.youtubeAdapter = new YouTubeIngestionAdapter();
+    this.userAudioProvider = new UserUploadedAudioProvider();
+    const generatedAudio = new GeneratedAudioProvider();
+
+    this.audioProviders.push(licensedAudio, this.youtubeAdapter, this.userAudioProvider, generatedAudio);
+
+    const licensedImages = new LicensedImageProvider();
+    const publicDomainImages = new PublicDomainImageProvider();
+    this.userImageProvider = new UserProvidedImageProvider();
+    const generatedImages = new GeneratedImageProvider();
+
+    this.visualProviders.push(licensedImages, publicDomainImages, this.userImageProvider, generatedImages);
+  }
+
+  async getAllSessions(filters?: {
+    category?: string;
+    mode?: string;
+    search?: string;
+  }): Promise<AudioMetadata[]> {
+    const sessionArrays = await Promise.all(this.audioProviders.map((p) => p.fetchSessions()));
+    const all = sessionArrays.flat();
+
+    // Deduplicate by id
+    const uniqueMap = new Map<string, AudioMetadata>();
+    for (const s of all) {
+      if (!uniqueMap.has(s.id)) {
+        uniqueMap.set(s.id, s);
+      }
+    }
+    let results = Array.from(uniqueMap.values());
+
+    if (filters?.category) {
+      results = results.filter((s) => s.category.toLowerCase() === filters.category!.toLowerCase());
+    }
+
+    if (filters?.mode) {
+      results = results.filter((s) => s.defaultMode.toLowerCase() === filters.mode!.toLowerCase());
+    }
+
+    if (filters?.search) {
+      const q = filters.search.toLowerCase();
+      results = results.filter(
+        (s) =>
+          s.title.toLowerCase().includes(q) ||
+          s.description.toLowerCase().includes(q) ||
+          s.tags.some((t) => t.toLowerCase().includes(q))
+      );
+    }
+
+    return results;
+  }
+
+  async getSessionById(id: string): Promise<AudioMetadata | null> {
+    for (const provider of this.audioProviders) {
+      const session = await provider.fetchSessionById(id);
+      if (session) return session;
+    }
+    return null;
+  }
+
+  async getVisuals(theme?: string): Promise<VisualAsset[]> {
+    const assetArrays = await Promise.all(this.visualProviders.map((p) => p.fetchAssets(theme)));
+    const all = assetArrays.flat();
+
+    // Deduplicate by id
+    const uniqueMap = new Map<string, VisualAsset>();
+    for (const v of all) {
+      if (!uniqueMap.has(v.id)) {
+        uniqueMap.set(v.id, v);
+      }
+    }
+    return Array.from(uniqueMap.values());
+  }
+
+  getProvidersInfo(): { audioProviders: string[]; visualProviders: string[] } {
+    return {
+      audioProviders: this.audioProviders.map((p) => p.name),
+      visualProviders: this.visualProviders.map((p) => p.name),
+    };
+  }
+}
+
+export const catalogManager = new CatalogManager();
+

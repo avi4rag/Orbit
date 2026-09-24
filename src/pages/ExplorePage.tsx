@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
+import { api } from '../services/api';
 import './ExplorePage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -20,6 +21,8 @@ interface CatalogItem {
   isFavorite: boolean;
   spokenAffirmations: string[];
   tags: string[];
+  source?: string;
+  credits?: string;
 }
 
 // ── Seed data (mirrors server catalog) ────────────────────────────────
@@ -171,12 +174,42 @@ const ExplorePage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
-  // Try fetching live catalog from server; fall back to seed data
+  const [providers, setProviders] = useState<{ audioProviders: string[]; visualProviders: string[] } | null>(null);
+
+  // Fetch live catalog and provider status from server; fall back to seed data
   useEffect(() => {
-    fetch('/api/catalog')
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data) && data.length) setCatalog(data); })
+    api.getSessions()
+      .then(data => {
+        if (data && Array.isArray(data.sessions) && data.sessions.length > 0) {
+          const mapped: CatalogItem[] = data.sessions.map((s: any) => ({
+            id: s.id,
+            title: s.title,
+            creator: s.creator || 'Orbit Soundscapes',
+            category: s.category || 'focus',
+            duration: s.duration || 900,
+            binauralFreq: s.binauralFreq || 6,
+            carrierFreq: s.carrierFreq || 432,
+            thumbnail: s.thumbnail || 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400&q=80',
+            description: s.description || '',
+            plays: 12000,
+            isFavorite: false,
+            spokenAffirmations: s.spokenAffirmations || [],
+            tags: s.tags || [s.category],
+            source: s.source,
+            credits: s.credits,
+          }));
+          setCatalog(mapped);
+        }
+      })
       .catch(() => {/* use seed */});
+
+    api.getProviders()
+      .then(info => {
+        if (info && info.audioProviders) {
+          setProviders(info);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const filtered = useCallback(() => {
@@ -250,6 +283,25 @@ const ExplorePage: React.FC = () => {
               onChange={e => setSearch(e.target.value)}
               aria-label="Search soundscapes"
             />
+          </div>
+
+          {/* Active Content Providers (§3.2 & §3.3) */}
+          <div className="explore__providers-banner" aria-label="Verified Content Providers">
+            <span className="explore__providers-label">✦ Content Architecture:</span>
+            <div className="explore__providers-tags">
+              <span className="explore__provider-chip" title="Curated high-fidelity audio studio sessions under verified commercial & CC licenses">
+                Licensed Studios
+              </span>
+              <span className="explore__provider-chip" title="Procedural WebAudio Solfeggio & pure binaural tone generators">
+                Real-time Synthesizer
+              </span>
+              <span className="explore__provider-chip" title="Authorized YouTube video embeds with clean channel attribution">
+                YouTube Ingestion
+              </span>
+              <span className="explore__provider-chip" title="User personal uploads with confirmed copyright declaration">
+                User Uploads
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -380,6 +432,27 @@ const ExplorePage: React.FC = () => {
 
                       {/* Footer actions */}
                       <div className="session-card__footer">
+                        <button
+                          type="button"
+                          className="session-card__queue-btn"
+                          onClick={() => {
+                            player.addToQueue({
+                              id: item.id,
+                              title: item.title,
+                              creator: item.creator,
+                              thumbnail: item.thumbnail,
+                              category: item.category,
+                              duration: item.duration,
+                              binauralFreq: item.binauralFreq,
+                              carrierFreq: item.carrierFreq,
+                              spokenAffirmations: item.spokenAffirmations,
+                            });
+                          }}
+                          aria-label={`Add ${item.title} to play queue`}
+                          title="Add to queue"
+                        >
+                          + Queue
+                        </button>
                         <button
                           className={`session-card__fav ${isFav ? 'is-fav' : ''}`}
                           onClick={() => toggleFavorite(item.id)}
