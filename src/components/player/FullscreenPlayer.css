@@ -459,3 +459,209 @@
   outline: 2px solid #8b5cf6;
   outline-offset: 2px;
 }
+
+/* Top bar with close and queue toggle */
+.fs-player__top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fs-player__queue-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(138, 92, 246, 0.25);
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fs-player__queue-toggle:hover {
+  background: rgba(138, 92, 246, 0.15);
+  border-color: rgba(138, 92, 246, 0.5);
+  color: #ffffff;
+}
+
+.fs-player__queue-toggle.is-active {
+  background: rgba(124, 58, 237, 0.3);
+  border-color: #8b5cf6;
+  color: #f8fafc;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.35);
+}
+
+.fs-player__queue-toggle:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Up Next Queue Panel */
+.fs-player__queue-panel {
+  width: 100%;
+  max-height: 290px;
+  overflow-y: auto;
+  background: rgba(15, 10, 46, 0.6);
+  border: 1px solid rgba(138, 92, 246, 0.25);
+  border-radius: 18px;
+  padding: 16px;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
+  animation: fs-queue-fade-in 0.25s ease-out;
+}
+
+@keyframes fs-queue-fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fs-player__queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fs-player__queue-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f8fafc;
+  letter-spacing: 0.02em;
+}
+
+.fs-player__queue-clear-btn {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.fs-player__queue-clear-btn:hover {
+  background: rgba(248, 113, 113, 0.12);
+  color: #fca5a5;
+}
+
+.fs-player__queue-empty {
+  text-align: center;
+  padding: 28px 12px;
+  color: #94a3b8;
+}
+
+.fs-player__queue-empty p {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.fs-player__queue-empty span {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.fs-player__queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fs-player__queue-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.fs-player__queue-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(138, 92, 246, 0.3);
+}
+
+.fs-player__queue-thumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.fs-player__queue-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fs-player__queue-item-title {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fs-player__queue-item-meta {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fs-player__queue-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.fs-player__queue-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.fs-player__queue-item-btn.play-now:hover {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.fs-player__queue-item-btn.remove:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.fs-player__queue-item-btn:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 1px;
+}

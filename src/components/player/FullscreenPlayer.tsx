@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { usePlayer, type PlaybackSpeed, type SleepTimer } from '../../context/PlayerContext';
 import { trapFocus } from '../../utils/a11y';
 import './FullscreenPlayer.css';
@@ -24,6 +24,7 @@ const FullscreenPlayer: React.FC = () => {
   const track = player.currentTrack;
   const dialogRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const [showQueue, setShowQueue] = useState(false);
 
   const progress = track ? (player.elapsed / track.duration) * 100 : 0;
 
@@ -85,45 +86,124 @@ const FullscreenPlayer: React.FC = () => {
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
-        {/* Close */}
-        <button
-          className="fs-player__close"
-          onClick={player.closeFullscreen}
-          aria-label="Close full player"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/>
-          </svg>
-          Minimize
-        </button>
-
-        {/* Artwork */}
-        <div className="fs-player__artwork-wrapper">
-          <img
-            className={`fs-player__artwork ${player.isPlaying ? 'is-playing' : ''}`}
-            src={track.thumbnail}
-            alt={`${track.title} session artwork`}
-          />
-          {/* Pulsing aura */}
-          <div className={`fs-player__aura ${player.isPlaying ? 'is-playing' : ''}`} aria-hidden="true" />
-        </div>
-
-        {/* Title */}
-        <div className="fs-player__info">
-          <h2 className="fs-player__title">{track.title}</h2>
-          <p className="fs-player__creator">{track.creator}</p>
-          <span className="fs-player__category">{track.category}</span>
-        </div>
-
-        {/* Active affirmation */}
-        {player.activeAffirmation && (
-          <blockquote
-            className="fs-player__affirmation"
-            aria-live="polite"
-            aria-label="Current affirmation"
+        {/* Top Header Bar */}
+        <div className="fs-player__top-bar">
+          <button
+            className="fs-player__close"
+            onClick={player.closeFullscreen}
+            aria-label="Close full player"
           >
-            &ldquo;{player.activeAffirmation}&rdquo;
-          </blockquote>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/>
+            </svg>
+            Minimize
+          </button>
+
+          <button
+            type="button"
+            className={`fs-player__queue-toggle ${showQueue ? 'is-active' : ''}`}
+            onClick={() => setShowQueue(!showQueue)}
+            aria-label={`Up next queue, ${player.queue.length} items`}
+            aria-expanded={showQueue}
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/>
+            </svg>
+            Queue ({player.queue.length})
+          </button>
+        </div>
+
+        {showQueue ? (
+          <div className="fs-player__queue-panel" role="region" aria-label="Play Queue">
+            <div className="fs-player__queue-header">
+              <span className="fs-player__queue-title">Up Next ({player.queue.length})</span>
+              {player.queue.length > 0 && (
+                <button
+                  type="button"
+                  className="fs-player__queue-clear-btn"
+                  onClick={player.clearQueue}
+                  aria-label="Clear all tracks in queue"
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+
+            {player.queue.length === 0 ? (
+              <div className="fs-player__queue-empty">
+                <p>Your queue is empty</p>
+                <span>Add any session from Explore to line it up next.</span>
+              </div>
+            ) : (
+              <ul className="fs-player__queue-list">
+                {player.queue.map((item, idx) => (
+                  <li key={`${item.id}-${idx}`} className="fs-player__queue-item">
+                    <img src={item.thumbnail} alt="" className="fs-player__queue-thumb" />
+                    <div className="fs-player__queue-item-info">
+                      <span className="fs-player__queue-item-title">{item.title}</span>
+                      <span className="fs-player__queue-item-meta">{item.creator} • {formatTime(item.duration)}</span>
+                    </div>
+                    <div className="fs-player__queue-item-actions">
+                      <button
+                        type="button"
+                        className="fs-player__queue-item-btn play-now"
+                        onClick={() => {
+                          player.play(item);
+                          player.removeFromQueue(idx);
+                        }}
+                        aria-label={`Play ${item.title} now`}
+                        title="Play now"
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="fs-player__queue-item-btn remove"
+                        onClick={() => player.removeFromQueue(idx)}
+                        aria-label={`Remove ${item.title} from queue`}
+                        title="Remove from queue"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ) : (
+          <>
+            {/* Artwork */}
+            <div className="fs-player__artwork-wrapper">
+              <img
+                className={`fs-player__artwork ${player.isPlaying ? 'is-playing' : ''}`}
+                src={track.thumbnail}
+                alt={`${track.title} session artwork`}
+              />
+              {/* Pulsing aura */}
+              <div className={`fs-player__aura ${player.isPlaying ? 'is-playing' : ''}`} aria-hidden="true" />
+            </div>
+
+            {/* Title */}
+            <div className="fs-player__info">
+              <h2 className="fs-player__title">{track.title}</h2>
+              <p className="fs-player__creator">{track.creator}</p>
+              <span className="fs-player__category">{track.category}</span>
+            </div>
+
+            {/* Active affirmation */}
+            {player.activeAffirmation && (
+              <blockquote
+                className="fs-player__affirmation"
+                aria-live="polite"
+                aria-label="Current affirmation"
+              >
+                &ldquo;{player.activeAffirmation}&rdquo;
+              </blockquote>
+            )}
+          </>
         )}
 
         {/* Progress */}
