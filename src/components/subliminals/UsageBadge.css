@@ -1,0 +1,105 @@
+/* ==========================================================================
+   USAGE BADGE STYLESHEET (§3)
+   Clean, cosmic, non-clashing pill tags for subliminal listening contexts
+   ========================================================================== */
+
+.orbit-usage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.orbit-usage-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 1. ONE TIME */
+.orbit-usage-badge--one-time {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+}
+.orbit-usage-badge--one-time .orbit-usage-badge-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+/* 2. MORNING */
+.orbit-usage-badge--morning {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+}
+.orbit-usage-badge--morning .orbit-usage-badge-dot {
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+/* 3. DAYTIME */
+.orbit-usage-badge--daytime {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #38bdf8;
+}
+.orbit-usage-badge--daytime .orbit-usage-badge-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+/* 4. NIGHT */
+.orbit-usage-badge--night {
+  background: rgba(129, 140, 248, 0.12);
+  border-color: rgba(129, 140, 248, 0.3);
+  color: #818cf8;
+}
+.orbit-usage-badge--night .orbit-usage-badge-dot {
+  background: #818cf8;
+  box-shadow: 0 0 6px #818cf8;
+}
+
+/* 5. SLEEP */
+.orbit-usage-badge--sleep {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.32);
+  color: #a5b4fc;
+}
+.orbit-usage-badge--sleep .orbit-usage-badge-dot {
+  background: #6366f1;
+  box-shadow: 0 0 6px #6366f1;
+}
+
+/* 6. FOCUS */
+.orbit-usage-badge--focus {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+}
+.orbit-usage-badge--focus .orbit-usage-badge-dot {
+  background: #06b6d4;
+  box-shadow: 0 0 6px #06b6d4;
+}
+
+/* 7. REPEAT */
+.orbit-usage-badge--repeat {
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #fda4af;
+}
+.orbit-usage-badge--repeat .orbit-usage-badge-dot {
+  background: #f43f5e;
+  box-shadow: 0 0 6px #f43f5e;
+}
