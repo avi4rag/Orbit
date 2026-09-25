@@ -61,12 +61,25 @@ export interface SubliminalSession {
     creator: string;
   };
   duration: number; // in seconds
+  sourceDuration?: number;
   binauralFreq?: number;
   carrierFreq?: number;
   spokenAffirmations?: string[];
+  audioStorageKey?: string;
   audioFileHash?: string;
   processingError?: string;
-  processingStatus: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
+  processingStartedAt?: string;
+  processingCompletedAt?: string;
+  processingStatus:
+    | 'PENDING'
+    | 'PROCESSING'
+    | 'DOWNLOADING'
+    | 'CONVERTING'
+    | 'UPLOADING'
+    | 'COMPLETED'
+    | 'FAILED'
+    | 'ready'
+    | 'processing';
   playCount: number;
   isFavorite?: boolean;
   createdAt: string;

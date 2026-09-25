@@ -8,8 +8,20 @@ export interface SessionTrack {
   thumbnail: string;
   category: string;
   duration: number;       // seconds
+  sourceDuration?: number;
   audioUrl?: string;      // authentic MP3 streaming URL
-  processingStatus?: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
+  audioStorageKey?: string;
+  processingStatus?:
+    | 'PENDING'
+    | 'PROCESSING'
+    | 'DOWNLOADING'
+    | 'CONVERTING'
+    | 'UPLOADING'
+    | 'COMPLETED'
+    | 'FAILED'
+    | 'ready'
+    | 'processing';
+  processingError?: string;
   audioFileHash?: string; // SHA-256 fingerprint
   binauralFreq?: number;
   carrierFreq?: number;
@@ -254,10 +266,18 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     stopAffirmationCycle();
 
     // STRICT CHECK: Disallow fake/placeholder playback
-    if (!track.audioUrl || track.audioUrl.trim() === '' || track.processingStatus === 'processing' || track.processingStatus === 'FAILED') {
-      const msg = track.processingStatus === 'processing'
+    const isStillProcessing =
+      track.processingStatus === 'PENDING' ||
+      track.processingStatus === 'PROCESSING' ||
+      track.processingStatus === 'DOWNLOADING' ||
+      track.processingStatus === 'CONVERTING' ||
+      track.processingStatus === 'UPLOADING' ||
+      track.processingStatus === 'processing';
+
+    if (!track.audioUrl || track.audioUrl.trim() === '' || isStillProcessing || track.processingStatus === 'FAILED') {
+      const msg = isStillProcessing
         ? 'Audio is still being processed.'
-        : 'Audio unavailable.';
+        : track.processingError || 'Audio unavailable.';
       console.warn(`[Orbit AudioPlayer] Play blocked for "${track.title}": ${msg}`);
       setState(prev => ({
         ...prev,
@@ -276,9 +296,13 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       audio.src = track.audioUrl;
       audio.playbackRate = state.speed;
       audio.volume = state.isMuted ? 0 : state.volume;
-      audio.currentTime = 0;
+      audio.load();
 
       audio.play().catch(err => {
+        if (err.name === 'AbortError') {
+          // Play was superseded by another play or pause - benign in browser audio
+          return;
+        }
         console.warn('[Orbit AudioPlayer] Play promise error:', err);
         setState(prev => ({ ...prev, isPlaying: false, audioError: 'Unable to stream audio. Please try again.' }));
       });

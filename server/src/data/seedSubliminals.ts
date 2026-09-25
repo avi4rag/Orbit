@@ -56,6 +56,8 @@ export const SEED_SUBLIMINALS: any[] = [
     ],
     "artworkUrl": "https://i.ytimg.com/vi/a82DzvSzgZQ/hqdefault.jpg",
     "audioUrl": "/api/subliminals/media/a82DzvSzgZQ.mp3",
+    "audioStorageKey": "subliminals/a82DzvSzgZQ.mp3",
+    "audioFileHash": "18c25e0100c6ea7e324037b7e9f8f3123d13137c5a1d5ceaf43169893ec8f72a",
     "source": {
       "platform": "youtube",
       "videoId": "a82DzvSzgZQ",
@@ -63,6 +65,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "creator": "Rita Kaminski"
     },
     "duration": 152,
+    "sourceDuration": 152,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
@@ -72,8 +75,7 @@ export const SEED_SUBLIMINALS: any[] = [
     "processingStatus": "COMPLETED",
     "playCount": 30747,
     "createdAt": "2026-09-21T01:48:08.315Z",
-    "updatedAt": "2026-09-25T09:57:48.863Z",
-    "audioFileHash": "18c25e0100c6ea7e324037b7e9f8f3123d13137c5a1d5ceaf43169893ec8f72a"
+    "updatedAt": "2026-09-25T09:57:48.863Z"
   },
   {
     "id": "yt-2O82fYDz6Kw",
@@ -94,6 +96,8 @@ export const SEED_SUBLIMINALS: any[] = [
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2O82fYDz6Kw/hqdefault.jpg",
     "audioUrl": "/api/subliminals/media/2O82fYDz6Kw.mp3",
+    "audioStorageKey": "subliminals/2O82fYDz6Kw.mp3",
+    "audioFileHash": "8c2468272d3c3315e82a8287ed35e63045aafc75dcd8094ec02e6d07a3fd0fca",
     "source": {
       "platform": "youtube",
       "videoId": "2O82fYDz6Kw",
@@ -101,6 +105,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "creator": "Rita Kaminski"
     },
     "duration": 213,
+    "sourceDuration": 213,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
@@ -110,8 +115,7 @@ export const SEED_SUBLIMINALS: any[] = [
     "processingStatus": "COMPLETED",
     "playCount": 2118,
     "createdAt": "2026-09-23T10:27:41.109Z",
-    "updatedAt": "2026-09-25T09:57:48.876Z",
-    "audioFileHash": "8c2468272d3c3315e82a8287ed35e63045aafc75dcd8094ec02e6d07a3fd0fca"
+    "updatedAt": "2026-09-25T09:57:48.876Z"
   },
   {
     "id": "yt-i9EBp0XcuXY",
@@ -241,24 +245,27 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/IdqyW0pPVVg/hqdefault.jpg",
-    "audioUrl": "",
+    "audioUrl": "/api/subliminals/media/IdqyW0pPVVg.mp3",
+    "audioStorageKey": "subliminals/IdqyW0pPVVg.mp3",
+    "audioFileHash": "620bf2da2a8fab63c3573b3077a19ef2bf95a863f79c45335aed2b937f540f6c",
     "source": {
       "platform": "youtube",
       "videoId": "IdqyW0pPVVg",
       "url": "https://www.youtube.com/watch?v=IdqyW0pPVVg",
       "creator": "Rita Kaminski"
     },
-    "duration": 900,
+    "duration": 168,
+    "sourceDuration": 168,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "processing",
+    "processingStatus": "COMPLETED",
     "playCount": 17431,
     "createdAt": "2026-09-16T07:35:30.420Z",
-    "updatedAt": "2026-09-25T09:57:48.962Z"
+    "updatedAt": "2026-09-25T17:24:33.000Z"
   },
   {
     "id": "yt-NXn1pJYZ-ac",

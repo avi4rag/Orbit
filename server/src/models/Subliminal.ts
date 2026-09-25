@@ -1,6 +1,17 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { isDbConnected } from '../db.js';
 
+export type SubliminalProcessingStatus =
+  | 'PENDING'
+  | 'PROCESSING'
+  | 'DOWNLOADING'
+  | 'CONVERTING'
+  | 'UPLOADING'
+  | 'COMPLETED'
+  | 'FAILED'
+  | 'ready'
+  | 'processing';
+
 export interface ISubliminal extends Document {
   title: string;
   slug: string;
@@ -11,8 +22,11 @@ export interface ISubliminal extends Document {
   tags: string[];
   artworkUrl: string;
   audioUrl?: string;
+  audioStorageKey?: string;
   audioFileHash?: string;
   processingError?: string;
+  processingStartedAt?: Date;
+  processingCompletedAt?: Date;
   source: {
     platform: string;
     videoId?: string;
@@ -20,10 +34,11 @@ export interface ISubliminal extends Document {
     creator: string;
   };
   duration: number;
+  sourceDuration?: number;
   binauralFreq?: number;
   carrierFreq?: number;
   spokenAffirmations?: string[];
-  processingStatus: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
+  processingStatus: SubliminalProcessingStatus;
   playCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -40,8 +55,11 @@ const SubliminalSchema = new Schema<ISubliminal>(
     tags: [{ type: String, index: true }],
     artworkUrl: { type: String, required: true },
     audioUrl: { type: String, default: '' },
+    audioStorageKey: { type: String },
     audioFileHash: { type: String },
     processingError: { type: String },
+    processingStartedAt: { type: Date },
+    processingCompletedAt: { type: Date },
     source: {
       platform: { type: String, default: 'youtube' },
       videoId: { type: String, index: true },
@@ -49,13 +67,14 @@ const SubliminalSchema = new Schema<ISubliminal>(
       creator: { type: String, default: 'ORBIT Audio Collective' },
     },
     duration: { type: Number, default: 600 },
+    sourceDuration: { type: Number },
     binauralFreq: { type: Number, default: 7.83 },
     carrierFreq: { type: Number, default: 432 },
     spokenAffirmations: [{ type: String }],
     processingStatus: {
       type: String,
-      enum: ['ready', 'processing', 'COMPLETED', 'FAILED'],
-      default: 'processing',
+      enum: ['PENDING', 'PROCESSING', 'DOWNLOADING', 'CONVERTING', 'UPLOADING', 'COMPLETED', 'FAILED', 'ready', 'processing'],
+      default: 'PENDING',
     },
     playCount: { type: Number, default: 0 },
   },
@@ -160,6 +179,40 @@ export const SubliminalRepository = {
       item.playCount = (item.playCount || 0) + 1;
     }
     return item;
+  },
+
+  async updateById(id: string, updates: Record<string, any>) {
+    if (isDbConnected()) {
+      return SubliminalModel.findByIdAndUpdate(id, { $set: updates }, { new: true }).lean();
+    }
+    const item = memorySubliminals.find((s) => s.id === id || s._id?.toString() === id);
+    if (item) {
+      Object.assign(item, updates, { updatedAt: new Date() });
+      return item;
+    }
+    return null;
+  },
+
+  async findEligibleForProcessing(limit: number = 50) {
+    if (isDbConnected()) {
+      return SubliminalModel.find({
+        $or: [
+          { processingStatus: { $in: ['PENDING', 'PROCESSING', 'processing'] } },
+          { audioUrl: { $in: ['', null] } }
+        ]
+      })
+      .limit(limit)
+      .lean();
+    }
+    return memorySubliminals
+      .filter(s =>
+        !s.audioUrl ||
+        s.audioUrl.trim() === '' ||
+        s.processingStatus === 'PENDING' ||
+        s.processingStatus === 'PROCESSING' ||
+        s.processingStatus === 'processing'
+      )
+      .slice(0, limit);
   },
 
   async upsertByVideoId(data: any) {

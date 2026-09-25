@@ -7,6 +7,7 @@ import { requireAuth, AuthRequest } from '../middleware/auth.js';
 import { youtubeDiscoveryEngine } from '../services/youtubeDiscovery.js';
 import { playlistIngestionService } from '../services/playlistIngestion.js';
 import { audioProcessorService } from '../services/audioProcessor.js';
+import { storageService } from '../services/storage.js';
 import { PLAYLIST_SOURCES, getUniquePlaylistIds } from '../config/playlists.js';
 
 export const subliminalsRouter = Router();
@@ -429,7 +430,7 @@ subliminalsRouter.get('/:id/stream', async (req: Request, res: Response) => {
   }
 });
 
-// POST /api/subliminals/:id/process-audio (Trigger audio processing worker)
+// POST /api/subliminals/:id/process-audio or /reprocess (Trigger audio processing worker)
 subliminalsRouter.post('/:id/process-audio', async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -442,6 +443,39 @@ subliminalsRouter.post('/:id/process-audio', async (req: Request, res: Response)
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to trigger audio processing.' });
   }
+});
+
+subliminalsRouter.post('/:id/reprocess', async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const result = await audioProcessorService.processSubliminal(id);
+    if (result.success) {
+      res.json({ success: true, result });
+    } else {
+      res.status(500).json({ success: false, error: result.error, errorCode: result.errorCode });
+    }
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to reprocess subliminal.' });
+  }
+});
+
+// POST /api/subliminals/pipeline/reprocess-all (Trigger background queue reprocessing for pending/failed sessions)
+subliminalsRouter.post('/pipeline/reprocess-all', async (req: Request, res: Response) => {
+  try {
+    const limit = req.body?.limit ? parseInt(req.body.limit, 10) : 25;
+    audioProcessorService.startBackgroundQueue(limit);
+    res.json({
+      message: 'Background queue processing started.',
+      stats: audioProcessorService.getBatchStats(),
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to start background queue.' });
+  }
+});
+
+// GET /api/subliminals/pipeline/stats (Get current pipeline worker stats)
+subliminalsRouter.get('/pipeline/stats', (_req: Request, res: Response) => {
+  res.json({ stats: audioProcessorService.getBatchStats() });
 });
 
 // GET /api/subliminals/:id (Catch-all parameterized ID route)
