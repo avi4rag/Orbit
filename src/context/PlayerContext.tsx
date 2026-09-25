@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
-import { webAudioEngine } from '../services/audio/WebAudioEngine';
 import { spokenAffirmationEngine } from '../services/audio/SpokenAffirmationEngine';
 
 export interface SessionTrack {
@@ -9,6 +8,9 @@ export interface SessionTrack {
   thumbnail: string;
   category: string;
   duration: number;       // seconds
+  audioUrl?: string;      // authentic MP3 streaming URL
+  processingStatus?: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
+  audioFileHash?: string; // SHA-256 fingerprint
   binauralFreq?: number;
   carrierFreq?: number;
   spokenAffirmations?: string[];
@@ -29,6 +31,7 @@ interface PlayerState {
   sleepRemainingSeconds: number | null;
   activeAffirmation: string | null;
   isFullscreen: boolean;
+  audioError: string | null;
 }
 
 interface PlayerContextType extends PlayerState {
@@ -48,6 +51,7 @@ interface PlayerContextType extends PlayerState {
   openFullscreen: () => void;
   closeFullscreen: () => void;
   setFrequency: (carrier: number, binaural?: number) => void;
+  clearAudioError: () => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -71,13 +75,120 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     sleepRemainingSeconds: null,
     activeAffirmation: null,
     isFullscreen: false,
+    audioError: null,
   });
 
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const elapsedRef = useRef(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sleepIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const affirmationIndexRef = useRef(0);
   const affirmationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Sync MediaSession API (lock screen / headphone controls / progress bar)
+  const syncMediaSession = useCallback((track: SessionTrack, playing: boolean, currentElapsed?: number) => {
+    if (!('mediaSession' in navigator)) return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: track.title,
+        artist: track.creator,
+        album: 'Orbit — Celestial Soundscapes',
+        artwork: [
+          { src: track.thumbnail, sizes: '512x512', type: 'image/jpeg' },
+          { src: track.thumbnail, sizes: '256x256', type: 'image/jpeg' },
+        ],
+      });
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+      if ('setPositionState' in navigator.mediaSession && track.duration > 0) {
+        navigator.mediaSession.setPositionState({
+          duration: track.duration,
+          playbackRate: state.speed,
+          position: Math.min(track.duration, currentElapsed ?? elapsedRef.current),
+        });
+      }
+    } catch {
+      // Ignore unsupported browser features
+    }
+  }, [state.speed]);
+
+  const clearAudioError = useCallback(() => {
+    setState(prev => ({ ...prev, audioError: null }));
+  }, []);
+
+  const skipNext = useCallback(() => {
+    setState(prev => {
+      if (!prev.queue.length) return prev;
+      const [next, ...rest] = prev.queue;
+      // Trigger play on next track
+      setTimeout(() => {
+        play(next);
+      }, 0);
+      return { ...prev, queue: rest };
+    });
+  }, []);
+
+  // Initialize native HTML5 Audio element
+  useEffect(() => {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audioRef.current = audio;
+
+    const onTimeUpdate = () => {
+      if (!audio.paused) {
+        const cur = Math.floor(audio.currentTime);
+        elapsedRef.current = cur;
+        setState(prev => {
+          if (prev.currentTrack && cur % 5 === 0) {
+            syncMediaSession(prev.currentTrack, true, cur);
+          }
+          return { ...prev, elapsed: cur };
+        });
+      }
+    };
+
+    const onLoadedMetadata = () => {
+      if (audio.duration && !isNaN(audio.duration) && isFinite(audio.duration)) {
+        const dur = Math.round(audio.duration);
+        setState(prev => prev.currentTrack ? {
+          ...prev,
+          currentTrack: { ...prev.currentTrack, duration: dur }
+        } : prev);
+      }
+    };
+
+    const onPlay = () => setState(prev => ({ ...prev, isPlaying: true, audioError: null }));
+    const onPause = () => setState(prev => ({ ...prev, isPlaying: false }));
+    const onEnded = () => {
+      skipNext();
+    };
+
+    const onError = () => {
+      const err = audio.error;
+      console.error('[Orbit AudioPlayer] HTMLAudioElement error event:', err);
+      setState(prev => ({
+        ...prev,
+        isPlaying: false,
+        audioError: 'Audio playback failed or media is unavailable.',
+      }));
+    };
+
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+    audio.addEventListener('ended', onEnded);
+    audio.addEventListener('error', onError);
+
+    return () => {
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
+      audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('error', onError);
+      audio.pause();
+      audio.src = '';
+    };
+  }, [syncMediaSession, skipNext]);
 
   // Restore last session on relaunch
   useEffect(() => {
@@ -116,52 +227,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [state.currentTrack, state.elapsed, state.volume]);
 
-  // Sync MediaSession API (lock screen / headphone controls / progress bar)
-  const syncMediaSession = useCallback((track: SessionTrack, playing: boolean, currentElapsed?: number) => {
-    if (!('mediaSession' in navigator)) return;
-    try {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: track.title,
-        artist: track.creator,
-        album: 'Orbit — Celestial Soundscapes',
-        artwork: [
-          { src: track.thumbnail, sizes: '512x512', type: 'image/jpeg' },
-          { src: track.thumbnail, sizes: '256x256', type: 'image/jpeg' },
-        ],
-      });
-      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
-      if ('setPositionState' in navigator.mediaSession && track.duration > 0) {
-        navigator.mediaSession.setPositionState({
-          duration: track.duration,
-          playbackRate: state.speed,
-          position: Math.min(track.duration, currentElapsed ?? elapsedRef.current),
-        });
-      }
-    } catch {
-      // Ignore unsupported browser features
-    }
-  }, [state.speed]);
-
-  const startElapsedTimer = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      elapsedRef.current += 1;
-      setState(prev => {
-        if (prev.currentTrack && elapsedRef.current % 5 === 0) {
-          syncMediaSession(prev.currentTrack, true, elapsedRef.current);
-        }
-        return { ...prev, elapsed: elapsedRef.current };
-      });
-    }, 1000);
-  }, [syncMediaSession]);
-
-  const stopElapsedTimer = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
   const startAffirmationCycle = useCallback((affirmations: string[]) => {
     if (!affirmations.length) return;
     if (affirmationIntervalRef.current) clearInterval(affirmationIntervalRef.current);
@@ -186,25 +251,42 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   const play = useCallback((track: SessionTrack) => {
-    stopElapsedTimer();
     stopAffirmationCycle();
-    webAudioEngine.stopSoundscape();
+
+    // STRICT CHECK: Disallow fake/placeholder playback
+    if (!track.audioUrl || track.audioUrl.trim() === '' || track.processingStatus === 'processing' || track.processingStatus === 'FAILED') {
+      const msg = track.processingStatus === 'processing'
+        ? 'Audio is still being processed.'
+        : 'Audio unavailable.';
+      console.warn(`[Orbit AudioPlayer] Play blocked for "${track.title}": ${msg}`);
+      setState(prev => ({
+        ...prev,
+        isPlaying: false,
+        audioError: msg,
+      }));
+      return;
+    }
 
     elapsedRef.current = 0;
+    const audio = audioRef.current;
 
-    // Start audio synthesis
-    webAudioEngine.setVolume(state.volume);
-    webAudioEngine.startSoundscape({
-      carrierFreq: track.carrierFreq || 528,
-      binauralFreq: track.binauralFreq || 6,
-      includeNoise: true,
-      includeDrone: true,
-    });
+    if (audio) {
+      audio.pause();
+      // Ensure source URL is clean
+      audio.src = track.audioUrl;
+      audio.playbackRate = state.speed;
+      audio.volume = state.isMuted ? 0 : state.volume;
+      audio.currentTime = 0;
+
+      audio.play().catch(err => {
+        console.warn('[Orbit AudioPlayer] Play promise error:', err);
+        setState(prev => ({ ...prev, isPlaying: false, audioError: 'Unable to stream audio. Please try again.' }));
+      });
+    }
 
     // Start spoken affirmations if available
     if (track.spokenAffirmations?.length) {
       startAffirmationCycle(track.spokenAffirmations);
-      // Delay spoken voice 5s to let the ambient drone settle
       setTimeout(() => {
         if (spokenAffirmationEngine.supported) {
           spokenAffirmationEngine.speakSequence(
@@ -223,60 +305,82 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       isPlaying: true,
       currentTrack: track,
       elapsed: 0,
+      audioError: null,
     }));
 
-    startElapsedTimer();
     syncMediaSession(track, true);
-  }, [state.volume, startElapsedTimer, stopElapsedTimer, stopAffirmationCycle, startAffirmationCycle, syncMediaSession]);
+  }, [state.speed, state.volume, state.isMuted, stopAffirmationCycle, startAffirmationCycle, syncMediaSession]);
 
   const pause = useCallback(() => {
-    webAudioEngine.pause();
+    audioRef.current?.pause();
     spokenAffirmationEngine.pause();
-    stopElapsedTimer();
     setState(prev => {
       if (prev.currentTrack) syncMediaSession(prev.currentTrack, false);
       return { ...prev, isPlaying: false };
     });
-  }, [stopElapsedTimer, syncMediaSession]);
+  }, [syncMediaSession]);
 
   const resume = useCallback(() => {
-    webAudioEngine.resume();
+    if (!state.currentTrack?.audioUrl) {
+      return;
+    }
+    audioRef.current?.play().catch(err => {
+      console.warn('[Orbit AudioPlayer] Resume error:', err);
+    });
     spokenAffirmationEngine.resume();
-    startElapsedTimer();
     setState(prev => {
       if (prev.currentTrack) syncMediaSession(prev.currentTrack, true);
       return { ...prev, isPlaying: true };
     });
-  }, [startElapsedTimer, syncMediaSession]);
+  }, [state.currentTrack, syncMediaSession]);
 
   const stop = useCallback(() => {
-    webAudioEngine.stopSoundscape();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
     spokenAffirmationEngine.stop();
-    stopElapsedTimer();
     stopAffirmationCycle();
     elapsedRef.current = 0;
-    setState(prev => ({ ...prev, isPlaying: false, currentTrack: null, elapsed: 0, activeAffirmation: null }));
-  }, [stopElapsedTimer, stopAffirmationCycle]);
+    setState(prev => ({
+      ...prev,
+      isPlaying: false,
+      currentTrack: null,
+      elapsed: 0,
+      activeAffirmation: null,
+      audioError: null,
+    }));
+  }, [stopAffirmationCycle]);
 
   const seek = useCallback((seconds: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = seconds;
+    }
     elapsedRef.current = seconds;
     setState(prev => ({ ...prev, elapsed: seconds }));
   }, []);
 
   const setVolume = useCallback((vol: number) => {
     const clamped = Math.max(0, Math.min(1, vol));
-    webAudioEngine.setVolume(clamped);
+    if (audioRef.current) {
+      audioRef.current.volume = clamped;
+    }
     setState(prev => ({ ...prev, volume: clamped, isMuted: clamped === 0 }));
   }, []);
 
   const setSpeed = useCallback((speed: PlaybackSpeed) => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = speed;
+    }
     setState(prev => ({ ...prev, speed }));
   }, []);
 
   const toggleMute = useCallback(() => {
     setState(prev => {
       const muted = !prev.isMuted;
-      webAudioEngine.setVolume(muted ? 0 : prev.volume);
+      if (audioRef.current) {
+        audioRef.current.muted = muted;
+      }
       return { ...prev, isMuted: muted };
     });
   }, []);
@@ -296,15 +400,17 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setState(prev => ({ ...prev, sleepRemainingSeconds: remaining }));
 
       // Gentle audio fadeout in final 10 seconds for serene sleep transition
-      if (remaining <= 10 && remaining > 0) {
+      if (remaining <= 10 && remaining > 0 && audioRef.current) {
         const ratio = remaining / 10;
-        webAudioEngine.setVolume(state.volume * ratio);
+        audioRef.current.volume = state.volume * ratio;
       }
 
       if (remaining <= 0) {
         clearInterval(sleepIntervalRef.current!);
         stop();
-        webAudioEngine.setVolume(state.volume); // Restore target volume setting
+        if (audioRef.current) {
+          audioRef.current.volume = state.volume;
+        }
         setState(prev => ({ ...prev, sleepTimer: null, sleepRemainingSeconds: null }));
       }
     }, 1000);
@@ -325,20 +431,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setState(prev => ({ ...prev, queue: [] }));
   }, []);
 
-  const skipNext = useCallback(() => {
-    setState(prev => {
-      if (!prev.queue.length) return prev;
-      const [next, ...rest] = prev.queue;
-      play(next);
-      return { ...prev, queue: rest };
-    });
-  }, [play]);
-
   const openFullscreen = useCallback(() => setState(prev => ({ ...prev, isFullscreen: true })), []);
   const closeFullscreen = useCallback(() => setState(prev => ({ ...prev, isFullscreen: false })), []);
 
   const setFrequency = useCallback((carrier: number, binaural: number = 6.0) => {
-    webAudioEngine.setFrequencies(carrier, binaural);
     setState(prev => prev.currentTrack ? {
       ...prev,
       currentTrack: { ...prev.currentTrack, carrierFreq: carrier, binauralFreq: binaural }
@@ -377,7 +473,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       play, pause, resume, stop, seek,
       setVolume, setSpeed, toggleMute, setSleepTimer,
       addToQueue, removeFromQueue, clearQueue, skipNext, openFullscreen, closeFullscreen,
-      setFrequency,
+      setFrequency, clearAudioError,
     }}>
       {children}
     </PlayerContext.Provider>

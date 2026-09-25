@@ -64,7 +64,9 @@ export interface SubliminalSession {
   binauralFreq?: number;
   carrierFreq?: number;
   spokenAffirmations?: string[];
-  processingStatus: 'ready' | 'processing';
+  audioFileHash?: string;
+  processingError?: string;
+  processingStatus: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
   playCount: number;
   isFavorite?: boolean;
   createdAt: string;

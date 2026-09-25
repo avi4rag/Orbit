@@ -95,8 +95,16 @@ const MiniPlayer: React.FC = () => {
           </div>
         </button>
 
-        {/* Active affirmation ticker */}
-        {player.activeAffirmation && (
+        {/* Active affirmation ticker or audio error */}
+        {player.audioError ? (
+          <div
+            className="mini-player__affirmation"
+            style={{ color: '#f87171' }}
+            aria-live="assertive"
+          >
+            <span className="mini-player__affirmation-text">⚠️ {player.audioError}</span>
+          </div>
+        ) : player.activeAffirmation ? (
           <div
             className="mini-player__affirmation"
             aria-live="polite"
@@ -104,7 +112,7 @@ const MiniPlayer: React.FC = () => {
           >
             <span className="mini-player__affirmation-text">{player.activeAffirmation}</span>
           </div>
-        )}
+        ) : null}
 
         {/* Controls */}
         <div className="mini-player__controls" role="group" aria-label="Playback controls">
