@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { SubliminalRepository } from '../models/Subliminal.js';
 import { UserRepository } from '../models/User.js';
 import { requireAuth, AuthRequest } from '../middleware/auth.js';
+import { youtubeDiscoveryEngine } from '../services/youtubeDiscovery.js';
 
 export const subliminalsRouter = Router();
 
@@ -153,7 +154,7 @@ subliminalsRouter.get('/', async (req: Request, res: Response) => {
 // GET /api/subliminals/category/:slug
 subliminalsRouter.get('/category/:slug', async (req: Request, res: Response) => {
   try {
-    const { slug } = req.params;
+    const slug = req.params.slug as string;
     const meta = CATEGORY_META[slug];
     if (!meta) {
       res.status(404).json({ error: `Category '${slug}' not found.` });
@@ -184,7 +185,8 @@ subliminalsRouter.get('/category/:slug', async (req: Request, res: Response) => 
 // GET /api/subliminals/:id
 subliminalsRouter.get('/:id', async (req: Request, res: Response) => {
   try {
-    const subliminal = await SubliminalRepository.findById(req.params.id);
+    const id = req.params.id as string;
+    const subliminal = await SubliminalRepository.findById(id);
     if (!subliminal) {
       res.status(404).json({ error: 'Subliminal session not found.' });
       return;
@@ -198,7 +200,8 @@ subliminalsRouter.get('/:id', async (req: Request, res: Response) => {
 // POST /api/subliminals/:id/play
 subliminalsRouter.post('/:id/play', async (req: Request, res: Response) => {
   try {
-    const updated = await SubliminalRepository.incrementPlay(req.params.id);
+    const id = req.params.id as string;
+    const updated = await SubliminalRepository.incrementPlay(id);
     res.json({ success: true, session: updated });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to record play.' });
@@ -214,13 +217,14 @@ subliminalsRouter.post('/:id/favorite', requireAuth, async (req: AuthRequest, re
       return;
     }
 
-    const favId = req.params.id;
+    const favId = req.params.id as string;
     const favorites = user.favorites || [];
     const index = favorites.indexOf(favId);
     let isFavorite = false;
 
     if (index >= 0) {
       favorites.splice(index, 1);
+      isFavorite = false;
     } else {
       favorites.push(favId);
       isFavorite = true;
@@ -232,5 +236,36 @@ subliminalsRouter.post('/:id/favorite', requireAuth, async (req: AuthRequest, re
     res.json({ isFavorite, favorites: user.favorites });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to toggle favorite.' });
+  }
+});
+
+// POST /api/subliminals/discover (Category discovery from YouTube API)
+subliminalsRouter.post('/discover', async (req: Request, res: Response) => {
+  try {
+    const { category = 'wealth', maxResults = 3 } = req.body;
+    const discovered = await youtubeDiscoveryEngine.discoverCategory(category, maxResults);
+    res.json({
+      success: true,
+      category,
+      count: discovered.length,
+      sessions: discovered,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Discovery failed.' });
+  }
+});
+
+// POST /api/subliminals/import-youtube (Single video ingestion)
+subliminalsRouter.post('/import-youtube', async (req: Request, res: Response) => {
+  try {
+    const { url, category = 'wealth' } = req.body;
+    if (!url) {
+      res.status(400).json({ error: 'YouTube URL or video ID is required.' });
+      return;
+    }
+    const imported = await youtubeDiscoveryEngine.importSingleVideo(url, category);
+    res.json({ success: true, session: imported });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'YouTube import failed.' });
   }
 });

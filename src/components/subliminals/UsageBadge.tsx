@@ -1,5 +1,5 @@
 import React from 'react';
-import { UsageType } from '../../types/subliminal';
+import type { UsageType } from '../../types/subliminal';
 import './UsageBadge.css';
 
 interface UsageBadgeProps {

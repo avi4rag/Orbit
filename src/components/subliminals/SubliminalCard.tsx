@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Play, Pause, Heart } from 'lucide-react';
-import { SubliminalSession } from '../../types/subliminal';
+import type { SubliminalSession } from '../../types/subliminal';
 import { UsageBadge } from './UsageBadge';
-import { usePlayer, SessionTrack } from '../../context/PlayerContext';
+import { usePlayer, type SessionTrack } from '../../context/PlayerContext';
 import { api } from '../../services/api';
 import './SubliminalCard.css';
 
