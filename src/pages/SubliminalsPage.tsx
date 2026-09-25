@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Sparkles, Filter, X, Compass, Radio } from 'lucide-react';
+import { Search, Sparkles, Filter, X, Compass, Radio, Menu } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import { api } from '../services/api';
@@ -8,6 +8,7 @@ import type { SubliminalSession, UsageType } from '../types/subliminal';
 import { CATEGORY_DEFINITIONS } from '../types/subliminal';
 import { SubliminalCard } from '../components/subliminals/SubliminalCard';
 import { SubliminalRail } from '../components/subliminals/SubliminalRail';
+import { SubliminalDrawer } from '../components/subliminals/SubliminalDrawer';
 import './SubliminalsPage.css';
 
 const USAGE_FILTERS: (UsageType | 'All')[] = [
@@ -21,15 +22,22 @@ const USAGE_FILTERS: (UsageType | 'All')[] = [
   'REPEAT',
 ];
 
+const LOCAL_STORAGE_RECENT_KEY = 'orbit_recently_played_ids';
+
 export const SubliminalsPage: React.FC = () => {
   const { user } = useAuth();
   const { play } = usePlayer();
 
   const [allSessions, setAllSessions] = useState<SubliminalSession[]>([]);
+  const [recentlyPlayedSessions, setRecentlyPlayedSessions] = useState<SubliminalSession[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedUsage, setSelectedUsage] = useState<UsageType | 'All'>('All');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [filterFavoritesOnly, setFilterFavoritesOnly] = useState<boolean>(false);
+
+  const railsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -38,7 +46,39 @@ export const SubliminalsPage: React.FC = () => {
       try {
         const res = await api.getSubliminals();
         if (isMounted && res?.subliminals) {
-          setAllSessions(res.subliminals);
+          const sessions: SubliminalSession[] = res.subliminals;
+          setAllSessions(sessions);
+
+          // Attempt to load recently played from server or fallback to local storage
+          try {
+            const recentRes = await api.getRecentlyPlayed();
+            if (isMounted && recentRes?.sessions && recentRes.sessions.length > 0) {
+              setRecentlyPlayedSessions(recentRes.sessions);
+            } else {
+              // LocalStorage fallback
+              const savedIdsJson = localStorage.getItem(LOCAL_STORAGE_RECENT_KEY);
+              if (savedIdsJson) {
+                const ids: string[] = JSON.parse(savedIdsJson);
+                const matched = ids
+                  .map((id) => sessions.find((s) => s.id === id))
+                  .filter((s): s is SubliminalSession => Boolean(s));
+                if (matched.length > 0 && isMounted) {
+                  setRecentlyPlayedSessions(matched);
+                }
+              }
+            }
+          } catch {
+            const savedIdsJson = localStorage.getItem(LOCAL_STORAGE_RECENT_KEY);
+            if (savedIdsJson) {
+              const ids: string[] = JSON.parse(savedIdsJson);
+              const matched = ids
+                .map((id) => sessions.find((s) => s.id === id))
+                .filter((s): s is SubliminalSession => Boolean(s));
+              if (matched.length > 0 && isMounted) {
+                setRecentlyPlayedSessions(matched);
+              }
+            }
+          }
         }
       } catch (err) {
         console.error('Failed to fetch subliminals:', err);
@@ -65,9 +105,62 @@ export const SubliminalsPage: React.FC = () => {
       spokenAffirmations: session.spokenAffirmations,
     };
     play(track);
+
+    // Track recently played in state and localStorage
+    setRecentlyPlayedSessions((prev) => {
+      const filtered = prev.filter((s) => s.id !== session.id);
+      const updated = [session, ...filtered].slice(0, 20);
+      try {
+        localStorage.setItem(
+          LOCAL_STORAGE_RECENT_KEY,
+          JSON.stringify(updated.map((s) => s.id))
+        );
+      } catch {
+        // Ignore local storage error
+      }
+      return updated;
+    });
+
+    api.recordSubliminalPlay(session.id, { progress: 0, completed: false }).catch(() => {});
   };
 
-  // Filtered sessions for Search or specific Usage selection
+  const handleDrawerSelectCategory = (slug: string) => {
+    setSelectedCategory(slug);
+    setSelectedUsage('All');
+    setFilterFavoritesOnly(false);
+  };
+
+  const handleDrawerSelectUsage = (usage: UsageType | 'All') => {
+    setSelectedUsage(usage);
+    setFilterFavoritesOnly(false);
+  };
+
+  const handleDrawerSelectDiscover = (tab: 'made-for-you' | 'recent' | 'favorites' | 'all') => {
+    if (tab === 'all') {
+      setSelectedCategory('all');
+      setSelectedUsage('All');
+      setSearchQuery('');
+      setFilterFavoritesOnly(false);
+    } else if (tab === 'favorites') {
+      setFilterFavoritesOnly(true);
+      setSelectedCategory('all');
+      setSelectedUsage('All');
+    } else if (tab === 'made-for-you') {
+      setSelectedCategory('all');
+      setSelectedUsage('All');
+      setFilterFavoritesOnly(false);
+      const el = document.getElementById('made-for-you-rail');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else if (tab === 'recent') {
+      setSelectedCategory('all');
+      setSelectedUsage('All');
+      setFilterFavoritesOnly(false);
+      const el = document.getElementById('recent-rail');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Filtered sessions for Search, Usage, Category, or Favorites selection
   const filteredSessions = useMemo(() => {
     return allSessions.filter((session) => {
       const matchesSearch =
@@ -84,21 +177,22 @@ export const SubliminalsPage: React.FC = () => {
       const matchesCategory =
         selectedCategory === 'all' || session.category === selectedCategory;
 
-      return matchesSearch && matchesUsage && matchesCategory;
-    });
-  }, [allSessions, searchQuery, selectedUsage, selectedCategory]);
+      const matchesFavorite = !filterFavoritesOnly || Boolean(session.isFavorite);
 
-  // Personalized "Made For You" selection
+      return matchesSearch && matchesUsage && matchesCategory && matchesFavorite;
+    });
+  }, [allSessions, searchQuery, selectedUsage, selectedCategory, filterFavoritesOnly]);
+
+  // Personalized "Made For You" selection attuned to onboarding goals
   const personalizedSessions = useMemo(() => {
     if (!allSessions.length) return [];
     const goalCategory = user?.goals?.[0]?.category || 'wealth';
-    // Match sessions whose category or tags align with user goal
     const matched = allSessions.filter(
       (s) =>
         s.category === goalCategory ||
         s.tags?.some((t) => goalCategory.toLowerCase().includes(t.toLowerCase()))
     );
-    return matched.length > 0 ? matched : allSessions.slice(0, 5);
+    return matched.length > 0 ? matched : allSessions.slice(0, 10);
   }, [allSessions, user?.goals]);
 
   // One-time sessions
@@ -106,54 +200,54 @@ export const SubliminalsPage: React.FC = () => {
     return allSessions.filter((s) => s.usageTypes.includes('ONE TIME'));
   }, [allSessions]);
 
-  // Sleep sessions
-  const sleepSessions = useMemo(() => {
-    return allSessions.filter(
-      (s) => s.usageTypes.includes('SLEEP') || s.usageTypes.includes('NIGHT')
-    );
+  // Usage rails
+  const nightSessions = useMemo(() => {
+    return allSessions.filter((s) => s.usageTypes.includes('NIGHT'));
   }, [allSessions]);
 
-  // Focus sessions
+  const sleepSessions = useMemo(() => {
+    return allSessions.filter((s) => s.usageTypes.includes('SLEEP'));
+  }, [allSessions]);
+
   const focusSessions = useMemo(() => {
     return allSessions.filter(
-      (s) => s.usageTypes.includes('FOCUS') || s.category === 'focus' || s.category === 'academic'
+      (s) => s.usageTypes.includes('FOCUS') || s.category === 'focus'
     );
   }, [allSessions]);
 
-  // Key Category Rails
-  const wealthSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'wealth'),
-    [allSessions]
-  );
-  const confidenceSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'confidence' || s.category === 'social-confidence'),
-    [allSessions]
-  );
-  const looksSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'looks'),
-    [allSessions]
-  );
-  const selfConceptSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'self-concept' || s.category === 'growth'),
-    [allSessions]
-  );
-  const loveSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'love'),
-    [allSessions]
-  );
-  const careerSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'career' || s.category === 'discipline'),
-    [allSessions]
-  );
-  const peaceSessions = useMemo(
-    () => allSessions.filter((s) => s.category === 'peace' || s.category === 'health'),
-    [allSessions]
-  );
+  // 17 Category Rails
+  const wealthSessions = useMemo(() => allSessions.filter((s) => s.category === 'wealth'), [allSessions]);
+  const confidenceSessions = useMemo(() => allSessions.filter((s) => s.category === 'confidence' || s.category === 'social-confidence'), [allSessions]);
+  const looksSessions = useMemo(() => allSessions.filter((s) => s.category === 'looks'), [allSessions]);
+  const selfConceptSessions = useMemo(() => allSessions.filter((s) => s.category === 'self-concept'), [allSessions]);
+  const loveSessions = useMemo(() => allSessions.filter((s) => s.category === 'love'), [allSessions]);
+  const careerSessions = useMemo(() => allSessions.filter((s) => s.category === 'career'), [allSessions]);
+  const academicSessions = useMemo(() => allSessions.filter((s) => s.category === 'academic'), [allSessions]);
+  const motivationSessions = useMemo(() => allSessions.filter((s) => s.category === 'motivation' || s.category === 'discipline'), [allSessions]);
+  const peaceSessions = useMemo(() => allSessions.filter((s) => s.category === 'peace' || s.category === 'health'), [allSessions]);
+  const energySessions = useMemo(() => allSessions.filter((s) => s.category === 'energy'), [allSessions]);
+  const luckSessions = useMemo(() => allSessions.filter((s) => s.category === 'luck'), [allSessions]);
+  const growthSessions = useMemo(() => allSessions.filter((s) => s.category === 'growth'), [allSessions]);
 
-  const isFiltering = searchQuery.trim().length > 0 || selectedUsage !== 'All' || selectedCategory !== 'all';
+  const isFiltering =
+    searchQuery.trim().length > 0 ||
+    selectedUsage !== 'All' ||
+    selectedCategory !== 'all' ||
+    filterFavoritesOnly;
 
   return (
     <div className="orbit-subliminals-page">
+      {/* Subliminal Library Burger Menu Side Drawer */}
+      <SubliminalDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        activeCategory={selectedCategory}
+        activeUsage={selectedUsage}
+        onSelectCategory={handleDrawerSelectCategory}
+        onSelectUsage={handleDrawerSelectUsage}
+        onSelectDiscover={handleDrawerSelectDiscover}
+      />
+
       {/* Dynamic Cosmic Background Glows */}
       <div className="orbit-subliminals-page__glow orbit-subliminals-page__glow--1" />
       <div className="orbit-subliminals-page__glow orbit-subliminals-page__glow--2" />
@@ -161,9 +255,22 @@ export const SubliminalsPage: React.FC = () => {
       <div className="orbit-subliminals-page__container">
         {/* Header Hero Section */}
         <header className="orbit-subliminals-hero">
-          <div className="orbit-subliminals-hero__badge">
-            <Radio className="w-3.5 h-3.5 text-violet-400 animate-pulse" />
-            <span>REALITY ARCHITECTURE</span>
+          <div className="orbit-subliminals-top-bar">
+            {/* Library Burger Menu Button */}
+            <button
+              type="button"
+              className="orbit-subliminals-burger-btn"
+              onClick={() => setIsDrawerOpen(true)}
+              aria-label="Open subliminal library menu"
+            >
+              <Menu className="w-4 h-4 text-violet-300" />
+              <span>Library</span>
+            </button>
+
+            <div className="orbit-subliminals-hero__badge">
+              <Radio className="w-3.5 h-3.5 text-violet-400 animate-pulse" />
+              <span>REALITY ARCHITECTURE</span>
+            </div>
           </div>
 
           <h1 className="orbit-subliminals-hero__title">
@@ -172,7 +279,6 @@ export const SubliminalsPage: React.FC = () => {
 
           <p className="orbit-subliminals-hero__subtitle">
             Explore sessions aligned with the reality you're choosing to live from.
-            Binaural frequencies, silent subliminals, and conscious audio resets.
           </p>
 
           {/* Search Bar */}
@@ -213,7 +319,10 @@ export const SubliminalsPage: React.FC = () => {
                     className={`orbit-usage-filter-btn ${
                       isActive ? 'orbit-usage-filter-btn--active' : ''
                     }`}
-                    onClick={() => setSelectedUsage(filter)}
+                    onClick={() => {
+                      setSelectedUsage(filter);
+                      setFilterFavoritesOnly(false);
+                    }}
                   >
                     {filter}
                   </button>
@@ -283,17 +392,32 @@ export const SubliminalsPage: React.FC = () => {
           </section>
         ) : (
           /* Spotify-Style Horizontal Rails View */
-          <div className="orbit-subliminals-rails">
+          <div className="orbit-subliminals-rails" ref={railsContainerRef}>
             {/* 1. Made For You */}
-            <SubliminalRail
-              title="Made For You"
-              subtitle="Personalized recommendations attuned to your chosen reality baseline and daily focus."
-              sessions={personalizedSessions}
-              onPlay={handlePlay}
-              accentColor="#a855f7"
-            />
+            <div id="made-for-you-rail">
+              <SubliminalRail
+                title="Made For You"
+                subtitle="Personalized recommendations attuned to your chosen reality baseline and daily focus."
+                sessions={personalizedSessions}
+                onPlay={handlePlay}
+                accentColor="#a855f7"
+              />
+            </div>
 
-            {/* 2. One-Time Alignment Sessions */}
+            {/* 2. Recently Played (Rendered only when history exists) */}
+            {recentlyPlayedSessions.length > 0 && (
+              <div id="recent-rail">
+                <SubliminalRail
+                  title="Recently Played"
+                  subtitle="Jump back into your recent alignment frequencies and subconscious reprogramming."
+                  sessions={recentlyPlayedSessions}
+                  onPlay={handlePlay}
+                  accentColor="#38bdf8"
+                />
+              </div>
+            )}
+
+            {/* 3. One-Time Alignment Sessions */}
             <SubliminalRail
               title="One-Time Alignment Resets"
               subtitle="Short, high-intensity shifts (10–15 min) for immediate state change before important events."
@@ -302,7 +426,7 @@ export const SubliminalsPage: React.FC = () => {
               accentColor="#f59e0b"
             />
 
-            {/* 3. Wealth & Abundance */}
+            {/* 4. Wealth & Abundance */}
             <SubliminalRail
               title="Wealth & Sovereign Abundance"
               subtitle="Compounding prosperity consciousness, money magnet frequencies, and overflow."
@@ -312,7 +436,7 @@ export const SubliminalsPage: React.FC = () => {
               accentColor="#fbbf24"
             />
 
-            {/* 4. Core Confidence & Charisma */}
+            {/* 5. Core Confidence & Charisma */}
             <SubliminalRail
               title="Confidence & Magnetic Presence"
               subtitle="Dissolve social anxiety, imposter feelings, and anchor into unshakeable self-trust."
@@ -320,16 +444,6 @@ export const SubliminalsPage: React.FC = () => {
               sessions={confidenceSessions}
               onPlay={handlePlay}
               accentColor="#38bdf8"
-            />
-
-            {/* 5. Deep Work & Focus */}
-            <SubliminalRail
-              title="Focus & Cognitive Laser"
-              subtitle="High-gamma 40 Hz binaural beats for deep flow states, memory retention, and zero distraction."
-              categorySlug="focus"
-              sessions={focusSessions}
-              onPlay={handlePlay}
-              accentColor="#06b6d4"
             />
 
             {/* 6. Looks & Physical Vitality */}
@@ -362,17 +476,47 @@ export const SubliminalsPage: React.FC = () => {
               accentColor="#ec4899"
             />
 
-            {/* 9. Sleep & Overnight Reprogramming */}
+            {/* 9. Career & Execution */}
             <SubliminalRail
-              title="Sleep & Overnight Delta Waves"
-              subtitle="Uninterrupted delta loops for subconscious reprogramming while your body and mind rest."
-              categorySlug="sleep"
-              sessions={sleepSessions}
+              title="Career Mastery & Executive Momentum"
+              subtitle="Strategic leadership, fearless negotiation, and frictionless daily discipline."
+              categorySlug="career"
+              sessions={careerSessions}
+              onPlay={handlePlay}
+              accentColor="#8b5cf6"
+            />
+
+            {/* 10. Academic Success & Cognitive Mastery */}
+            <SubliminalRail
+              title="Academic Success & Brain Booster"
+              subtitle="Genius-level memory retention, rapid exam mastery, and effortless comprehension."
+              categorySlug="academic"
+              sessions={academicSessions}
               onPlay={handlePlay}
               accentColor="#6366f1"
             />
 
-            {/* 10. Peace & Somatic Stillness */}
+            {/* 11. Motivation & Iron Discipline */}
+            <SubliminalRail
+              title="Motivation & Iron Discipline"
+              subtitle="Obliterate procrastination, build unstoppable momentum, and execute with precision."
+              categorySlug="motivation"
+              sessions={motivationSessions}
+              onPlay={handlePlay}
+              accentColor="#ea580c"
+            />
+
+            {/* 12. Deep Work & Focus */}
+            <SubliminalRail
+              title="Focus & Cognitive Laser"
+              subtitle="High-gamma 40 Hz binaural beats for deep flow states, memory retention, and zero distraction."
+              categorySlug="focus"
+              sessions={focusSessions}
+              onPlay={handlePlay}
+              accentColor="#06b6d4"
+            />
+
+            {/* 13. Peace & Somatic Stillness */}
             <SubliminalRail
               title="Peace, Calm & Nervous System Reset"
               subtitle="Gentle 432 Hz theta soundscapes to dissolve stress, panic, and bodily tension."
@@ -382,14 +526,53 @@ export const SubliminalsPage: React.FC = () => {
               accentColor="#10b981"
             />
 
-            {/* 11. Career & Execution */}
+            {/* 14. Energy & Pranic Vitality */}
             <SubliminalRail
-              title="Career Mastery & Executive Momentum"
-              subtitle="Strategic leadership, fearless negotiation, and frictionless daily discipline."
-              categorySlug="career"
-              sessions={careerSessions}
+              title="Energy & Boundless Vitality"
+              subtitle="Recharge mitochondria, dissolve chronic fatigue, and radiate vibrant daily stamina."
+              categorySlug="energy"
+              sessions={energySessions}
               onPlay={handlePlay}
-              accentColor="#8b5cf6"
+              accentColor="#eab308"
+            />
+
+            {/* 15. Luck & Serendipitous Opportunities */}
+            <SubliminalRail
+              title="Luck & Serendipitous Opportunities"
+              subtitle="Align with synchronicity, unexpected windfalls, and high-probability timelines."
+              categorySlug="luck"
+              sessions={luckSessions}
+              onPlay={handlePlay}
+              accentColor="#14b8a6"
+            />
+
+            {/* 16. Personal Growth & Evolution */}
+            <SubliminalRail
+              title="Personal Growth & Spiritual Expansion"
+              subtitle="Break generational patterns, awaken intuition, and align with your highest timeline."
+              categorySlug="growth"
+              sessions={growthSessions}
+              onPlay={handlePlay}
+              accentColor="#a855f7"
+            />
+
+            {/* 17. Night Sessions */}
+            <SubliminalRail
+              title="Night Sessions & Twilight Wind Down"
+              subtitle="Calming evening frequencies to quiet the conscious mind before entering restorative sleep."
+              sessions={nightSessions}
+              onPlay={handlePlay}
+              accentColor="#818cf8"
+            />
+
+            {/* 18. Sleep & Overnight Reprogramming */}
+            <SubliminalRail
+              title="Sleep & Overnight Delta Waves"
+              subtitle="Uninterrupted delta loops for subconscious reprogramming while your body and mind rest."
+              categorySlug="sleep"
+              sessions={sleepSessions}
+              onPlay={handlePlay}
+              accentColor="#4f46e5"
             />
 
             {/* Visual Category Discovery Grid (Pinterest / Spotify Explore Matrix) */}

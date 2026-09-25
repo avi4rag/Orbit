@@ -542,8 +542,15 @@ export const api = {
     return request(`/subliminals/${id}`);
   },
 
-  async recordSubliminalPlay(id: string) {
-    return request(`/subliminals/${id}/play`, { method: 'POST' });
+  async getRecentlyPlayed() {
+    return request('/subliminals/user/recently-played');
+  },
+
+  async recordSubliminalPlay(id: string, data?: { progress?: number; completed?: boolean }) {
+    return request(`/subliminals/${id}/play`, {
+      method: 'POST',
+      body: JSON.stringify(data || {}),
+    });
   },
 
   async toggleSubliminalFavorite(id: string) {

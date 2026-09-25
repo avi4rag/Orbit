@@ -25,6 +25,12 @@ export interface IUser extends Document {
     lastRitualDate: string | null;
   };
   favorites: string[];
+  recentlyPlayed: Array<{
+    subliminalId: string;
+    playedAt: Date;
+    progress?: number;
+    completed?: boolean;
+  }>;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidate: string): Promise<boolean>;
@@ -60,6 +66,14 @@ const UserSchema = new Schema<IUser>(
       lastRitualDate: { type: String, default: null },
     },
     favorites: [{ type: String }],
+    recentlyPlayed: [
+      {
+        subliminalId: { type: String, required: true },
+        playedAt: { type: Date, default: Date.now },
+        progress: { type: Number, default: 0 },
+        completed: { type: Boolean, default: false },
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -95,6 +109,12 @@ export interface MemoryUser {
     lastRitualDate: string | null;
   };
   favorites: string[];
+  recentlyPlayed: Array<{
+    subliminalId: string;
+    playedAt: Date;
+    progress?: number;
+    completed?: boolean;
+  }>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -187,6 +207,7 @@ export const UserRepository = {
       },
       streak: { current: 1, longest: 1, lastRitualDate: new Date().toISOString().split('T')[0] },
       favorites: ['session-wealth-abundance', 'session-theta-clarity'],
+      recentlyPlayed: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
