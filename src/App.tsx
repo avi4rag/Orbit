@@ -12,6 +12,7 @@ import SessionModesPage from './pages/SessionModesPage';
 import CelestialUniversePage from './pages/CelestialUniversePage';
 import AIGeneratorPage from './pages/AIGeneratorPage';
 import ProfilePage from './pages/ProfilePage';
+import OnboardingPage from './pages/OnboardingPage';
 
 export default function App() {
   return (
@@ -22,6 +23,16 @@ export default function App() {
             <Route path="/" element={<RootLayout />}>
               {/* Public route */}
               <Route index element={<LandingPage />} />
+
+              {/* Onboarding flow for newly authenticated users */}
+              <Route
+                path="onboarding"
+                element={
+                  <ProtectedRoute allowUnonboarded>
+                    <OnboardingPage />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Authenticated routes guarded by ProtectedRoute */}
               <Route
