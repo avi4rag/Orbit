@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import SubliminalsPage from './pages/SubliminalsPage';
+import CategoryPage from './pages/CategoryPage';
 import RitualPage from './pages/RitualPage';
 import ActionsPage from './pages/ActionsPage';
 import SessionDetailPage from './pages/SessionDetailPage';
@@ -48,6 +49,22 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <SubliminalsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="subliminals/category/:slug"
+                element={
+                  <ProtectedRoute>
+                    <CategoryPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="category/:slug"
+                element={
+                  <ProtectedRoute>
+                    <CategoryPage />
                   </ProtectedRoute>
                 }
               />
