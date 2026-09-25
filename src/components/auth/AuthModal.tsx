@@ -192,11 +192,18 @@ export const AuthModal: React.FC = () => {
             fontSize: '0.825rem',
             marginBottom: '1.25rem',
             display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
+            flexDirection: 'column',
+            gap: '0.35rem',
           }}>
-            <span>⚠️</span>
-            <span>{error}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>⚠️</span>
+              <span>{error}</span>
+            </div>
+            {error.toLowerCase().includes('network') && (
+              <div style={{ fontSize: '0.75rem', color: '#fecdd3' }}>
+                Tip: Click <strong>Instant Demo Access</strong> below to explore offline.
+              </div>
+            )}
           </div>
         )}
 
@@ -241,7 +248,7 @@ export const AuthModal: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="traveler@orbit.cosmos"
+                placeholder="traveler@orbit.com"
                 style={{
                   width: '100%',
                   padding: '0.7rem 0.9rem 0.7rem 2.4rem',
@@ -258,9 +265,31 @@ export const AuthModal: React.FC = () => {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.775rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
-              Password
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.775rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                Password
+              </label>
+              {mode === 'login' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('traveler@orbit.com');
+                    setPassword('123456');
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--celestial-cyan)',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    padding: 0,
+                  }}
+                >
+                  Use Demo Credentials
+                </button>
+              )}
+            </div>
             <div style={{ position: 'relative' }}>
               <Lock size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)' }} />
               <input
