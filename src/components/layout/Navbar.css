@@ -1,0 +1,511 @@
+/* ==========================================================================
+   ORBIT NAVIGATION SYSTEM — STYLESHEET
+   Aligns with celestial visual identity: deep dark, subtle glass, purple/cyan glow
+   ========================================================================== */
+
+.orbit-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(6, 7, 19, 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 68px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.orbit-navbar-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 1.5rem;
+}
+
+/* Brand / Logo */
+.orbit-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.orbit-brand:hover {
+  opacity: 0.92;
+}
+
+.orbit-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #38bdf8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.orbit-brand:hover .orbit-brand-icon {
+  transform: scale(1.04) rotate(4deg);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+}
+
+.orbit-brand-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  display: block;
+}
+
+.orbit-brand-subtitle {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--celestial-cyan);
+  font-weight: 600;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Navigation Links Grid */
+.orbit-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.orbit-nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.orbit-nav-link {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.85rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.orbit-nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.orbit-nav-link.active {
+  color: #ffffff;
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.35);
+  font-weight: 600;
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.15);
+}
+
+.orbit-nav-link.active svg {
+  color: var(--celestial-cyan);
+}
+
+/* Actions Area */
+.orbit-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Auth Buttons */
+.orbit-btn-ghost {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orbit-btn-ghost:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.orbit-btn-primary {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.15rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #8b5cf6 0%, #38bdf8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orbit-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.45);
+}
+
+/* ==========================================================================
+   PREMIUM PROFILE & AVATAR ACCOUNT CONTROL (§4)
+   ========================================================================== */
+
+.orbit-profile-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.orbit-profile-trigger {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.2rem 0.85rem 0.2rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.orbit-profile-trigger:hover,
+.orbit-profile-trigger[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.22);
+  transform: translateY(-1px);
+}
+
+.orbit-profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.orbit-profile-name {
+  font-weight: 600;
+  color: #ffffff;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.orbit-profile-streak {
+  font-size: 0.725rem;
+  color: var(--celestial-gold);
+  font-weight: 700;
+  background: rgba(251, 191, 36, 0.14);
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.orbit-profile-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+}
+
+.orbit-profile-trigger[aria-expanded="true"] .orbit-profile-chevron {
+  transform: rotate(180deg);
+  color: var(--celestial-cyan);
+}
+
+/* Account Dropdown Menu */
+.orbit-profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 270px;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at top right, rgba(26, 31, 74, 0.95) 0%, rgba(8, 10, 24, 0.98) 100%);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(139, 92, 246, 0.15);
+  padding: 0.6rem;
+  z-index: 60;
+  animation: dropdownSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.orbit-dropdown-header {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 0.4rem;
+}
+
+.orbit-dropdown-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.orbit-dropdown-avatar-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #38bdf8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+  flex-shrink: 0;
+}
+
+.orbit-dropdown-user-details {
+  overflow: hidden;
+}
+
+.orbit-dropdown-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orbit-dropdown-email {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.orbit-dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.orbit-dropdown-item {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0 0.85rem;
+  border-radius: 9px;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.orbit-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.orbit-dropdown-item:hover svg {
+  color: var(--celestial-cyan);
+}
+
+.orbit-dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 0.4rem 0;
+}
+
+.orbit-dropdown-item.danger {
+  color: #fda4af;
+}
+
+.orbit-dropdown-item.danger:hover {
+  background: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+}
+
+/* ==========================================================================
+   MOBILE NAVIGATION CONTROLS & DRAWER
+   ========================================================================== */
+
+.orbit-mobile-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.orbit-mobile-drawer {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .orbit-nav-links {
+    gap: 0.15rem;
+  }
+  .orbit-nav-link {
+    padding: 0 0.65rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 960px) {
+  .orbit-nav-links {
+    display: none;
+  }
+
+  .orbit-mobile-toggle {
+    display: flex;
+  }
+
+  .orbit-mobile-drawer {
+    display: block;
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(4, 5, 14, 0.95);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem;
+    overflow-y: auto;
+    z-index: 49;
+    animation: drawerFadeIn 0.25s ease;
+  }
+
+  .orbit-mobile-drawer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .orbit-mobile-drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s ease;
+  }
+
+  .orbit-mobile-drawer-link.active {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: rgba(139, 92, 246, 0.4);
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .orbit-mobile-drawer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+@keyframes drawerFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
