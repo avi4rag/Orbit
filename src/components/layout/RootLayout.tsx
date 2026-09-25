@@ -4,12 +4,16 @@ import { Navbar } from './Navbar';
 import { Orbit, ShieldCheck } from 'lucide-react';
 import MiniPlayer from '../player/MiniPlayer';
 import FullscreenPlayer from '../player/FullscreenPlayer';
+import { AuthModal } from '../auth/AuthModal';
 
 export const RootLayout: React.FC = () => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Top Navigation */}
       <Navbar />
+
+      {/* Global Auth Modal */}
+      <AuthModal />
 
       {/* Persistent Audio Player — survives route transitions */}
       <MiniPlayer />
