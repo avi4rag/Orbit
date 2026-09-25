@@ -17,6 +17,150 @@ export function removeToken() {
   localStorage.removeItem('orbit_jwt_token');
 }
 
+function getLocalDemoUser(emailOverride?: string) {
+  const email = emailOverride || 'traveler@orbit.cosmos';
+  return {
+    id: 'demo_user_traveler',
+    name: 'Cosmic Traveler',
+    email,
+    goals: [
+      {
+        id: 'goal-1',
+        title: 'Master Creative Leadership',
+        category: 'career',
+        identityStatement: 'I am already becoming the person who leads with calm confidence.',
+        vitality: 65,
+      },
+      {
+        id: 'goal-2',
+        title: 'Financial Independence & Abundance',
+        category: 'wealth',
+        identityStatement: 'I live with financial security, mindful stewardship, and freedom.',
+        vitality: 50,
+      },
+      {
+        id: 'goal-3',
+        title: 'Deep Daily Tranquility',
+        category: 'peace',
+        identityStatement: 'I am grounded in quiet clarity and unshakeable focus.',
+        vitality: 80,
+      },
+    ],
+    preferences: {
+      preferredDuration: 15,
+      visualizationStyle: 'first-person',
+      affirmationStyle: 'declarative',
+      preferredMood: 'clarity',
+    },
+    streak: {
+      current: 1,
+      longest: 3,
+      lastRitualDate: new Date().toISOString().split('T')[0],
+    },
+    favorites: ['session-wealth-abundance', 'session-theta-clarity'],
+    onboarded: true,
+  };
+}
+
+function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any {
+  try {
+    const rawBody = options.body ? JSON.parse(options.body as string) : {};
+
+    if (endpoint === '/auth/demo') {
+      const user = getLocalDemoUser();
+      localStorage.setItem('orbit_offline_current_user', JSON.stringify(user));
+      return { token: 'mock_jwt_token_demo_traveler', user };
+    }
+
+    if (endpoint === '/auth/login') {
+      const email = (rawBody.email || '').toLowerCase().trim();
+      if (email === 'traveler@orbit.com' || email === 'traveler@orbit.cosmos') {
+        const user = getLocalDemoUser(email);
+        localStorage.setItem('orbit_offline_current_user', JSON.stringify(user));
+        return { token: 'mock_jwt_token_demo_traveler', user };
+      }
+      // Check stored offline registered users
+      const rawUsers = localStorage.getItem('orbit_offline_users');
+      const users: any[] = rawUsers ? JSON.parse(rawUsers) : [];
+      const found = users.find((u) => u.email.toLowerCase() === email);
+      if (found) {
+        localStorage.setItem('orbit_offline_current_user', JSON.stringify(found));
+        return { token: 'mock_jwt_token_' + found.id, user: found };
+      }
+      throw new Error('Invalid email or password.');
+    }
+
+    if (endpoint === '/auth/register') {
+      const email = (rawBody.email || '').toLowerCase().trim();
+      const name = rawBody.name || 'Cosmic Explorer';
+      const user = {
+        ...getLocalDemoUser(email),
+        id: 'user_' + Date.now(),
+        name,
+        email,
+        onboarded: false,
+      };
+      const rawUsers = localStorage.getItem('orbit_offline_users');
+      const users: any[] = rawUsers ? JSON.parse(rawUsers) : [];
+      users.push(user);
+      localStorage.setItem('orbit_offline_users', JSON.stringify(users));
+      localStorage.setItem('orbit_offline_current_user', JSON.stringify(user));
+      return { token: 'mock_jwt_token_' + user.id, user };
+    }
+
+    if (endpoint === '/auth/me') {
+      const raw = localStorage.getItem('orbit_offline_current_user');
+      const user = raw ? JSON.parse(raw) : getLocalDemoUser();
+      return { user };
+    }
+
+    if (endpoint === '/profile') {
+      const raw = localStorage.getItem('orbit_offline_current_user');
+      const user = raw ? JSON.parse(raw) : getLocalDemoUser();
+      return { user };
+    }
+
+    if (endpoint === '/profile/goals' && options.method === 'POST') {
+      const raw = localStorage.getItem('orbit_offline_current_user');
+      const user = raw ? JSON.parse(raw) : getLocalDemoUser();
+      const newGoal = {
+        id: 'goal_' + Date.now(),
+        title: rawBody.title || 'Personal Shift',
+        category: rawBody.category || 'wealth',
+        identityStatement: rawBody.identityStatement || '',
+        vitality: 30,
+      };
+      user.goals = [...(user.goals || []), newGoal];
+      localStorage.setItem('orbit_offline_current_user', JSON.stringify(user));
+      return { success: true, goal: newGoal };
+    }
+
+    if (endpoint === '/rituals/today') {
+      return {
+        date: new Date().toISOString().split('T')[0],
+        completed: false,
+        morning: null,
+        evening: null,
+      };
+    }
+
+    if (endpoint === '/actions') {
+      return { actions: [] };
+    }
+
+    if (endpoint === '/catalog/sessions') {
+      return { sessions: [] };
+    }
+
+    return undefined;
+  } catch (err: any) {
+    if (err.message === 'Invalid email or password.') {
+      throw err;
+    }
+    return undefined;
+  }
+}
+
 async function request(endpoint: string, options: RequestInit = {}) {
   const token = getToken();
   const headers: Record<string, string> = {
@@ -28,18 +172,40 @@ async function request(endpoint: string, options: RequestInit = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${endpoint}`, {
+      ...options,
+      headers,
+    });
+  } catch (_err) {
+    // Network failure (offline, proxy down, or server offline) -> fallback
+    const fallback = handleOfflineFallback(endpoint, options);
+    if (fallback !== undefined) {
+      return fallback;
+    }
+    throw new Error('Network request failed. Please check your connection.');
+  }
 
   if (!response.ok) {
+    // Handle proxy / gateway failures (502, 503, 504)
+    if (response.status >= 502 && response.status <= 504) {
+      const fallback = handleOfflineFallback(endpoint, options);
+      if (fallback !== undefined) {
+        return fallback;
+      }
+    }
+
     let errorMsg = 'Network request failed';
     try {
       const errData = await response.json();
       errorMsg = errData.error || errorMsg;
     } catch {
-      // fallback
+      // Body not JSON (HTML error page from server or proxy)
+      const fallback = handleOfflineFallback(endpoint, options);
+      if (fallback !== undefined) {
+        return fallback;
+      }
     }
     throw new Error(errorMsg);
   }

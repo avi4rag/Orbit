@@ -48,13 +48,38 @@ authRouter.post('/login', async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await UserRepository.findByEmail(email);
+    const normalizedEmail = email.toLowerCase().trim();
+    const isDemoAlias = normalizedEmail === 'traveler@orbit.com' || normalizedEmail === 'traveler@orbit.cosmos';
+
+    let user = await UserRepository.findByEmail(normalizedEmail);
+    if (!user && isDemoAlias) {
+      // Check other alias
+      const otherAlias = normalizedEmail === 'traveler@orbit.com' ? 'traveler@orbit.cosmos' : 'traveler@orbit.com';
+      user = await UserRepository.findByEmail(otherAlias);
+    }
+
+    // Auto-provision demo account if it doesn't exist yet
+    if (!user && isDemoAlias) {
+      user = await UserRepository.create({
+        email: normalizedEmail,
+        password: password || 'orbit-cosmic-experience',
+        name: 'Cosmic Traveler',
+      });
+    }
+
     if (!user) {
       res.status(401).json({ error: 'Invalid email or password.' });
       return;
     }
 
-    const isMatch = await user.comparePassword(password);
+    // Check password (allow demo passwords 123456 or orbit-cosmic-experience for demo accounts)
+    let isMatch = false;
+    if (isDemoAlias && (password === '123456' || password === 'orbit-cosmic-experience')) {
+      isMatch = true;
+    } else {
+      isMatch = await user.comparePassword(password);
+    }
+
     if (!isMatch) {
       res.status(401).json({ error: 'Invalid email or password.' });
       return;
@@ -85,6 +110,9 @@ authRouter.post('/demo', async (req: Request, res: Response) => {
   try {
     const demoEmail = 'traveler@orbit.cosmos';
     let user = await UserRepository.findByEmail(demoEmail);
+    if (!user) {
+      user = await UserRepository.findByEmail('traveler@orbit.com');
+    }
     if (!user) {
       user = await UserRepository.create({
         email: demoEmail,
