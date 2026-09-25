@@ -1,0 +1,157 @@
+import React, { useState } from 'react';
+import { Play, Pause, Heart } from 'lucide-react';
+import { SubliminalSession } from '../../types/subliminal';
+import { UsageBadge } from './UsageBadge';
+import { usePlayer, SessionTrack } from '../../context/PlayerContext';
+import { api } from '../../services/api';
+import './SubliminalCard.css';
+
+interface SubliminalCardProps {
+  session: SubliminalSession;
+  onPlay?: (session: SubliminalSession) => void;
+  onFavoriteToggle?: (sessionId: string, isFav: boolean) => void;
+}
+
+export const SubliminalCard: React.FC<SubliminalCardProps> = ({
+  session,
+  onPlay,
+  onFavoriteToggle,
+}) => {
+  const player = usePlayer();
+  const [isFavorite, setIsFavorite] = useState<boolean>(!!session.isFavorite);
+
+  const isCurrentTrack = player.currentTrack?.id === session.id;
+  const isCurrentlyPlaying = isCurrentTrack && player.isPlaying;
+
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (isCurrentlyPlaying) {
+      player.pause();
+      return;
+    }
+
+    if (isCurrentTrack && !player.isPlaying) {
+      player.resume();
+      return;
+    }
+
+    const track: SessionTrack = {
+      id: session.id,
+      title: session.title,
+      creator: session.source?.creator || 'ORBIT Subliminal',
+      thumbnail: session.artworkUrl,
+      category: session.categoryTitle || session.category,
+      duration: session.duration,
+      binauralFreq: session.binauralFreq || 7.83,
+      carrierFreq: session.carrierFreq || 432,
+      spokenAffirmations: session.spokenAffirmations || [],
+    };
+
+    player.play(track);
+    api.recordSubliminalPlay(session.id).catch(() => {});
+    if (onPlay) onPlay(session);
+  };
+
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const nextState = !isFavorite;
+    setIsFavorite(nextState);
+
+    try {
+      await api.toggleSubliminalFavorite(session.id);
+      if (onFavoriteToggle) onFavoriteToggle(session.id, nextState);
+    } catch {
+      setIsFavorite(!nextState); // rollback on error
+    }
+  };
+
+  const formatDuration = (seconds: number) => {
+    if (seconds >= 3600) {
+      const hours = Math.floor(seconds / 3600);
+      return `${hours}h`;
+    }
+    const mins = Math.round(seconds / 60);
+    return `${mins} min`;
+  };
+
+  const primaryUsage = session.usageTypes?.[0] || 'ONE TIME';
+
+  return (
+    <div
+      className={`orbit-subliminal-card ${isCurrentlyPlaying ? 'is-active-playing' : ''}`}
+      onClick={handlePlayClick}
+      role="article"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handlePlayClick(e as any);
+        }
+      }}
+      aria-label={`${session.title} by ${session.source?.creator || 'ORBIT'}`}
+    >
+      {/* Artwork Section */}
+      <div className="orbit-subliminal-artwork-wrapper">
+        <img
+          src={session.artworkUrl}
+          alt={session.title}
+          className="orbit-subliminal-artwork"
+          loading="lazy"
+        />
+        <div className="orbit-subliminal-overlay" />
+
+        {/* Favorite Icon Button */}
+        <button
+          type="button"
+          className={`orbit-subliminal-fav-btn ${isFavorite ? 'is-fav' : ''}`}
+          onClick={handleFavoriteClick}
+          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart size={15} fill={isFavorite ? '#f43f5e' : 'none'} />
+        </button>
+
+        {/* Active Playing Equalizer Animation */}
+        {isCurrentlyPlaying && (
+          <div className="orbit-subliminal-playing-indicator" title="Currently playing">
+            <span className="orbit-subliminal-eq-bar" />
+            <span className="orbit-subliminal-eq-bar" />
+            <span className="orbit-subliminal-eq-bar" />
+          </div>
+        )}
+
+        {/* Play / Pause Overlay Button */}
+        <button
+          type="button"
+          className="orbit-subliminal-play-btn"
+          onClick={handlePlayClick}
+          aria-label={isCurrentlyPlaying ? 'Pause session' : 'Play session'}
+        >
+          {isCurrentlyPlaying ? (
+            <Pause size={18} fill="#ffffff" />
+          ) : (
+            <Play size={18} fill="#ffffff" style={{ marginLeft: '2px' }} />
+          )}
+        </button>
+      </div>
+
+      {/* Info Section */}
+      <div className="orbit-subliminal-info">
+        <h3 className="orbit-subliminal-title" title={session.title}>
+          {session.title}
+        </h3>
+        <p className="orbit-subliminal-subcategory">
+          {session.subcategory || session.categoryTitle}
+        </p>
+
+        {/* Footer */}
+        <div className="orbit-subliminal-footer">
+          <UsageBadge type={primaryUsage} />
+          <span className="orbit-subliminal-duration">
+            {formatDuration(session.duration)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
