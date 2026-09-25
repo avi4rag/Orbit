@@ -17,6 +17,7 @@ server/node_modules
 server/dist
 server/media/subliminals/*.mp3
 server/media/subliminals/*.webm
+server/media/subliminals/temp_*
 
 # Editor directories and files
 .vscode/*
