@@ -289,18 +289,28 @@ const ExplorePage: React.FC = () => {
           <div className="explore__providers-banner" aria-label="Verified Content Providers">
             <span className="explore__providers-label">✦ Content Architecture:</span>
             <div className="explore__providers-tags">
-              <span className="explore__provider-chip" title="Curated high-fidelity audio studio sessions under verified commercial & CC licenses">
-                Licensed Studios
-              </span>
-              <span className="explore__provider-chip" title="Procedural WebAudio Solfeggio & pure binaural tone generators">
-                Real-time Synthesizer
-              </span>
-              <span className="explore__provider-chip" title="Authorized YouTube video embeds with clean channel attribution">
-                YouTube Ingestion
-              </span>
-              <span className="explore__provider-chip" title="User personal uploads with confirmed copyright declaration">
-                User Uploads
-              </span>
+              {providers?.audioProviders?.length ? (
+                providers.audioProviders.map(p => (
+                  <span key={p} className="explore__provider-chip" title="Active verified audio provider">
+                    {p}
+                  </span>
+                ))
+              ) : (
+                <>
+                  <span className="explore__provider-chip" title="Curated high-fidelity audio studio sessions under verified commercial & CC licenses">
+                    Licensed Studios
+                  </span>
+                  <span className="explore__provider-chip" title="Procedural WebAudio Solfeggio & pure binaural tone generators">
+                    Real-time Synthesizer
+                  </span>
+                  <span className="explore__provider-chip" title="Authorized YouTube video embeds with clean channel attribution">
+                    YouTube Ingestion
+                  </span>
+                  <span className="explore__provider-chip" title="User personal uploads with confirmed copyright declaration">
+                    User Uploads
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
