@@ -10,12 +10,14 @@ import {
   Radio,
   Layers,
   RefreshCw,
+  Menu,
 } from 'lucide-react';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import { api } from '../services/api';
 import type { SubliminalSession, UsageType, CategorySlug } from '../types/subliminal';
 import { CATEGORY_DEFINITIONS } from '../types/subliminal';
 import { SubliminalCard } from '../components/subliminals/SubliminalCard';
+import { SubliminalDrawer } from '../components/subliminals/SubliminalDrawer';
 import './CategoryPage.css';
 
 const USAGE_FILTERS: (UsageType | 'All')[] = [
@@ -49,6 +51,7 @@ export const CategoryPage: React.FC = () => {
 
   const [sessions, setSessions] = useState<SubliminalSession[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedUsage, setSelectedUsage] = useState<UsageType | 'All'>('All');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
@@ -163,16 +166,35 @@ export const CategoryPage: React.FC = () => {
         } as React.CSSProperties
       }
     >
+      {/* Subliminal Library Burger Menu Side Drawer */}
+      <SubliminalDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        activeCategory={categorySlug}
+        activeUsage={selectedUsage}
+        onSelectUsage={(usage) => setSelectedUsage(usage)}
+      />
+
       {/* Dynamic Cosmic Ambient Glows */}
       <div className="orbit-category-page__glow" />
 
       <div className="orbit-category-page__container">
-        {/* Back Link */}
+        {/* Navigation row with Back Link and Burger Button */}
         <div className="orbit-category-page__nav">
           <Link to="/subliminals" className="orbit-category-page__back-link">
             <ArrowLeft className="w-4 h-4" />
             <span>Reality Library</span>
           </Link>
+
+          <button
+            type="button"
+            className="orbit-category-burger-btn"
+            onClick={() => setIsDrawerOpen(true)}
+            aria-label="Open subliminal library menu"
+          >
+            <Menu className="w-4 h-4 text-violet-300" />
+            <span>Library Menu</span>
+          </button>
         </div>
 
         {/* Category Header Banner */}

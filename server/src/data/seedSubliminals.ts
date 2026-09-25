@@ -1,6 +1,4 @@
-import type { SubliminalSession } from '../types/subliminal';
-
-export const SEED_SUBLIMINALS: SubliminalSession[] = [
+export const SEED_SUBLIMINALS: any[] = [
   {
     "id": "yt-jXI6L9BLKVw",
     "slug": "glow-up-subliminal-calm-overnight-you-will-look-un",

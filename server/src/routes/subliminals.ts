@@ -199,11 +199,61 @@ subliminalsRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// GET /api/subliminals/user/recently-played
+subliminalsRouter.get('/user/recently-played', requireAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const user = await UserRepository.findById(req.userId!);
+    if (!user) {
+      res.status(404).json({ error: 'User not found.' });
+      return;
+    }
+    const recentItems = user.recentlyPlayed || [];
+    const sessions = [];
+    for (const item of recentItems) {
+      const session = await SubliminalRepository.findById(item.subliminalId);
+      if (session) {
+        sessions.push(session);
+      }
+    }
+    res.json({ success: true, sessions });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to fetch recently played sessions.' });
+  }
+});
+
 // POST /api/subliminals/:id/play
 subliminalsRouter.post('/:id/play', async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
+    const { progress = 0, completed = false } = req.body || {};
     const updated = await SubliminalRepository.incrementPlay(id);
+
+    // Optional user play history tracking
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.split(' ')[1];
+        const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+        if (payload?.userId) {
+          const user = await UserRepository.findById(payload.userId);
+          if (user) {
+            const list = user.recentlyPlayed || [];
+            const filtered = list.filter((item: any) => item.subliminalId !== id);
+            filtered.unshift({
+              subliminalId: id,
+              playedAt: new Date(),
+              progress: Number(progress) || 0,
+              completed: Boolean(completed),
+            });
+            user.recentlyPlayed = filtered.slice(0, 30);
+            await user.save();
+          }
+        }
+      } catch {
+        // Non-blocking: continue if token decode fails
+      }
+    }
+
     res.json({ success: true, session: updated });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Failed to record play.' });
