@@ -4,7 +4,7 @@ import { PlayerProvider } from './context/PlayerContext';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
-import ExplorePage from './pages/ExplorePage';
+import SubliminalsPage from './pages/SubliminalsPage';
 import RitualPage from './pages/RitualPage';
 import ActionsPage from './pages/ActionsPage';
 import SessionDetailPage from './pages/SessionDetailPage';
@@ -47,7 +47,7 @@ export default function App() {
                 path="subliminals"
                 element={
                   <ProtectedRoute>
-                    <ExplorePage />
+                    <SubliminalsPage />
                   </ProtectedRoute>
                 }
               />
@@ -55,7 +55,7 @@ export default function App() {
                 path="explore"
                 element={
                   <ProtectedRoute>
-                    <ExplorePage />
+                    <SubliminalsPage />
                   </ProtectedRoute>
                 }
               />

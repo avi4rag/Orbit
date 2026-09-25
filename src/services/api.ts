@@ -3,6 +3,8 @@
  * Interacts with the Express + MongoDB backend (/api)
  */
 
+import { SEED_SUBLIMINALS } from '../data/seedSubliminals';
+
 const API_BASE = '/api';
 
 function getToken(): string | null {
@@ -173,15 +175,28 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
     }
 
     if (endpoint.startsWith('/subliminals/category/')) {
-      const slug = endpoint.split('/category/')[1]?.split('?')[0] || 'wealth';
+      const parts = endpoint.split('/category/')[1]?.split('?') || [];
+      const slug = parts[0] || 'wealth';
+      const urlParams = new URLSearchParams(parts[1] || '');
+      const usageType = urlParams.get('usageType');
+      const search = urlParams.get('search')?.toLowerCase();
+
+      let filtered = SEED_SUBLIMINALS.filter((s) => s.category === slug);
+      if (usageType && usageType !== 'All') {
+        filtered = filtered.filter((s) => s.usageTypes.includes(usageType as any));
+      }
+      if (search) {
+        filtered = filtered.filter((s) => s.title.toLowerCase().includes(search) || s.description.toLowerCase().includes(search));
+      }
+
       return {
         category: {
           slug,
           title: slug.charAt(0).toUpperCase() + slug.slice(1).replace('-', ' '),
           tagline: 'Sessions designed around this pillar of reality.',
-          sessionCount: 3,
+          sessionCount: filtered.length,
         },
-        subliminals: [],
+        subliminals: filtered,
       };
     }
 
@@ -192,7 +207,25 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       if (endpoint.endsWith('/play')) {
         return { success: true };
       }
-      return { subliminals: [], total: 0 };
+
+      const queryString = endpoint.includes('?') ? endpoint.split('?')[1] : '';
+      const urlParams = new URLSearchParams(queryString);
+      const category = urlParams.get('category');
+      const usageType = urlParams.get('usageType');
+      const search = urlParams.get('search')?.toLowerCase();
+
+      let list = [...SEED_SUBLIMINALS];
+      if (category && category !== 'all') {
+        list = list.filter((s) => s.category === category);
+      }
+      if (usageType && usageType !== 'All') {
+        list = list.filter((s) => s.usageTypes.includes(usageType as any));
+      }
+      if (search) {
+        list = list.filter((s) => s.title.toLowerCase().includes(search) || s.description.toLowerCase().includes(search));
+      }
+
+      return { subliminals: list, total: list.length };
     }
 
     if (endpoint === '/catalog/sessions') {
