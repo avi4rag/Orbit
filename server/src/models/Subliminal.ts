@@ -10,7 +10,9 @@ export interface ISubliminal extends Document {
   usageTypes: string[];
   tags: string[];
   artworkUrl: string;
-  audioUrl: string;
+  audioUrl?: string;
+  audioFileHash?: string;
+  processingError?: string;
   source: {
     platform: string;
     videoId?: string;
@@ -21,7 +23,7 @@ export interface ISubliminal extends Document {
   binauralFreq?: number;
   carrierFreq?: number;
   spokenAffirmations?: string[];
-  processingStatus: 'ready' | 'processing';
+  processingStatus: 'ready' | 'processing' | 'COMPLETED' | 'FAILED';
   playCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -37,7 +39,9 @@ const SubliminalSchema = new Schema<ISubliminal>(
     usageTypes: [{ type: String, index: true }],
     tags: [{ type: String, index: true }],
     artworkUrl: { type: String, required: true },
-    audioUrl: { type: String, required: true },
+    audioUrl: { type: String, default: '' },
+    audioFileHash: { type: String },
+    processingError: { type: String },
     source: {
       platform: { type: String, default: 'youtube' },
       videoId: { type: String, index: true },
@@ -48,7 +52,11 @@ const SubliminalSchema = new Schema<ISubliminal>(
     binauralFreq: { type: Number, default: 7.83 },
     carrierFreq: { type: Number, default: 432 },
     spokenAffirmations: [{ type: String }],
-    processingStatus: { type: String, enum: ['ready', 'processing'], default: 'ready' },
+    processingStatus: {
+      type: String,
+      enum: ['ready', 'processing', 'COMPLETED', 'FAILED'],
+      default: 'processing',
+    },
     playCount: { type: Number, default: 0 },
   },
   { timestamps: true }

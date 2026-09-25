@@ -1,9 +1,12 @@
+import fs from 'fs';
+import path from 'path';
 import { Router, Request, Response } from 'express';
 import { SubliminalRepository } from '../models/Subliminal.js';
 import { UserRepository } from '../models/User.js';
 import { requireAuth, AuthRequest } from '../middleware/auth.js';
 import { youtubeDiscoveryEngine } from '../services/youtubeDiscovery.js';
 import { playlistIngestionService } from '../services/playlistIngestion.js';
+import { audioProcessorService } from '../services/audioProcessor.js';
 import { PLAYLIST_SOURCES, getUniquePlaylistIds } from '../config/playlists.js';
 
 export const subliminalsRouter = Router();
@@ -184,20 +187,6 @@ subliminalsRouter.get('/category/:slug', async (req: Request, res: Response) => 
   }
 });
 
-// GET /api/subliminals/:id
-subliminalsRouter.get('/:id', async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id as string;
-    const subliminal = await SubliminalRepository.findById(id);
-    if (!subliminal) {
-      res.status(404).json({ error: 'Subliminal session not found.' });
-      return;
-    }
-    res.json({ subliminal });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message || 'Failed to retrieve session.' });
-  }
-});
 
 // GET /api/subliminals/user/recently-played
 subliminalsRouter.get('/user/recently-played', requireAuth, async (req: AuthRequest, res: Response) => {
@@ -351,4 +340,121 @@ subliminalsRouter.post('/sync-playlists', async (req: Request, res: Response) =>
 // GET /api/subliminals/sync-status (Current ingestion progress)
 subliminalsRouter.get('/sync-status', (_req: Request, res: Response) => {
   res.json({ progress: playlistIngestionService.getProgress() });
+});
+
+// GET /api/subliminals/media/:filename (Authentic MP3 streaming with HTTP 206 Partial Content Range support)
+subliminalsRouter.get('/media/:filename', (req: Request, res: Response) => {
+  const filename = req.params.filename as string;
+
+  // Strict sanitize: only allow alphanumeric, dashes, underscores, and .mp3 extension
+  if (!filename || !/^[a-zA-Z0-9_-]+\.mp3$/.test(filename)) {
+    res.status(400).json({ error: 'Invalid media filename format.' });
+    return;
+  }
+
+  const filePath = audioProcessorService.getMediaFilePath(filename);
+  if (!fs.existsSync(filePath)) {
+    res.status(404).json({ error: 'Audio file not found on server.' });
+    return;
+  }
+
+  const stat = fs.statSync(filePath);
+  const fileSize = stat.size;
+  const range = req.headers.range;
+
+  if (range) {
+    // Parse Range header e.g. "bytes=0-1048575"
+    const parts = range.replace(/bytes=/, '').split('-');
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+    if (start >= fileSize || end >= fileSize) {
+      res.status(416).set('Content-Range', `bytes */${fileSize}`).end();
+      return;
+    }
+
+    const chunksize = end - start + 1;
+    const file = fs.createReadStream(filePath, { start, end });
+
+    res.writeHead(206, {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'audio/mpeg',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    });
+
+    file.pipe(res);
+  } else {
+    res.writeHead(200, {
+      'Content-Length': fileSize,
+      'Accept-Ranges': 'bytes',
+      'Content-Type': 'audio/mpeg',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    });
+
+    fs.createReadStream(filePath).pipe(res);
+  }
+});
+
+// GET /api/subliminals/:id/stream (Resolves authentic audio stream for a track)
+subliminalsRouter.get('/:id/stream', async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const subliminal: any = await SubliminalRepository.findById(id);
+    if (!subliminal) {
+      res.status(404).json({ error: 'Subliminal session not found.' });
+      return;
+    }
+
+    const videoId = subliminal.source?.videoId;
+    if (!videoId) {
+      res.status(400).json({ error: 'Subliminal has no valid YouTube video ID.' });
+      return;
+    }
+
+    const filename = `${videoId}.mp3`;
+    if (!audioProcessorService.hasMediaFile(filename)) {
+      res.status(425).json({
+        error: 'Audio is still being processed.',
+        status: subliminal.processingStatus || 'processing',
+      });
+      return;
+    }
+
+    // Redirect to direct streaming endpoint
+    res.redirect(`/api/subliminals/media/${filename}`);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to stream audio.' });
+  }
+});
+
+// POST /api/subliminals/:id/process-audio (Trigger audio processing worker)
+subliminalsRouter.post('/:id/process-audio', async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const result = await audioProcessorService.processSubliminal(id);
+    if (result.success) {
+      res.json({ success: true, result });
+    } else {
+      res.status(500).json({ success: false, error: result.error, errorCode: result.errorCode });
+    }
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to trigger audio processing.' });
+  }
+});
+
+// GET /api/subliminals/:id (Catch-all parameterized ID route)
+subliminalsRouter.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const subliminal = await SubliminalRepository.findById(id);
+    if (!subliminal) {
+      res.status(404).json({ error: 'Subliminal session not found.' });
+      return;
+    }
+    res.json({ subliminal });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to retrieve session.' });
+  }
 });

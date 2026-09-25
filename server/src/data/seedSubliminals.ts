@@ -19,7 +19,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/jXI6L9BLKVw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "jXI6L9BLKVw",
@@ -33,7 +33,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5831,
     "createdAt": "2026-09-22T23:07:12.575Z",
     "updatedAt": "2026-09-25T09:57:48.858Z"
@@ -55,24 +55,25 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/a82DzvSzgZQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "/api/subliminals/media/a82DzvSzgZQ.mp3",
     "source": {
       "platform": "youtube",
       "videoId": "a82DzvSzgZQ",
       "url": "https://www.youtube.com/watch?v=a82DzvSzgZQ",
       "creator": "Rita Kaminski"
     },
-    "duration": 900,
+    "duration": 152,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "COMPLETED",
     "playCount": 30747,
     "createdAt": "2026-09-21T01:48:08.315Z",
-    "updatedAt": "2026-09-25T09:57:48.863Z"
+    "updatedAt": "2026-09-25T09:57:48.863Z",
+    "audioFileHash": "18c25e0100c6ea7e324037b7e9f8f3123d13137c5a1d5ceaf43169893ec8f72a"
   },
   {
     "id": "yt-2O82fYDz6Kw",
@@ -92,24 +93,25 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2O82fYDz6Kw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "/api/subliminals/media/2O82fYDz6Kw.mp3",
     "source": {
       "platform": "youtube",
       "videoId": "2O82fYDz6Kw",
       "url": "https://www.youtube.com/watch?v=2O82fYDz6Kw",
       "creator": "Rita Kaminski"
     },
-    "duration": 900,
+    "duration": 213,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "COMPLETED",
     "playCount": 2118,
     "createdAt": "2026-09-23T10:27:41.109Z",
-    "updatedAt": "2026-09-25T09:57:48.876Z"
+    "updatedAt": "2026-09-25T09:57:48.876Z",
+    "audioFileHash": "8c2468272d3c3315e82a8287ed35e63045aafc75dcd8094ec02e6d07a3fd0fca"
   },
   {
     "id": "yt-i9EBp0XcuXY",
@@ -128,7 +130,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/i9EBp0XcuXY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "i9EBp0XcuXY",
@@ -142,7 +144,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6683,
     "createdAt": "2026-09-18T04:10:22.729Z",
     "updatedAt": "2026-09-25T09:57:48.851Z"
@@ -164,7 +166,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/rikuTng0N7g/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "rikuTng0N7g",
@@ -178,7 +180,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16250,
     "createdAt": "2026-09-17T23:59:59.909Z",
     "updatedAt": "2026-09-25T09:57:48.889Z"
@@ -203,7 +205,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4SAjqfFt1xo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4SAjqfFt1xo",
@@ -217,7 +219,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33251,
     "createdAt": "2026-09-23T03:58:34.019Z",
     "updatedAt": "2026-09-25T09:57:48.867Z"
@@ -239,7 +241,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/IdqyW0pPVVg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "IdqyW0pPVVg",
@@ -253,7 +255,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17431,
     "createdAt": "2026-09-16T07:35:30.420Z",
     "updatedAt": "2026-09-25T09:57:48.962Z"
@@ -275,7 +277,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "clean power"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NXn1pJYZ-ac/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NXn1pJYZ-ac",
@@ -289,7 +291,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15281,
     "createdAt": "2026-09-18T09:48:06.539Z",
     "updatedAt": "2026-09-25T09:57:48.909Z"
@@ -313,7 +315,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/WPcvc663xXs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "WPcvc663xXs",
@@ -327,7 +329,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8994,
     "createdAt": "2026-09-16T21:13:51.602Z",
     "updatedAt": "2026-09-25T09:57:48.915Z"
@@ -349,7 +351,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/o939vPPwSXA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "o939vPPwSXA",
@@ -363,7 +365,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37751,
     "createdAt": "2026-09-18T16:46:54.248Z",
     "updatedAt": "2026-09-25T09:57:48.910Z"
@@ -387,7 +389,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QeBkQJWv0C8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QeBkQJWv0C8",
@@ -401,7 +403,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18753,
     "createdAt": "2026-09-24T05:23:19.513Z",
     "updatedAt": "2026-09-25T09:57:49.326Z"
@@ -425,7 +427,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/z4Js97vXSvk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "z4Js97vXSvk",
@@ -439,7 +441,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14298,
     "createdAt": "2026-09-17T11:14:09.974Z",
     "updatedAt": "2026-09-25T09:57:49.280Z"
@@ -461,7 +463,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ukyY3jmVU9I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ukyY3jmVU9I",
@@ -475,7 +477,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9400,
     "createdAt": "2026-09-19T19:52:09.503Z",
     "updatedAt": "2026-09-25T09:57:49.294Z"
@@ -499,7 +501,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/5Nfno1UOgjw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "5Nfno1UOgjw",
@@ -513,7 +515,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18333,
     "createdAt": "2026-09-17T06:55:55.355Z",
     "updatedAt": "2026-09-25T09:57:49.298Z"
@@ -535,7 +537,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GpFc86nnyec/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GpFc86nnyec",
@@ -549,7 +551,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 31951,
     "createdAt": "2026-09-23T01:45:27.000Z",
     "updatedAt": "2026-09-25T09:57:49.303Z"
@@ -572,7 +574,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/7t_RyPqao10/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "7t_RyPqao10",
@@ -586,7 +588,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40724,
     "createdAt": "2026-09-18T16:51:02.436Z",
     "updatedAt": "2026-09-25T09:57:49.315Z"
@@ -608,7 +610,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/icwfEJphQ44/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "icwfEJphQ44",
@@ -622,7 +624,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34406,
     "createdAt": "2026-09-15T02:38:32.469Z",
     "updatedAt": "2026-09-25T09:57:49.324Z"
@@ -644,7 +646,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/tEOrDRsn2TE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "tEOrDRsn2TE",
@@ -658,7 +660,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11778,
     "createdAt": "2026-09-23T04:49:34.503Z",
     "updatedAt": "2026-09-25T09:57:49.309Z"
@@ -680,7 +682,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YLH2_uZK3L4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YLH2_uZK3L4",
@@ -694,7 +696,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27525,
     "createdAt": "2026-09-15T00:33:53.798Z",
     "updatedAt": "2026-09-25T09:57:49.332Z"
@@ -716,7 +718,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6japJ0uo_gs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6japJ0uo_gs",
@@ -730,7 +732,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6523,
     "createdAt": "2026-09-21T10:37:25.227Z",
     "updatedAt": "2026-09-25T09:57:49.308Z"
@@ -752,7 +754,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/iXoecNjxfKk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "iXoecNjxfKk",
@@ -766,7 +768,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18264,
     "createdAt": "2026-09-17T03:41:50.245Z",
     "updatedAt": "2026-09-25T09:57:49.696Z"
@@ -788,7 +790,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/0rw0jvsvbxU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "0rw0jvsvbxU",
@@ -802,7 +804,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36013,
     "createdAt": "2026-09-20T11:23:16.917Z",
     "updatedAt": "2026-09-25T09:57:49.732Z"
@@ -827,7 +829,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/8-HRY8l3knM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "8-HRY8l3knM",
@@ -841,7 +843,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9512,
     "createdAt": "2026-09-24T12:56:58.651Z",
     "updatedAt": "2026-09-25T09:57:49.735Z"
@@ -863,7 +865,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "warmth"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/mrJEZEEV8qw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "mrJEZEEV8qw",
@@ -877,7 +879,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33645,
     "createdAt": "2026-09-25T04:51:09.098Z",
     "updatedAt": "2026-09-25T09:57:49.730Z"
@@ -901,7 +903,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/m-tqQFBs8Ck/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "m-tqQFBs8Ck",
@@ -915,7 +917,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13606,
     "createdAt": "2026-09-17T11:06:22.662Z",
     "updatedAt": "2026-09-25T09:57:49.739Z"
@@ -939,7 +941,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/kDiLXISpdHA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "kDiLXISpdHA",
@@ -953,7 +955,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8315,
     "createdAt": "2026-09-16T08:10:42.881Z",
     "updatedAt": "2026-09-25T09:57:49.737Z"
@@ -977,7 +979,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/nm9Np6VeACw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "nm9Np6VeACw",
@@ -991,7 +993,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15959,
     "createdAt": "2026-09-19T21:04:44.541Z",
     "updatedAt": "2026-09-25T09:57:49.709Z"
@@ -1014,7 +1016,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/-JHD-wRQUKE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "-JHD-wRQUKE",
@@ -1028,7 +1030,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1797,
     "createdAt": "2026-09-18T02:59:50.617Z",
     "updatedAt": "2026-09-25T09:57:49.740Z"
@@ -1050,7 +1052,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HnTnzUTT2Ug/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HnTnzUTT2Ug",
@@ -1064,7 +1066,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14927,
     "createdAt": "2026-09-19T11:20:04.735Z",
     "updatedAt": "2026-09-25T09:57:49.700Z"
@@ -1088,7 +1090,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1NjVd2RLfqY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1NjVd2RLfqY",
@@ -1102,7 +1104,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16201,
     "createdAt": "2026-09-19T10:28:52.472Z",
     "updatedAt": "2026-09-25T09:57:49.699Z"
@@ -1124,7 +1126,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ZM-5INbY8Ng/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ZM-5INbY8Ng",
@@ -1138,7 +1140,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23705,
     "createdAt": "2026-09-21T05:10:54.469Z",
     "updatedAt": "2026-09-25T09:57:50.095Z"
@@ -1163,7 +1165,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/654aEC94V2s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "654aEC94V2s",
@@ -1177,7 +1179,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2469,
     "createdAt": "2026-09-15T09:00:55.813Z",
     "updatedAt": "2026-09-25T09:57:50.113Z"
@@ -1199,7 +1201,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YeWY_nz0-hg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YeWY_nz0-hg",
@@ -1213,7 +1215,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 4369,
     "createdAt": "2026-09-19T10:33:30.556Z",
     "updatedAt": "2026-09-25T09:57:50.091Z"
@@ -1236,7 +1238,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/y8kh48Spa30/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "y8kh48Spa30",
@@ -1250,7 +1252,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9858,
     "createdAt": "2026-09-14T05:50:13.322Z",
     "updatedAt": "2026-09-25T09:57:50.080Z"
@@ -1274,7 +1276,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/J4z7vbmoRzo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "J4z7vbmoRzo",
@@ -1288,7 +1290,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36913,
     "createdAt": "2026-09-15T10:57:10.218Z",
     "updatedAt": "2026-09-25T09:57:50.094Z"
@@ -1310,7 +1312,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/x_RQutiCt8w/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "x_RQutiCt8w",
@@ -1324,7 +1326,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32739,
     "createdAt": "2026-09-14T16:55:46.413Z",
     "updatedAt": "2026-09-25T09:57:50.093Z"
@@ -1348,7 +1350,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/uA_felUo8rg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "uA_felUo8rg",
@@ -1362,7 +1364,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5656,
     "createdAt": "2026-09-21T17:06:25.883Z",
     "updatedAt": "2026-09-25T09:57:50.054Z"
@@ -1384,7 +1386,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KrnyptFHTM0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KrnyptFHTM0",
@@ -1398,7 +1400,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2170,
     "createdAt": "2026-09-21T21:16:33.712Z",
     "updatedAt": "2026-09-25T09:57:50.088Z"
@@ -1422,7 +1424,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/FQfchbP7uOQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "FQfchbP7uOQ",
@@ -1436,7 +1438,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25387,
     "createdAt": "2026-09-17T12:33:15.736Z",
     "updatedAt": "2026-09-25T09:57:55.007Z"
@@ -1458,7 +1460,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/E8K0fGUYN7I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "E8K0fGUYN7I",
@@ -1472,7 +1474,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11973,
     "createdAt": "2026-09-23T22:24:42.577Z",
     "updatedAt": "2026-09-25T09:57:50.086Z"
@@ -1496,7 +1498,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/j65zjqpeSWY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "j65zjqpeSWY",
@@ -1510,7 +1512,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 41190,
     "createdAt": "2026-09-14T09:38:14.584Z",
     "updatedAt": "2026-09-25T09:57:55.505Z"
@@ -1534,7 +1536,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6UE1SDWZkI0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6UE1SDWZkI0",
@@ -1548,7 +1550,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15812,
     "createdAt": "2026-09-14T07:36:00.952Z",
     "updatedAt": "2026-09-25T09:57:55.512Z"
@@ -1570,7 +1572,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QKvKmNKPwro/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QKvKmNKPwro",
@@ -1584,7 +1586,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32271,
     "createdAt": "2026-09-17T14:31:08.766Z",
     "updatedAt": "2026-09-25T09:57:55.566Z"
@@ -1607,7 +1609,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/K7ENjZj-bME/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "K7ENjZj-bME",
@@ -1621,7 +1623,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30425,
     "createdAt": "2026-09-14T12:05:21.793Z",
     "updatedAt": "2026-09-25T09:57:55.535Z"
@@ -1646,7 +1648,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2KG4iianMWA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "2KG4iianMWA",
@@ -1660,7 +1662,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 31347,
     "createdAt": "2026-09-15T20:24:53.584Z",
     "updatedAt": "2026-09-25T09:57:55.546Z"
@@ -1682,7 +1684,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/TEvDKipmXXw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "TEvDKipmXXw",
@@ -1696,7 +1698,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30613,
     "createdAt": "2026-09-22T06:17:38.826Z",
     "updatedAt": "2026-09-25T09:57:55.540Z"
@@ -1721,7 +1723,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Ygb_OrEWi-g/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Ygb_OrEWi-g",
@@ -1735,7 +1737,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18093,
     "createdAt": "2026-09-14T09:01:11.561Z",
     "updatedAt": "2026-09-25T09:57:55.840Z"
@@ -1757,7 +1759,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/s4KjQlt31kM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "s4KjQlt31kM",
@@ -1771,7 +1773,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5855,
     "createdAt": "2026-09-15T10:51:49.214Z",
     "updatedAt": "2026-09-25T09:57:55.516Z"
@@ -1793,7 +1795,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GqiwUXLLWhQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GqiwUXLLWhQ",
@@ -1807,7 +1809,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35266,
     "createdAt": "2026-09-21T09:52:13.430Z",
     "updatedAt": "2026-09-25T09:57:55.470Z"
@@ -1830,7 +1832,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Ul_HZykWa08/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Ul_HZykWa08",
@@ -1844,7 +1846,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5264,
     "createdAt": "2026-09-15T17:31:06.210Z",
     "updatedAt": "2026-09-25T09:57:55.514Z"
@@ -1868,7 +1870,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4QX4a168bQM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4QX4a168bQM",
@@ -1882,7 +1884,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16094,
     "createdAt": "2026-09-15T00:01:53.847Z",
     "updatedAt": "2026-09-25T09:57:56.165Z"
@@ -1904,7 +1906,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CwyFejZFH7Y/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CwyFejZFH7Y",
@@ -1918,7 +1920,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19586,
     "createdAt": "2026-09-22T05:41:38.240Z",
     "updatedAt": "2026-09-25T09:57:56.169Z"
@@ -1942,7 +1944,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/wbo1aN24UEk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "wbo1aN24UEk",
@@ -1956,7 +1958,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17955,
     "createdAt": "2026-09-16T03:19:38.917Z",
     "updatedAt": "2026-09-25T09:57:56.167Z"
@@ -1979,7 +1981,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3KJBhPFOXh8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3KJBhPFOXh8",
@@ -1993,7 +1995,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1691,
     "createdAt": "2026-09-17T12:56:56.505Z",
     "updatedAt": "2026-09-25T09:57:56.169Z"
@@ -2017,7 +2019,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6do6EVvVLCM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6do6EVvVLCM",
@@ -2031,7 +2033,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27752,
     "createdAt": "2026-09-19T04:09:19.121Z",
     "updatedAt": "2026-09-25T09:57:56.180Z"
@@ -2053,7 +2055,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GPp1iUZsK4s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GPp1iUZsK4s",
@@ -2067,7 +2069,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30108,
     "createdAt": "2026-09-17T01:00:22.643Z",
     "updatedAt": "2026-09-25T09:57:56.159Z"
@@ -2091,7 +2093,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qUmW_KOjxsE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qUmW_KOjxsE",
@@ -2105,7 +2107,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6462,
     "createdAt": "2026-09-18T05:15:15.192Z",
     "updatedAt": "2026-09-25T09:57:56.180Z"
@@ -2127,7 +2129,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/8Gi7GYfsfMY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "8Gi7GYfsfMY",
@@ -2141,7 +2143,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19653,
     "createdAt": "2026-09-15T13:23:55.930Z",
     "updatedAt": "2026-09-25T09:57:56.164Z"
@@ -2163,7 +2165,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/8oYrLie28gQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "8oYrLie28gQ",
@@ -2177,7 +2179,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8680,
     "createdAt": "2026-09-20T13:16:28.764Z",
     "updatedAt": "2026-09-25T09:57:56.203Z"
@@ -2201,7 +2203,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/PVd4HEzWAOY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "PVd4HEzWAOY",
@@ -2215,7 +2217,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28687,
     "createdAt": "2026-09-23T19:46:00.936Z",
     "updatedAt": "2026-09-25T09:57:58.734Z"
@@ -2237,7 +2239,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/hdxj_6J1wgk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "hdxj_6J1wgk",
@@ -2251,7 +2253,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19861,
     "createdAt": "2026-09-20T05:15:23.727Z",
     "updatedAt": "2026-09-25T09:57:59.267Z"
@@ -2273,7 +2275,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/i3F0cUNfjks/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "i3F0cUNfjks",
@@ -2287,7 +2289,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34601,
     "createdAt": "2026-09-22T09:38:19.630Z",
     "updatedAt": "2026-09-25T09:57:59.241Z"
@@ -2309,7 +2311,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/d1qQ7BC7w74/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "d1qQ7BC7w74",
@@ -2323,7 +2325,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25856,
     "createdAt": "2026-09-19T04:10:52.046Z",
     "updatedAt": "2026-09-25T09:57:59.255Z"
@@ -2347,7 +2349,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2VbKwFMeo0g/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "2VbKwFMeo0g",
@@ -2361,7 +2363,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34060,
     "createdAt": "2026-09-14T18:36:49.054Z",
     "updatedAt": "2026-09-25T09:57:59.224Z"
@@ -2383,7 +2385,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/0kM__515YYU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "0kM__515YYU",
@@ -2397,7 +2399,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18582,
     "createdAt": "2026-09-15T08:29:19.385Z",
     "updatedAt": "2026-09-25T09:57:59.272Z"
@@ -2419,7 +2421,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Wih1utJp0To/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Wih1utJp0To",
@@ -2433,7 +2435,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24718,
     "createdAt": "2026-09-24T17:22:10.698Z",
     "updatedAt": "2026-09-25T09:57:59.263Z"
@@ -2458,7 +2460,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CHlWn5dKXKo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CHlWn5dKXKo",
@@ -2472,7 +2474,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17680,
     "createdAt": "2026-09-21T20:41:07.798Z",
     "updatedAt": "2026-09-25T09:57:59.280Z"
@@ -2494,7 +2496,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4rzux9zOzYU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4rzux9zOzYU",
@@ -2508,7 +2510,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8266,
     "createdAt": "2026-09-16T23:59:39.611Z",
     "updatedAt": "2026-09-25T09:57:59.248Z"
@@ -2532,7 +2534,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/eaGG4Z9rbds/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "eaGG4Z9rbds",
@@ -2546,7 +2548,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11391,
     "createdAt": "2026-09-15T20:19:16.404Z",
     "updatedAt": "2026-09-25T09:57:59.261Z"
@@ -2568,7 +2570,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/JpkdTz86YUg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "JpkdTz86YUg",
@@ -2582,7 +2584,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1482,
     "createdAt": "2026-09-18T11:41:00.681Z",
     "updatedAt": "2026-09-25T09:57:59.288Z"
@@ -2604,7 +2606,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/VfCXmBL1x9E/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "VfCXmBL1x9E",
@@ -2618,7 +2620,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19285,
     "createdAt": "2026-09-21T23:31:20.170Z",
     "updatedAt": "2026-09-25T09:57:59.671Z"
@@ -2640,7 +2642,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/m9CaYGSurX8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "m9CaYGSurX8",
@@ -2654,7 +2656,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15276,
     "createdAt": "2026-09-14T07:04:30.412Z",
     "updatedAt": "2026-09-25T09:57:59.681Z"
@@ -2676,7 +2678,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HFDlpHYvYUU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HFDlpHYvYUU",
@@ -2690,7 +2692,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19702,
     "createdAt": "2026-09-20T14:57:31.824Z",
     "updatedAt": "2026-09-25T09:57:59.685Z"
@@ -2713,7 +2715,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/kkq6hc4TDOg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "kkq6hc4TDOg",
@@ -2727,7 +2729,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30987,
     "createdAt": "2026-09-18T18:25:44.965Z",
     "updatedAt": "2026-09-25T09:57:59.670Z"
@@ -2751,7 +2753,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/h0g8dlaLGYE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "h0g8dlaLGYE",
@@ -2765,7 +2767,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37834,
     "createdAt": "2026-09-16T05:36:35.117Z",
     "updatedAt": "2026-09-25T09:57:59.675Z"
@@ -2787,7 +2789,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qouycEeFdd8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qouycEeFdd8",
@@ -2801,7 +2803,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 39899,
     "createdAt": "2026-09-13T22:39:08.250Z",
     "updatedAt": "2026-09-25T09:57:59.679Z"
@@ -2823,7 +2825,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CptThU6e9Qc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CptThU6e9Qc",
@@ -2837,7 +2839,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11273,
     "createdAt": "2026-09-20T06:40:41.472Z",
     "updatedAt": "2026-09-25T09:57:59.682Z"
@@ -2859,7 +2861,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/40PX9j58GLM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "40PX9j58GLM",
@@ -2873,7 +2875,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23193,
     "createdAt": "2026-09-24T04:53:55.454Z",
     "updatedAt": "2026-09-25T09:57:59.676Z"
@@ -2895,7 +2897,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "healing"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/czlT-7LPy60/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "czlT-7LPy60",
@@ -2909,7 +2911,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21834,
     "createdAt": "2026-09-24T16:15:46.589Z",
     "updatedAt": "2026-09-25T09:57:59.674Z"
@@ -2933,7 +2935,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/DO9akWSONGs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "DO9akWSONGs",
@@ -2947,7 +2949,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19413,
     "createdAt": "2026-09-25T09:04:46.963Z",
     "updatedAt": "2026-09-25T09:57:59.677Z"
@@ -2972,7 +2974,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/_ccYByffrVU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "_ccYByffrVU",
@@ -2986,7 +2988,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36867,
     "createdAt": "2026-09-24T04:39:35.733Z",
     "updatedAt": "2026-09-25T09:58:00.085Z"
@@ -3008,7 +3010,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/B2obJT-SJqk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "B2obJT-SJqk",
@@ -3022,7 +3024,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11099,
     "createdAt": "2026-09-23T16:29:58.642Z",
     "updatedAt": "2026-09-25T09:58:00.003Z"
@@ -3044,7 +3046,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Yi5HHywAAqw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Yi5HHywAAqw",
@@ -3058,7 +3060,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32365,
     "createdAt": "2026-09-15T00:31:56.175Z",
     "updatedAt": "2026-09-25T09:58:00.058Z"
@@ -3082,7 +3084,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YsLzJSpNW4U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YsLzJSpNW4U",
@@ -3096,7 +3098,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29188,
     "createdAt": "2026-09-17T16:49:29.083Z",
     "updatedAt": "2026-09-25T09:58:00.091Z"
@@ -3119,7 +3121,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/-MGIMy3spz0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "-MGIMy3spz0",
@@ -3133,7 +3135,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5900,
     "createdAt": "2026-09-16T05:33:29.888Z",
     "updatedAt": "2026-09-25T09:58:00.000Z"
@@ -3155,7 +3157,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/u8jEPEs5rQU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "u8jEPEs5rQU",
@@ -3169,7 +3171,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29158,
     "createdAt": "2026-09-14T06:22:29.836Z",
     "updatedAt": "2026-09-25T09:58:00.101Z"
@@ -3191,7 +3193,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/jLMlbM7r7cg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "jLMlbM7r7cg",
@@ -3205,7 +3207,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25138,
     "createdAt": "2026-09-20T20:36:46.560Z",
     "updatedAt": "2026-09-25T09:58:00.088Z"
@@ -3230,7 +3232,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/oPJVlLZDbtE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "oPJVlLZDbtE",
@@ -3244,7 +3246,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21398,
     "createdAt": "2026-09-19T03:21:10.173Z",
     "updatedAt": "2026-09-25T09:58:00.088Z"
@@ -3266,7 +3268,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NyZfxv9MH-A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NyZfxv9MH-A",
@@ -3280,7 +3282,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37659,
     "createdAt": "2026-09-16T20:46:32.935Z",
     "updatedAt": "2026-09-25T09:58:00.092Z"
@@ -3305,7 +3307,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/jqpIwJRdf3c/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "jqpIwJRdf3c",
@@ -3319,7 +3321,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9606,
     "createdAt": "2026-09-21T11:04:55.805Z",
     "updatedAt": "2026-09-25T09:58:00.073Z"
@@ -3343,7 +3345,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/M7tboRrsIY8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "M7tboRrsIY8",
@@ -3357,7 +3359,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13011,
     "createdAt": "2026-09-14T02:52:39.680Z",
     "updatedAt": "2026-09-25T09:58:00.502Z"
@@ -3380,7 +3382,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/97fBjSQNXwE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "97fBjSQNXwE",
@@ -3394,7 +3396,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 22656,
     "createdAt": "2026-09-24T03:44:15.937Z",
     "updatedAt": "2026-09-25T09:58:00.501Z"
@@ -3416,7 +3418,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/T0_7FOA_5S0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "T0_7FOA_5S0",
@@ -3430,7 +3432,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 38990,
     "createdAt": "2026-09-14T10:12:10.355Z",
     "updatedAt": "2026-09-25T09:58:00.488Z"
@@ -3453,7 +3455,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Dm0oWsWDrnc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Dm0oWsWDrnc",
@@ -3467,7 +3469,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 7715,
     "createdAt": "2026-09-15T18:39:23.110Z",
     "updatedAt": "2026-09-25T09:58:00.485Z"
@@ -3491,7 +3493,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/C4Qv28_kcrY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "C4Qv28_kcrY",
@@ -3505,7 +3507,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11213,
     "createdAt": "2026-09-23T12:03:39.388Z",
     "updatedAt": "2026-09-25T09:58:00.489Z"
@@ -3529,7 +3531,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HOwBvq7I1cE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HOwBvq7I1cE",
@@ -3543,7 +3545,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 26753,
     "createdAt": "2026-09-19T08:40:17.886Z",
     "updatedAt": "2026-09-25T09:58:00.501Z"
@@ -3568,7 +3570,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GtS4tqncWCY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GtS4tqncWCY",
@@ -3582,7 +3584,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33013,
     "createdAt": "2026-09-20T09:01:09.016Z",
     "updatedAt": "2026-09-25T09:58:00.501Z"
@@ -3604,7 +3606,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Vg8jS-wpOTQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Vg8jS-wpOTQ",
@@ -3618,7 +3620,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6577,
     "createdAt": "2026-09-21T09:55:09.696Z",
     "updatedAt": "2026-09-25T09:58:00.478Z"
@@ -3642,7 +3644,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/WXy59HeZ6Uk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "WXy59HeZ6Uk",
@@ -3656,7 +3658,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 7367,
     "createdAt": "2026-09-21T08:34:11.351Z",
     "updatedAt": "2026-09-25T09:58:00.505Z"
@@ -3678,7 +3680,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/IvHzNPAv94k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "IvHzNPAv94k",
@@ -3692,7 +3694,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2579,
     "createdAt": "2026-09-15T05:35:05.592Z",
     "updatedAt": "2026-09-25T09:58:00.491Z"
@@ -3715,7 +3717,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/eJhuGgcGUsk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "eJhuGgcGUsk",
@@ -3729,7 +3731,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1848,
     "createdAt": "2026-09-14T04:03:09.945Z",
     "updatedAt": "2026-09-25T09:58:01.317Z"
@@ -3753,7 +3755,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "639hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/23M2zLfka2E/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "23M2zLfka2E",
@@ -3767,7 +3769,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2117,
     "createdAt": "2026-09-15T08:00:39.430Z",
     "updatedAt": "2026-09-25T09:58:00.863Z"
@@ -3790,7 +3792,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4tk_qvauc9Q/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4tk_qvauc9Q",
@@ -3804,7 +3806,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27716,
     "createdAt": "2026-09-22T06:06:47.175Z",
     "updatedAt": "2026-09-25T09:58:00.813Z"
@@ -3827,7 +3829,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "432hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/snfcad9WYek/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "snfcad9WYek",
@@ -3841,7 +3843,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40883,
     "createdAt": "2026-09-15T02:04:11.745Z",
     "updatedAt": "2026-09-25T09:58:00.845Z"
@@ -3865,7 +3867,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/TwxVCM4yNZk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "TwxVCM4yNZk",
@@ -3879,7 +3881,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 41120,
     "createdAt": "2026-09-14T01:00:07.821Z",
     "updatedAt": "2026-09-25T09:58:00.856Z"
@@ -3901,7 +3903,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/jDvJoMH1YmU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "jDvJoMH1YmU",
@@ -3915,7 +3917,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25964,
     "createdAt": "2026-09-13T23:26:18.264Z",
     "updatedAt": "2026-09-25T09:58:00.836Z"
@@ -3937,7 +3939,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "courage"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xUUdp9afWRQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xUUdp9afWRQ",
@@ -3951,7 +3953,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33389,
     "createdAt": "2026-09-17T21:17:14.249Z",
     "updatedAt": "2026-09-25T09:58:00.868Z"
@@ -3974,7 +3976,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "963hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/t3UIc5JhAOI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "t3UIc5JhAOI",
@@ -3988,7 +3990,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24463,
     "createdAt": "2026-09-14T03:32:15.760Z",
     "updatedAt": "2026-09-25T09:58:00.918Z"
@@ -4011,7 +4013,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/K_BXGTeW0SM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "K_BXGTeW0SM",
@@ -4025,7 +4027,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40977,
     "createdAt": "2026-09-15T13:37:57.320Z",
     "updatedAt": "2026-09-25T09:58:00.874Z"
@@ -4047,7 +4049,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/maaIUqP67qg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "maaIUqP67qg",
@@ -4061,7 +4063,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 7154,
     "createdAt": "2026-09-16T20:36:52.183Z",
     "updatedAt": "2026-09-25T09:58:00.828Z"
@@ -4083,7 +4085,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/penmaIAhGy4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "penmaIAhGy4",
@@ -4097,7 +4099,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35237,
     "createdAt": "2026-09-17T11:21:44.189Z",
     "updatedAt": "2026-09-25T09:58:01.628Z"
@@ -4119,7 +4121,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/-ACKewRzQxk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "-ACKewRzQxk",
@@ -4133,7 +4135,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2624,
     "createdAt": "2026-09-18T13:09:50.058Z",
     "updatedAt": "2026-09-25T09:58:01.636Z"
@@ -4156,7 +4158,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/-B_r_2bfOQ8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "-B_r_2bfOQ8",
@@ -4170,7 +4172,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23378,
     "createdAt": "2026-09-14T15:31:10.437Z",
     "updatedAt": "2026-09-25T09:58:01.632Z"
@@ -4192,7 +4194,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QcimcDDywSo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QcimcDDywSo",
@@ -4206,7 +4208,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 4643,
     "createdAt": "2026-09-25T02:43:41.848Z",
     "updatedAt": "2026-09-25T09:58:01.677Z"
@@ -4229,7 +4231,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qZOflPzxTiU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qZOflPzxTiU",
@@ -4243,7 +4245,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29287,
     "createdAt": "2026-09-20T18:24:12.133Z",
     "updatedAt": "2026-09-25T09:58:01.679Z"
@@ -4266,7 +4268,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3_cS4bR7B0o/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3_cS4bR7B0o",
@@ -4280,7 +4282,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37047,
     "createdAt": "2026-09-15T00:35:34.841Z",
     "updatedAt": "2026-09-25T09:58:01.634Z"
@@ -4302,7 +4304,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/16FsMUoKS24/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "16FsMUoKS24",
@@ -4316,7 +4318,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25449,
     "createdAt": "2026-09-17T17:49:37.249Z",
     "updatedAt": "2026-09-25T09:58:01.648Z"
@@ -4338,7 +4340,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/yhKjYTkyFS0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "yhKjYTkyFS0",
@@ -4352,7 +4354,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 26214,
     "createdAt": "2026-09-25T02:16:11.687Z",
     "updatedAt": "2026-09-25T09:58:01.654Z"
@@ -4374,7 +4376,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QfGGS1sC9Ok/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QfGGS1sC9Ok",
@@ -4388,7 +4390,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 7553,
     "createdAt": "2026-09-24T08:07:38.265Z",
     "updatedAt": "2026-09-25T09:58:01.643Z"
@@ -4410,7 +4412,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qdnzudp8BDM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qdnzudp8BDM",
@@ -4424,7 +4426,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28451,
     "createdAt": "2026-09-18T02:26:00.615Z",
     "updatedAt": "2026-09-25T09:58:01.671Z"
@@ -4446,7 +4448,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "courage"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/gufaMwlTEv8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "gufaMwlTEv8",
@@ -4460,7 +4462,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35300,
     "createdAt": "2026-09-16T02:40:41.649Z",
     "updatedAt": "2026-09-25T09:58:02.129Z"
@@ -4482,7 +4484,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/vqhek6sERvs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "vqhek6sERvs",
@@ -4496,7 +4498,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3871,
     "createdAt": "2026-09-22T10:25:35.550Z",
     "updatedAt": "2026-09-25T09:58:02.033Z"
@@ -4519,7 +4521,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NsLkEMMl56k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NsLkEMMl56k",
@@ -4533,7 +4535,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28293,
     "createdAt": "2026-09-25T02:34:50.388Z",
     "updatedAt": "2026-09-25T09:58:02.036Z"
@@ -4556,7 +4558,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/9zc1gwYkh9Y/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "9zc1gwYkh9Y",
@@ -4570,7 +4572,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1229,
     "createdAt": "2026-09-19T09:46:59.914Z",
     "updatedAt": "2026-09-25T09:58:02.051Z"
@@ -4592,7 +4594,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/_sHdYfx2CbM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "_sHdYfx2CbM",
@@ -4606,7 +4608,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23542,
     "createdAt": "2026-09-23T02:36:49.256Z",
     "updatedAt": "2026-09-25T09:58:02.536Z"
@@ -4629,7 +4631,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ssl3wBmiv-4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ssl3wBmiv-4",
@@ -4643,7 +4645,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11403,
     "createdAt": "2026-09-19T02:28:46.701Z",
     "updatedAt": "2026-09-25T09:58:02.057Z"
@@ -4666,7 +4668,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/PtyYH9Z1rgk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "PtyYH9Z1rgk",
@@ -4680,7 +4682,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28633,
     "createdAt": "2026-09-20T13:36:55.985Z",
     "updatedAt": "2026-09-25T09:58:02.060Z"
@@ -4702,7 +4704,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HB31d6p41ws/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HB31d6p41ws",
@@ -4716,7 +4718,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27438,
     "createdAt": "2026-09-23T07:10:41.270Z",
     "updatedAt": "2026-09-25T09:58:02.018Z"
@@ -4739,7 +4741,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/tPDi8WJ4LaI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "tPDi8WJ4LaI",
@@ -4753,7 +4755,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10319,
     "createdAt": "2026-09-22T03:06:47.240Z",
     "updatedAt": "2026-09-25T09:58:02.044Z"
@@ -4775,7 +4777,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/-FoHtl8GnLA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "-FoHtl8GnLA",
@@ -4789,7 +4791,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16279,
     "createdAt": "2026-09-15T19:47:42.439Z",
     "updatedAt": "2026-09-25T09:58:02.017Z"
@@ -4811,7 +4813,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/hFeK9KCnl4s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "hFeK9KCnl4s",
@@ -4825,7 +4827,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30173,
     "createdAt": "2026-09-18T15:08:24.237Z",
     "updatedAt": "2026-09-25T09:58:03.060Z"
@@ -4848,7 +4850,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/cmoNUAB3a3s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "cmoNUAB3a3s",
@@ -4862,7 +4864,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9686,
     "createdAt": "2026-09-19T16:12:47.328Z",
     "updatedAt": "2026-09-25T09:58:02.850Z"
@@ -4885,7 +4887,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1ShpeLJYQ8A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1ShpeLJYQ8A",
@@ -4899,7 +4901,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23835,
     "createdAt": "2026-09-20T05:52:30.614Z",
     "updatedAt": "2026-09-25T09:58:03.056Z"
@@ -4921,7 +4923,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/5NzctV9voPk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "5NzctV9voPk",
@@ -4935,7 +4937,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35947,
     "createdAt": "2026-09-18T01:58:58.606Z",
     "updatedAt": "2026-09-25T09:58:02.849Z"
@@ -4958,7 +4960,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Kh1v7LLk0Qw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Kh1v7LLk0Qw",
@@ -4972,7 +4974,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8347,
     "createdAt": "2026-09-16T21:33:23.960Z",
     "updatedAt": "2026-09-25T09:58:02.896Z"
@@ -4994,7 +4996,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/uDl_oBmBIkY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "uDl_oBmBIkY",
@@ -5008,7 +5010,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12015,
     "createdAt": "2026-09-17T05:34:15.506Z",
     "updatedAt": "2026-09-25T09:58:03.023Z"
@@ -5030,7 +5032,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/R4qTr5ozAbc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "R4qTr5ozAbc",
@@ -5044,7 +5046,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18878,
     "createdAt": "2026-09-17T04:56:44.607Z",
     "updatedAt": "2026-09-25T09:58:03.008Z"
@@ -5066,24 +5068,25 @@ export const SEED_SUBLIMINALS: any[] = [
       "courage"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ebW7lzKm83U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "/api/subliminals/media/ebW7lzKm83U.mp3",
     "source": {
       "platform": "youtube",
       "videoId": "ebW7lzKm83U",
       "url": "https://www.youtube.com/watch?v=ebW7lzKm83U",
       "creator": "divine feminine."
     },
-    "duration": 900,
+    "duration": 142,
     "binauralFreq": 7.83,
     "carrierFreq": 432,
     "spokenAffirmations": [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "COMPLETED",
     "playCount": 41030,
     "createdAt": "2026-09-21T09:50:53.159Z",
-    "updatedAt": "2026-09-25T09:58:03.017Z"
+    "updatedAt": "2026-09-25T09:58:03.017Z",
+    "audioFileHash": "3d750849d78014d97a1218b6cee64f7e34210a1ade61bf8ed2c05a4bb9d751e8"
   },
   {
     "id": "yt-U-f5fd_mCoA",
@@ -5103,7 +5106,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/U-f5fd_mCoA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "U-f5fd_mCoA",
@@ -5117,7 +5120,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16651,
     "createdAt": "2026-09-21T03:47:14.695Z",
     "updatedAt": "2026-09-25T09:58:03.018Z"
@@ -5140,7 +5143,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6bUcBg0gu5A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6bUcBg0gu5A",
@@ -5154,7 +5157,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27037,
     "createdAt": "2026-09-20T08:13:05.102Z",
     "updatedAt": "2026-09-25T09:58:03.014Z"
@@ -5177,7 +5180,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xIXXraLFm1g/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xIXXraLFm1g",
@@ -5191,7 +5194,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12101,
     "createdAt": "2026-09-19T03:25:50.582Z",
     "updatedAt": "2026-09-25T09:58:03.383Z"
@@ -5214,7 +5217,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "financial freedom"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/VSD6s5AEsZs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "VSD6s5AEsZs",
@@ -5228,7 +5231,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21351,
     "createdAt": "2026-09-24T06:38:49.748Z",
     "updatedAt": "2026-09-25T09:58:03.379Z"
@@ -5250,7 +5253,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/JWCdKba434A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "JWCdKba434A",
@@ -5264,7 +5267,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35879,
     "createdAt": "2026-09-20T19:35:48.069Z",
     "updatedAt": "2026-09-25T09:58:03.383Z"
@@ -5286,7 +5289,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4-d5L71yE_w/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4-d5L71yE_w",
@@ -5300,7 +5303,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12000,
     "createdAt": "2026-09-16T11:05:25.644Z",
     "updatedAt": "2026-09-25T09:58:03.414Z"
@@ -5322,7 +5325,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/M6rb2aCxyXM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "M6rb2aCxyXM",
@@ -5336,7 +5339,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29760,
     "createdAt": "2026-09-24T19:36:03.424Z",
     "updatedAt": "2026-09-25T09:58:03.449Z"
@@ -5359,7 +5362,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/dq7FOKrGXaw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "dq7FOKrGXaw",
@@ -5373,7 +5376,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33913,
     "createdAt": "2026-09-16T19:34:19.485Z",
     "updatedAt": "2026-09-25T09:58:03.436Z"
@@ -5395,7 +5398,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/_LlkH043zZk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "_LlkH043zZk",
@@ -5409,7 +5412,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33015,
     "createdAt": "2026-09-17T14:07:39.484Z",
     "updatedAt": "2026-09-25T09:58:03.480Z"
@@ -5431,7 +5434,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/wy3BTam2634/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "wy3BTam2634",
@@ -5445,7 +5448,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19527,
     "createdAt": "2026-09-14T16:12:37.455Z",
     "updatedAt": "2026-09-25T09:58:03.469Z"
@@ -5467,7 +5470,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/m8Nhxk_o_yg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "m8Nhxk_o_yg",
@@ -5481,7 +5484,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15384,
     "createdAt": "2026-09-23T14:22:51.768Z",
     "updatedAt": "2026-09-25T09:58:03.483Z"
@@ -5504,7 +5507,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/RGZSB7Eii4k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "RGZSB7Eii4k",
@@ -5518,7 +5521,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2294,
     "createdAt": "2026-09-21T00:43:39.006Z",
     "updatedAt": "2026-09-25T09:58:03.478Z"
@@ -5540,7 +5543,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1NHtwNXQHWg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1NHtwNXQHWg",
@@ -5554,7 +5557,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27443,
     "createdAt": "2026-09-18T15:54:09.553Z",
     "updatedAt": "2026-09-25T09:58:03.789Z"
@@ -5576,7 +5579,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3XMOfQ6jyCw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3XMOfQ6jyCw",
@@ -5590,7 +5593,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 26594,
     "createdAt": "2026-09-25T04:28:52.934Z",
     "updatedAt": "2026-09-25T09:58:03.791Z"
@@ -5612,7 +5615,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KlIdIiUL-lY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KlIdIiUL-lY",
@@ -5626,7 +5629,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12035,
     "createdAt": "2026-09-20T01:15:29.079Z",
     "updatedAt": "2026-09-25T09:58:03.828Z"
@@ -5648,7 +5651,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "embodiment"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1V8L9t9tuJ8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1V8L9t9tuJ8",
@@ -5662,7 +5665,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9436,
     "createdAt": "2026-09-14T00:15:21.894Z",
     "updatedAt": "2026-09-25T09:58:03.804Z"
@@ -5684,7 +5687,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/WrTzVjDtn50/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "WrTzVjDtn50",
@@ -5698,7 +5701,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28781,
     "createdAt": "2026-09-20T04:13:58.924Z",
     "updatedAt": "2026-09-25T09:58:03.833Z"
@@ -5720,7 +5723,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6Rjdqj6kEEw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6Rjdqj6kEEw",
@@ -5734,7 +5737,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2134,
     "createdAt": "2026-09-16T07:08:16.979Z",
     "updatedAt": "2026-09-25T09:58:03.814Z"
@@ -5756,7 +5759,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/bsfMxGy-Xso/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "bsfMxGy-Xso",
@@ -5770,7 +5773,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35731,
     "createdAt": "2026-09-24T23:46:31.148Z",
     "updatedAt": "2026-09-25T09:58:03.838Z"
@@ -5792,7 +5795,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QudUr-CDCTU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QudUr-CDCTU",
@@ -5806,7 +5809,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21621,
     "createdAt": "2026-09-22T12:39:07.620Z",
     "updatedAt": "2026-09-25T09:58:03.806Z"
@@ -5829,7 +5832,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6mVgVUzuLaQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6mVgVUzuLaQ",
@@ -5843,7 +5846,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19884,
     "createdAt": "2026-09-21T23:13:51.406Z",
     "updatedAt": "2026-09-25T09:58:03.836Z"
@@ -5865,7 +5868,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "clean power"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/o_oa5oLIGPo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "o_oa5oLIGPo",
@@ -5879,7 +5882,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15424,
     "createdAt": "2026-09-20T16:50:18.406Z",
     "updatedAt": "2026-09-25T09:58:03.828Z"
@@ -5901,7 +5904,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/org4VxC8v_E/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "org4VxC8v_E",
@@ -5915,7 +5918,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19150,
     "createdAt": "2026-09-24T22:03:25.949Z",
     "updatedAt": "2026-09-25T09:58:04.150Z"
@@ -5939,7 +5942,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "432hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GoF6g8GSI9k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GoF6g8GSI9k",
@@ -5953,7 +5956,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24537,
     "createdAt": "2026-09-16T15:31:40.344Z",
     "updatedAt": "2026-09-25T09:58:04.153Z"
@@ -5975,7 +5978,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YLiQNmhFlJs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YLiQNmhFlJs",
@@ -5989,7 +5992,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11566,
     "createdAt": "2026-09-18T10:17:50.701Z",
     "updatedAt": "2026-09-25T09:58:04.443Z"
@@ -6012,7 +6015,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3sKcwAKGiMk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3sKcwAKGiMk",
@@ -6026,7 +6029,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25650,
     "createdAt": "2026-09-20T03:15:13.449Z",
     "updatedAt": "2026-09-25T09:58:04.171Z"
@@ -6048,7 +6051,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/5R2rP5907Uc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "5R2rP5907Uc",
@@ -6062,7 +6065,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28793,
     "createdAt": "2026-09-16T06:24:01.766Z",
     "updatedAt": "2026-09-25T09:58:04.187Z"
@@ -6085,7 +6088,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/IjXk43DrZVU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "IjXk43DrZVU",
@@ -6099,7 +6102,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19408,
     "createdAt": "2026-09-17T03:30:46.167Z",
     "updatedAt": "2026-09-25T09:58:04.169Z"
@@ -6121,7 +6124,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/_RTX-LOYVDo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "_RTX-LOYVDo",
@@ -6135,7 +6138,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3089,
     "createdAt": "2026-09-17T19:52:00.936Z",
     "updatedAt": "2026-09-25T09:58:06.936Z"
@@ -6158,7 +6161,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/5VOl7jTCUQg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "5VOl7jTCUQg",
@@ -6172,7 +6175,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 22968,
     "createdAt": "2026-09-18T10:06:58.143Z",
     "updatedAt": "2026-09-25T09:58:04.168Z"
@@ -6195,7 +6198,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/pgtjANGqraw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "pgtjANGqraw",
@@ -6209,7 +6212,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 38321,
     "createdAt": "2026-09-16T01:38:57.279Z",
     "updatedAt": "2026-09-25T09:58:04.152Z"
@@ -6231,7 +6234,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/OIRVNPWIY_I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "OIRVNPWIY_I",
@@ -6245,7 +6248,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17708,
     "createdAt": "2026-09-15T02:24:57.462Z",
     "updatedAt": "2026-09-25T09:58:04.173Z"
@@ -6267,7 +6270,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3hW5k6rKa8I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3hW5k6rKa8I",
@@ -6281,7 +6284,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 38911,
     "createdAt": "2026-09-19T01:59:56.964Z",
     "updatedAt": "2026-09-25T09:58:07.238Z"
@@ -6304,7 +6307,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/BCDcBlE83hk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "BCDcBlE83hk",
@@ -6318,7 +6321,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30924,
     "createdAt": "2026-09-14T19:09:57.486Z",
     "updatedAt": "2026-09-25T09:58:07.280Z"
@@ -6341,7 +6344,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/75tLNfnGx1s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "75tLNfnGx1s",
@@ -6355,7 +6358,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19132,
     "createdAt": "2026-09-24T21:38:54.369Z",
     "updatedAt": "2026-09-25T09:58:07.253Z"
@@ -6378,7 +6381,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/RsykH85iVN4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "RsykH85iVN4",
@@ -6392,7 +6395,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12953,
     "createdAt": "2026-09-16T03:04:21.021Z",
     "updatedAt": "2026-09-25T09:58:07.290Z"
@@ -6414,7 +6417,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/B52LmdxA7Cg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "B52LmdxA7Cg",
@@ -6428,7 +6431,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 39129,
     "createdAt": "2026-09-22T09:18:26.419Z",
     "updatedAt": "2026-09-25T09:58:07.286Z"
@@ -6450,7 +6453,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/yG_LxhDBaqo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "yG_LxhDBaqo",
@@ -6464,7 +6467,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34705,
     "createdAt": "2026-09-15T09:38:41.780Z",
     "updatedAt": "2026-09-25T09:58:07.286Z"
@@ -6486,7 +6489,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/vEBWHDFfVmI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "vEBWHDFfVmI",
@@ -6500,7 +6503,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15188,
     "createdAt": "2026-09-15T18:14:12.373Z",
     "updatedAt": "2026-09-25T09:58:07.278Z"
@@ -6522,7 +6525,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Gi4wsFaBds4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Gi4wsFaBds4",
@@ -6536,7 +6539,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30813,
     "createdAt": "2026-09-14T19:13:59.962Z",
     "updatedAt": "2026-09-25T09:58:07.288Z"
@@ -6559,7 +6562,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4ZkxlMvl1YQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4ZkxlMvl1YQ",
@@ -6573,7 +6576,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 20044,
     "createdAt": "2026-09-24T10:21:23.570Z",
     "updatedAt": "2026-09-25T09:58:07.259Z"
@@ -6595,7 +6598,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/02IEP_SU-J4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "02IEP_SU-J4",
@@ -6609,7 +6612,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33852,
     "createdAt": "2026-09-16T03:02:20.746Z",
     "updatedAt": "2026-09-25T09:58:07.257Z"
@@ -6632,7 +6635,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/B9bgtO-P1YI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "B9bgtO-P1YI",
@@ -6646,7 +6649,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34582,
     "createdAt": "2026-09-16T17:20:30.080Z",
     "updatedAt": "2026-09-25T09:58:07.684Z"
@@ -6668,7 +6671,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "embodiment"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/pYbNK8XuOjA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "pYbNK8XuOjA",
@@ -6682,7 +6685,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36265,
     "createdAt": "2026-09-18T05:41:28.632Z",
     "updatedAt": "2026-09-25T09:58:07.685Z"
@@ -6704,7 +6707,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/akmBhtjxg_A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "akmBhtjxg_A",
@@ -6718,7 +6721,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21548,
     "createdAt": "2026-09-16T22:44:46.894Z",
     "updatedAt": "2026-09-25T09:58:07.690Z"
@@ -6740,7 +6743,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/AZvLHgQyxy4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "AZvLHgQyxy4",
@@ -6754,7 +6757,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24086,
     "createdAt": "2026-09-20T05:06:37.911Z",
     "updatedAt": "2026-09-25T09:58:07.690Z"
@@ -6777,7 +6780,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/UzAMXPUfB0s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "UzAMXPUfB0s",
@@ -6791,7 +6794,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10291,
     "createdAt": "2026-09-16T15:44:35.714Z",
     "updatedAt": "2026-09-25T09:58:07.678Z"
@@ -6814,7 +6817,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1l92lWpsnpI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1l92lWpsnpI",
@@ -6828,7 +6831,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5467,
     "createdAt": "2026-09-24T01:26:04.143Z",
     "updatedAt": "2026-09-25T09:58:07.676Z"
@@ -6851,7 +6854,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/bQs7Hk4s-SM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "bQs7Hk4s-SM",
@@ -6865,7 +6868,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8286,
     "createdAt": "2026-09-20T08:43:59.410Z",
     "updatedAt": "2026-09-25T09:58:07.689Z"
@@ -6887,7 +6890,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/tOLW0oZvJ20/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "tOLW0oZvJ20",
@@ -6901,7 +6904,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21108,
     "createdAt": "2026-09-16T05:55:51.474Z",
     "updatedAt": "2026-09-25T09:58:07.686Z"
@@ -6923,7 +6926,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/h_DJfUweNtg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "h_DJfUweNtg",
@@ -6937,7 +6940,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29505,
     "createdAt": "2026-09-20T10:00:08.166Z",
     "updatedAt": "2026-09-25T09:58:07.654Z"
@@ -6959,7 +6962,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KEZ3Li47P60/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KEZ3Li47P60",
@@ -6973,7 +6976,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24547,
     "createdAt": "2026-09-20T17:12:57.004Z",
     "updatedAt": "2026-09-25T09:58:07.644Z"
@@ -6995,7 +6998,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/lg__HqNhXWg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "lg__HqNhXWg",
@@ -7009,7 +7012,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 38666,
     "createdAt": "2026-09-17T18:28:36.695Z",
     "updatedAt": "2026-09-25T09:58:08.142Z"
@@ -7031,7 +7034,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/W_DfFcqgnOw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "W_DfFcqgnOw",
@@ -7045,7 +7048,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27733,
     "createdAt": "2026-09-15T11:27:01.227Z",
     "updatedAt": "2026-09-25T09:58:08.162Z"
@@ -7067,7 +7070,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/_x01y8X5_Qc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "_x01y8X5_Qc",
@@ -7081,7 +7084,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3066,
     "createdAt": "2026-09-21T00:36:00.635Z",
     "updatedAt": "2026-09-25T09:58:08.142Z"
@@ -7103,7 +7106,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/D32e_2y2rcg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "D32e_2y2rcg",
@@ -7117,7 +7120,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14442,
     "createdAt": "2026-09-20T15:54:41.285Z",
     "updatedAt": "2026-09-25T09:58:08.089Z"
@@ -7140,7 +7143,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/26x-doLIR9I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "26x-doLIR9I",
@@ -7154,7 +7157,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2303,
     "createdAt": "2026-09-21T04:17:53.389Z",
     "updatedAt": "2026-09-25T09:58:08.152Z"
@@ -7177,7 +7180,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/lmYvi0PMG9o/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "lmYvi0PMG9o",
@@ -7191,7 +7194,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14802,
     "createdAt": "2026-09-23T21:53:21.988Z",
     "updatedAt": "2026-09-25T09:58:08.160Z"
@@ -7213,7 +7216,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/nYFcSM55X8U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "nYFcSM55X8U",
@@ -7227,7 +7230,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36231,
     "createdAt": "2026-09-17T18:39:06.944Z",
     "updatedAt": "2026-09-25T09:58:08.132Z"
@@ -7249,7 +7252,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/XsvS3P4waGM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "XsvS3P4waGM",
@@ -7263,7 +7266,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23098,
     "createdAt": "2026-09-17T20:57:29.529Z",
     "updatedAt": "2026-09-25T09:58:08.124Z"
@@ -7285,7 +7288,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/BKKhLqVSAP4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "BKKhLqVSAP4",
@@ -7299,7 +7302,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 31516,
     "createdAt": "2026-09-17T01:41:12.409Z",
     "updatedAt": "2026-09-25T09:58:08.109Z"
@@ -7321,7 +7324,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NZf9UJUYl8k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NZf9UJUYl8k",
@@ -7335,7 +7338,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30099,
     "createdAt": "2026-09-25T04:20:54.292Z",
     "updatedAt": "2026-09-25T09:58:08.145Z"
@@ -7357,7 +7360,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/I3oXusSDeng/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "I3oXusSDeng",
@@ -7371,7 +7374,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37887,
     "createdAt": "2026-09-18T21:02:36.418Z",
     "updatedAt": "2026-09-25T09:58:08.481Z"
@@ -7394,7 +7397,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/QbyXknp4q40/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "QbyXknp4q40",
@@ -7408,7 +7411,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18971,
     "createdAt": "2026-09-20T14:31:37.265Z",
     "updatedAt": "2026-09-25T09:58:08.567Z"
@@ -7430,7 +7433,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2NI8dCntRs0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "2NI8dCntRs0",
@@ -7444,7 +7447,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23213,
     "createdAt": "2026-09-20T14:16:01.763Z",
     "updatedAt": "2026-09-25T09:58:08.545Z"
@@ -7467,7 +7470,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/vda2wKClWfo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "vda2wKClWfo",
@@ -7481,7 +7484,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30459,
     "createdAt": "2026-09-25T05:58:02.079Z",
     "updatedAt": "2026-09-25T09:58:08.540Z"
@@ -7503,7 +7506,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/reT3wyUi0OU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "reT3wyUi0OU",
@@ -7517,7 +7520,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25534,
     "createdAt": "2026-09-16T02:32:04.791Z",
     "updatedAt": "2026-09-25T09:58:08.546Z"
@@ -7539,7 +7542,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ifXmnlroV1Y/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ifXmnlroV1Y",
@@ -7553,7 +7556,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 26295,
     "createdAt": "2026-09-22T10:58:09.365Z",
     "updatedAt": "2026-09-25T09:58:08.571Z"
@@ -7576,7 +7579,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/MWJ5MxgEBjI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "MWJ5MxgEBjI",
@@ -7590,7 +7593,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1926,
     "createdAt": "2026-09-18T11:49:37.253Z",
     "updatedAt": "2026-09-25T09:58:08.558Z"
@@ -7613,7 +7616,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/OEV3cPzI7II/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "OEV3cPzI7II",
@@ -7627,7 +7630,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24136,
     "createdAt": "2026-09-18T07:36:58.668Z",
     "updatedAt": "2026-09-25T09:58:08.566Z"
@@ -7651,7 +7654,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/v3_MhCLg-CI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "v3_MhCLg-CI",
@@ -7665,7 +7668,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21550,
     "createdAt": "2026-09-15T17:48:42.878Z",
     "updatedAt": "2026-09-25T09:58:08.549Z"
@@ -7687,7 +7690,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YPOq3RA0Yds/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YPOq3RA0Yds",
@@ -7701,7 +7704,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13299,
     "createdAt": "2026-09-16T08:30:08.244Z",
     "updatedAt": "2026-09-25T09:58:08.563Z"
@@ -7724,7 +7727,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KEopeHXNUCU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KEopeHXNUCU",
@@ -7738,7 +7741,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15855,
     "createdAt": "2026-09-15T11:42:40.255Z",
     "updatedAt": "2026-09-25T09:58:08.888Z"
@@ -7760,7 +7763,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "clean power"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/O1B3Q_D3XrM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "O1B3Q_D3XrM",
@@ -7774,7 +7777,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40674,
     "createdAt": "2026-09-18T02:34:35.791Z",
     "updatedAt": "2026-09-25T09:58:08.895Z"
@@ -7796,7 +7799,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/akyVCdPUmDw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "akyVCdPUmDw",
@@ -7810,7 +7813,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8268,
     "createdAt": "2026-09-16T13:40:13.846Z",
     "updatedAt": "2026-09-25T09:58:08.882Z"
@@ -7833,7 +7836,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Yo6EtRfvuyk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Yo6EtRfvuyk",
@@ -7847,7 +7850,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9438,
     "createdAt": "2026-09-17T09:48:50.933Z",
     "updatedAt": "2026-09-25T09:58:08.909Z"
@@ -7869,7 +7872,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/a2Kscde94js/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "a2Kscde94js",
@@ -7883,7 +7886,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 26161,
     "createdAt": "2026-09-21T09:25:22.487Z",
     "updatedAt": "2026-09-25T09:58:08.891Z"
@@ -7906,7 +7909,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/JORB_gTt4Zo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "JORB_gTt4Zo",
@@ -7920,7 +7923,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19285,
     "createdAt": "2026-09-18T14:19:06.777Z",
     "updatedAt": "2026-09-25T09:58:08.890Z"
@@ -7942,7 +7945,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/9K9fXkU9U_s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "9K9fXkU9U_s",
@@ -7956,7 +7959,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35627,
     "createdAt": "2026-09-23T08:18:26.992Z",
     "updatedAt": "2026-09-25T09:58:08.896Z"
@@ -7979,7 +7982,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/nHjft2mGU44/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "nHjft2mGU44",
@@ -7993,7 +7996,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17659,
     "createdAt": "2026-09-14T01:22:35.557Z",
     "updatedAt": "2026-09-25T09:58:08.902Z"
@@ -8016,7 +8019,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/q0DOr6fUd2o/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "q0DOr6fUd2o",
@@ -8030,7 +8033,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6161,
     "createdAt": "2026-09-17T05:26:45.847Z",
     "updatedAt": "2026-09-25T09:58:08.913Z"
@@ -8052,7 +8055,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YNTS010b3qQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YNTS010b3qQ",
@@ -8066,7 +8069,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9223,
     "createdAt": "2026-09-20T04:46:30.669Z",
     "updatedAt": "2026-09-25T09:58:08.920Z"
@@ -8090,7 +8093,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "432hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/umnETWiXmbg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "umnETWiXmbg",
@@ -8104,7 +8107,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1640,
     "createdAt": "2026-09-19T20:37:25.886Z",
     "updatedAt": "2026-09-25T09:58:09.302Z"
@@ -8126,7 +8129,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "magnetic heart"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/rwJ_SX-b4y4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "rwJ_SX-b4y4",
@@ -8140,7 +8143,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14594,
     "createdAt": "2026-09-20T09:22:37.593Z",
     "updatedAt": "2026-09-25T09:58:09.381Z"
@@ -8162,7 +8165,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/38Q48JkGGO0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "38Q48JkGGO0",
@@ -8176,7 +8179,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 7820,
     "createdAt": "2026-09-17T19:19:15.128Z",
     "updatedAt": "2026-09-25T09:58:09.366Z"
@@ -8198,7 +8201,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/TE9iodTsULc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "TE9iodTsULc",
@@ -8212,7 +8215,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23476,
     "createdAt": "2026-09-24T11:28:00.181Z",
     "updatedAt": "2026-09-25T09:58:09.378Z"
@@ -8235,7 +8238,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4gGiV11MWc8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4gGiV11MWc8",
@@ -8249,7 +8252,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12374,
     "createdAt": "2026-09-16T04:27:45.257Z",
     "updatedAt": "2026-09-25T09:58:09.399Z"
@@ -8272,7 +8275,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/dY9ZwTGeWDQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "dY9ZwTGeWDQ",
@@ -8286,7 +8289,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6250,
     "createdAt": "2026-09-14T17:42:17.320Z",
     "updatedAt": "2026-09-25T09:58:09.385Z"
@@ -8308,7 +8311,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/eWtroHo2yg8/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "eWtroHo2yg8",
@@ -8322,7 +8325,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18247,
     "createdAt": "2026-09-25T07:15:35.029Z",
     "updatedAt": "2026-09-25T09:58:09.399Z"
@@ -8345,7 +8348,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GEK4KocXQ6A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GEK4KocXQ6A",
@@ -8359,7 +8362,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17022,
     "createdAt": "2026-09-14T03:53:52.794Z",
     "updatedAt": "2026-09-25T09:58:09.388Z"
@@ -8381,7 +8384,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/FKjkFUUOM5c/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "FKjkFUUOM5c",
@@ -8395,7 +8398,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36570,
     "createdAt": "2026-09-14T00:06:37.473Z",
     "updatedAt": "2026-09-25T09:58:09.376Z"
@@ -8419,7 +8422,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "432hz"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xFokK--FB1g/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xFokK--FB1g",
@@ -8433,7 +8436,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23171,
     "createdAt": "2026-09-17T20:10:35.178Z",
     "updatedAt": "2026-09-25T09:58:14.285Z"
@@ -8456,7 +8459,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/BYPSogoGjhE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "BYPSogoGjhE",
@@ -8470,7 +8473,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 39291,
     "createdAt": "2026-09-17T21:23:19.653Z",
     "updatedAt": "2026-09-25T09:58:14.762Z"
@@ -8493,7 +8496,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NpG1kLPTRjM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NpG1kLPTRjM",
@@ -8507,7 +8510,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17594,
     "createdAt": "2026-09-20T16:45:53.291Z",
     "updatedAt": "2026-09-25T09:58:14.785Z"
@@ -8530,7 +8533,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4buOITY3flE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4buOITY3flE",
@@ -8544,7 +8547,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19047,
     "createdAt": "2026-09-16T12:22:00.734Z",
     "updatedAt": "2026-09-25T09:58:15.090Z"
@@ -8566,7 +8569,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KxjDfnfC_Uc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KxjDfnfC_Uc",
@@ -8580,7 +8583,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5670,
     "createdAt": "2026-09-19T03:09:30.496Z",
     "updatedAt": "2026-09-25T09:58:14.803Z"
@@ -8602,7 +8605,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/6AMJjXHwoQU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "6AMJjXHwoQU",
@@ -8616,7 +8619,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32022,
     "createdAt": "2026-09-13T22:05:17.735Z",
     "updatedAt": "2026-09-25T09:58:14.824Z"
@@ -8639,7 +8642,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/zqGZuvHFPgY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "zqGZuvHFPgY",
@@ -8653,7 +8656,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 4565,
     "createdAt": "2026-09-17T21:13:06.130Z",
     "updatedAt": "2026-09-25T09:58:14.788Z"
@@ -8677,7 +8680,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xCY3D-PKLbQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xCY3D-PKLbQ",
@@ -8691,7 +8694,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 20753,
     "createdAt": "2026-09-16T08:58:01.550Z",
     "updatedAt": "2026-09-25T09:58:14.865Z"
@@ -8714,7 +8717,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qlW19PcWUMg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qlW19PcWUMg",
@@ -8728,7 +8731,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6146,
     "createdAt": "2026-09-19T17:30:45.851Z",
     "updatedAt": "2026-09-25T09:58:14.805Z"
@@ -8751,7 +8754,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/GF_ReH0fBeg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "GF_ReH0fBeg",
@@ -8765,7 +8768,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21910,
     "createdAt": "2026-09-15T17:44:26.214Z",
     "updatedAt": "2026-09-25T09:58:14.784Z"
@@ -8788,7 +8791,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/heHVS2XzeaE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "heHVS2XzeaE",
@@ -8802,7 +8805,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19263,
     "createdAt": "2026-09-21T05:09:21.246Z",
     "updatedAt": "2026-09-25T09:58:14.707Z"
@@ -8825,7 +8828,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/eT_1q7XODNk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "eT_1q7XODNk",
@@ -8839,7 +8842,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11530,
     "createdAt": "2026-09-24T17:09:29.819Z",
     "updatedAt": "2026-09-25T09:58:15.500Z"
@@ -8862,7 +8865,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/R6DL-eKheGk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "R6DL-eKheGk",
@@ -8876,7 +8879,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3126,
     "createdAt": "2026-09-19T11:20:07.459Z",
     "updatedAt": "2026-09-25T09:58:15.559Z"
@@ -8898,7 +8901,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "momentum"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ilowd-5rHAY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ilowd-5rHAY",
@@ -8912,7 +8915,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18537,
     "createdAt": "2026-09-21T08:19:56.530Z",
     "updatedAt": "2026-09-25T09:58:15.438Z"
@@ -8934,7 +8937,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/t0Bzy9F3jGE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "t0Bzy9F3jGE",
@@ -8948,7 +8951,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3271,
     "createdAt": "2026-09-22T19:38:07.330Z",
     "updatedAt": "2026-09-25T09:58:15.565Z"
@@ -8971,7 +8974,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/RuIT6tvN86s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "RuIT6tvN86s",
@@ -8985,7 +8988,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32741,
     "createdAt": "2026-09-14T09:35:13.654Z",
     "updatedAt": "2026-09-25T09:58:15.547Z"
@@ -9008,7 +9011,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/JLimu3gXNS4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "JLimu3gXNS4",
@@ -9022,7 +9025,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6876,
     "createdAt": "2026-09-14T16:29:58.592Z",
     "updatedAt": "2026-09-25T09:58:15.549Z"
@@ -9044,7 +9047,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/lllhh-SY5Ho/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "lllhh-SY5Ho",
@@ -9058,7 +9061,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10875,
     "createdAt": "2026-09-16T23:04:48.617Z",
     "updatedAt": "2026-09-25T09:58:15.409Z"
@@ -9081,7 +9084,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/EI2N6bF7ZxA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "EI2N6bF7ZxA",
@@ -9095,7 +9098,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 22847,
     "createdAt": "2026-09-22T07:12:53.448Z",
     "updatedAt": "2026-09-25T09:58:15.567Z"
@@ -9117,7 +9120,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/KeggXikBP1k/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "KeggXikBP1k",
@@ -9131,7 +9134,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9940,
     "createdAt": "2026-09-19T20:06:58.119Z",
     "updatedAt": "2026-09-25T09:58:15.455Z"
@@ -9154,7 +9157,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/wi2bkEJ30Pw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "wi2bkEJ30Pw",
@@ -9168,7 +9171,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 36197,
     "createdAt": "2026-09-23T01:28:06.588Z",
     "updatedAt": "2026-09-25T09:58:15.626Z"
@@ -9190,7 +9193,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/yesL2FSsujk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "yesL2FSsujk",
@@ -9204,7 +9207,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33117,
     "createdAt": "2026-09-24T04:55:33.692Z",
     "updatedAt": "2026-09-25T09:58:16.080Z"
@@ -9228,7 +9231,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep rest"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CkI4y7T0S90/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CkI4y7T0S90",
@@ -9242,7 +9245,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24270,
     "createdAt": "2026-09-17T10:54:56.850Z",
     "updatedAt": "2026-09-25T09:58:16.114Z"
@@ -9265,7 +9268,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/G-kZErjGyoQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "G-kZErjGyoQ",
@@ -9279,7 +9282,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34302,
     "createdAt": "2026-09-22T02:01:56.738Z",
     "updatedAt": "2026-09-25T09:58:16.110Z"
@@ -9302,7 +9305,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/e9tWVbbTjU0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "e9tWVbbTjU0",
@@ -9316,7 +9319,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28550,
     "createdAt": "2026-09-20T16:55:55.653Z",
     "updatedAt": "2026-09-25T09:58:16.097Z"
@@ -9338,7 +9341,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xpAUfxlBxx0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xpAUfxlBxx0",
@@ -9352,7 +9355,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 21198,
     "createdAt": "2026-09-18T20:00:45.593Z",
     "updatedAt": "2026-09-25T09:58:16.121Z"
@@ -9374,7 +9377,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/iIZI_SQRf44/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "iIZI_SQRf44",
@@ -9388,7 +9391,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28688,
     "createdAt": "2026-09-23T08:57:36.783Z",
     "updatedAt": "2026-09-25T09:58:16.121Z"
@@ -9411,7 +9414,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fWL2rF9Ai2M/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fWL2rF9Ai2M",
@@ -9425,7 +9428,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9744,
     "createdAt": "2026-09-16T19:45:26.870Z",
     "updatedAt": "2026-09-25T09:58:16.122Z"
@@ -9448,7 +9451,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/J86r2SiWIYU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "J86r2SiWIYU",
@@ -9462,7 +9465,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13732,
     "createdAt": "2026-09-20T16:27:25.067Z",
     "updatedAt": "2026-09-25T09:58:16.123Z"
@@ -9485,7 +9488,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/8Aoxp_i2VXY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "8Aoxp_i2VXY",
@@ -9499,7 +9502,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12719,
     "createdAt": "2026-09-16T14:09:27.346Z",
     "updatedAt": "2026-09-25T09:58:16.109Z"
@@ -9521,7 +9524,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/goer3FtRnjk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "goer3FtRnjk",
@@ -9535,7 +9538,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8223,
     "createdAt": "2026-09-17T20:44:57.198Z",
     "updatedAt": "2026-09-25T09:58:16.128Z"
@@ -9558,7 +9561,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/JteSOdKSmuQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "JteSOdKSmuQ",
@@ -9572,7 +9575,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29162,
     "createdAt": "2026-09-18T22:55:06.067Z",
     "updatedAt": "2026-09-25T09:58:16.604Z"
@@ -9594,7 +9597,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/unfPnw6J9UI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "unfPnw6J9UI",
@@ -9608,7 +9611,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13496,
     "createdAt": "2026-09-20T02:37:40.743Z",
     "updatedAt": "2026-09-25T09:58:16.721Z"
@@ -9631,7 +9634,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/rDld_EDeMvg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "rDld_EDeMvg",
@@ -9645,7 +9648,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35618,
     "createdAt": "2026-09-22T11:52:50.561Z",
     "updatedAt": "2026-09-25T09:58:16.800Z"
@@ -9667,7 +9670,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/UToTR14lX0Q/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "UToTR14lX0Q",
@@ -9681,7 +9684,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 18650,
     "createdAt": "2026-09-14T11:44:48.024Z",
     "updatedAt": "2026-09-25T09:58:16.861Z"
@@ -9704,7 +9707,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/8WplwYa-B5A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "8WplwYa-B5A",
@@ -9718,7 +9721,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40463,
     "createdAt": "2026-09-22T20:57:31.290Z",
     "updatedAt": "2026-09-25T09:58:16.842Z"
@@ -9740,7 +9743,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ra8u0HPBL3s/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ra8u0HPBL3s",
@@ -9754,7 +9757,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1333,
     "createdAt": "2026-09-15T03:21:52.618Z",
     "updatedAt": "2026-09-25T09:58:16.843Z"
@@ -9776,7 +9779,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/0oS6DsdJiHo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "0oS6DsdJiHo",
@@ -9790,7 +9793,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8486,
     "createdAt": "2026-09-21T22:01:26.717Z",
     "updatedAt": "2026-09-25T09:58:16.826Z"
@@ -9812,7 +9815,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1yt-PEQYE0w/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1yt-PEQYE0w",
@@ -9826,7 +9829,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 13391,
     "createdAt": "2026-09-19T00:59:37.341Z",
     "updatedAt": "2026-09-25T09:58:16.856Z"
@@ -9849,7 +9852,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CI-mbw_YgjU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CI-mbw_YgjU",
@@ -9863,7 +9866,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 37942,
     "createdAt": "2026-09-17T14:18:43.833Z",
     "updatedAt": "2026-09-25T09:58:16.829Z"
@@ -9885,7 +9888,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/l2N-1neWjEM/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "l2N-1neWjEM",
@@ -9899,7 +9902,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14274,
     "createdAt": "2026-09-19T04:24:01.713Z",
     "updatedAt": "2026-09-25T09:58:16.862Z"
@@ -9923,7 +9926,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fv7mBUFl1DA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fv7mBUFl1DA",
@@ -9937,7 +9940,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16453,
     "createdAt": "2026-09-14T06:08:43.709Z",
     "updatedAt": "2026-09-25T09:58:17.312Z"
@@ -9960,7 +9963,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/feGdmHYPwZw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "feGdmHYPwZw",
@@ -9974,7 +9977,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 25005,
     "createdAt": "2026-09-13T22:23:25.768Z",
     "updatedAt": "2026-09-25T09:58:17.176Z"
@@ -9997,7 +10000,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1GVsYTDxm0U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1GVsYTDxm0U",
@@ -10011,7 +10014,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33648,
     "createdAt": "2026-09-14T13:12:32.282Z",
     "updatedAt": "2026-09-25T09:58:17.304Z"
@@ -10033,7 +10036,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep work"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fXS2RpYjSq0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fXS2RpYjSq0",
@@ -10047,7 +10050,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 3239,
     "createdAt": "2026-09-22T19:25:40.876Z",
     "updatedAt": "2026-09-25T09:58:17.323Z"
@@ -10070,7 +10073,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Lc7w_k-ScdA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Lc7w_k-ScdA",
@@ -10084,7 +10087,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17524,
     "createdAt": "2026-09-24T07:40:38.405Z",
     "updatedAt": "2026-09-25T09:58:17.319Z"
@@ -10106,7 +10109,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/AeMRK1Bok4A/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "AeMRK1Bok4A",
@@ -10120,7 +10123,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40374,
     "createdAt": "2026-09-19T02:09:32.601Z",
     "updatedAt": "2026-09-25T09:58:17.295Z"
@@ -10142,7 +10145,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/qS98KvRfqEg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "qS98KvRfqEg",
@@ -10156,7 +10159,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 2742,
     "createdAt": "2026-09-24T02:33:22.973Z",
     "updatedAt": "2026-09-25T09:58:17.293Z"
@@ -10179,7 +10182,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/YQaVWKWZMvc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "YQaVWKWZMvc",
@@ -10193,7 +10196,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6008,
     "createdAt": "2026-09-22T13:14:58.245Z",
     "updatedAt": "2026-09-25T09:58:17.296Z"
@@ -10215,7 +10218,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/k1S-asLBvQw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "k1S-asLBvQw",
@@ -10229,7 +10232,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10421,
     "createdAt": "2026-09-21T23:00:12.333Z",
     "updatedAt": "2026-09-25T09:58:17.324Z"
@@ -10252,7 +10255,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/bQZRDC4HJTQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "bQZRDC4HJTQ",
@@ -10266,7 +10269,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 28267,
     "createdAt": "2026-09-22T05:58:36.578Z",
     "updatedAt": "2026-09-25T09:58:17.326Z"
@@ -10289,7 +10292,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/3BjQ80gT1C4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "3BjQ80gT1C4",
@@ -10303,7 +10306,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 5491,
     "createdAt": "2026-09-24T10:42:20.658Z",
     "updatedAt": "2026-09-25T09:58:17.706Z"
@@ -10325,7 +10328,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/70gpDKN6Fb4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "70gpDKN6Fb4",
@@ -10339,7 +10342,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 34115,
     "createdAt": "2026-09-21T02:18:20.011Z",
     "updatedAt": "2026-09-25T09:58:17.728Z"
@@ -10362,7 +10365,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/H5GGMVJBy30/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "H5GGMVJBy30",
@@ -10376,7 +10379,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32452,
     "createdAt": "2026-09-18T01:34:58.365Z",
     "updatedAt": "2026-09-25T09:58:17.730Z"
@@ -10398,7 +10401,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fUjl0HVxBsY/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fUjl0HVxBsY",
@@ -10412,7 +10415,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1222,
     "createdAt": "2026-09-14T03:14:36.445Z",
     "updatedAt": "2026-09-25T09:58:17.720Z"
@@ -10435,7 +10438,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/7bql5-nSkfg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "7bql5-nSkfg",
@@ -10449,7 +10452,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9227,
     "createdAt": "2026-09-15T17:35:56.446Z",
     "updatedAt": "2026-09-25T09:58:17.721Z"
@@ -10472,7 +10475,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/7HoHNZns4SA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "7HoHNZns4SA",
@@ -10486,7 +10489,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 4067,
     "createdAt": "2026-09-23T08:11:47.530Z",
     "updatedAt": "2026-09-25T09:58:17.708Z"
@@ -10508,7 +10511,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/BACuKJWAasw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "BACuKJWAasw",
@@ -10522,7 +10525,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 20878,
     "createdAt": "2026-09-25T03:47:02.071Z",
     "updatedAt": "2026-09-25T09:58:17.667Z"
@@ -10544,7 +10547,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/4E4ZPvhusO0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "4E4ZPvhusO0",
@@ -10558,7 +10561,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10058,
     "createdAt": "2026-09-23T03:59:44.083Z",
     "updatedAt": "2026-09-25T09:58:17.721Z"
@@ -10582,7 +10585,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/iSGpUqjUFmA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "iSGpUqjUFmA",
@@ -10596,7 +10599,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 20194,
     "createdAt": "2026-09-19T12:48:29.332Z",
     "updatedAt": "2026-09-25T09:58:17.740Z"
@@ -10618,7 +10621,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/kknMFKbqMqk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "kknMFKbqMqk",
@@ -10632,7 +10635,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 22537,
     "createdAt": "2026-09-25T06:42:28.237Z",
     "updatedAt": "2026-09-25T09:58:17.690Z"
@@ -10654,7 +10657,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/lSqSeQa-LSI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "lSqSeQa-LSI",
@@ -10668,7 +10671,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23299,
     "createdAt": "2026-09-16T00:46:25.463Z",
     "updatedAt": "2026-09-25T09:58:18.106Z"
@@ -10690,7 +10693,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/g0qLHnRjnFw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "g0qLHnRjnFw",
@@ -10704,7 +10707,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33663,
     "createdAt": "2026-09-15T08:21:06.701Z",
     "updatedAt": "2026-09-25T09:58:18.138Z"
@@ -10726,7 +10729,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/dp8wdlWC6Yo/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "dp8wdlWC6Yo",
@@ -10740,7 +10743,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 20908,
     "createdAt": "2026-09-16T08:50:09.853Z",
     "updatedAt": "2026-09-25T09:58:18.123Z"
@@ -10763,7 +10766,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "symmetry"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fDym7WYdbvg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fDym7WYdbvg",
@@ -10777,7 +10780,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 12849,
     "createdAt": "2026-09-23T19:13:41.906Z",
     "updatedAt": "2026-09-25T09:58:18.076Z"
@@ -10800,7 +10803,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/7V2OoN1tUAg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "7V2OoN1tUAg",
@@ -10814,7 +10817,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 11348,
     "createdAt": "2026-09-23T14:30:53.740Z",
     "updatedAt": "2026-09-25T09:58:18.126Z"
@@ -10836,7 +10839,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/OIQeRqekAf4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "OIQeRqekAf4",
@@ -10850,7 +10853,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 30726,
     "createdAt": "2026-09-15T20:56:16.338Z",
     "updatedAt": "2026-09-25T09:58:18.099Z"
@@ -10872,7 +10875,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/RMr78XEBaKw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "RMr78XEBaKw",
@@ -10886,7 +10889,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 9760,
     "createdAt": "2026-09-17T01:32:51.036Z",
     "updatedAt": "2026-09-25T09:58:18.097Z"
@@ -10908,7 +10911,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/xjaH9CA4EGs/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "xjaH9CA4EGs",
@@ -10922,7 +10925,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6290,
     "createdAt": "2026-09-21T05:47:18.815Z",
     "updatedAt": "2026-09-25T09:58:18.129Z"
@@ -10945,7 +10948,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HLnjKnaoDbw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HLnjKnaoDbw",
@@ -10959,7 +10962,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 24167,
     "createdAt": "2026-09-15T01:03:43.224Z",
     "updatedAt": "2026-09-25T09:58:18.135Z"
@@ -10981,7 +10984,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/MAglRiObN4I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "MAglRiObN4I",
@@ -10995,7 +10998,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27889,
     "createdAt": "2026-09-15T05:56:35.236Z",
     "updatedAt": "2026-09-25T09:58:18.127Z"
@@ -11018,7 +11021,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1eAiC35IdOI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1eAiC35IdOI",
@@ -11032,7 +11035,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 35126,
     "createdAt": "2026-09-14T02:35:58.490Z",
     "updatedAt": "2026-09-25T09:58:18.527Z"
@@ -11055,7 +11058,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/iOKZEZgEymU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "iOKZEZgEymU",
@@ -11069,7 +11072,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17529,
     "createdAt": "2026-09-17T23:39:42.401Z",
     "updatedAt": "2026-09-25T09:58:18.446Z"
@@ -11091,7 +11094,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "deep work"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/PnB2iVV5vL4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "PnB2iVV5vL4",
@@ -11105,7 +11108,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 8833,
     "createdAt": "2026-09-23T23:12:18.704Z",
     "updatedAt": "2026-09-25T09:58:18.526Z"
@@ -11128,7 +11131,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/R7Cr6SUDjHU/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "R7Cr6SUDjHU",
@@ -11142,7 +11145,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 33130,
     "createdAt": "2026-09-17T06:16:43.606Z",
     "updatedAt": "2026-09-25T09:58:18.517Z"
@@ -11164,7 +11167,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "healing"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/XnxIM0_MKN4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "XnxIM0_MKN4",
@@ -11178,7 +11181,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10934,
     "createdAt": "2026-09-15T07:22:27.739Z",
     "updatedAt": "2026-09-25T09:58:18.513Z"
@@ -11201,7 +11204,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/NbQ1cwYcOPw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "NbQ1cwYcOPw",
@@ -11215,7 +11218,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29142,
     "createdAt": "2026-09-17T06:38:12.639Z",
     "updatedAt": "2026-09-25T09:58:18.504Z"
@@ -11237,7 +11240,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ffKwFghLaxc/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ffKwFghLaxc",
@@ -11251,7 +11254,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32839,
     "createdAt": "2026-09-16T18:19:07.821Z",
     "updatedAt": "2026-09-25T09:58:18.524Z"
@@ -11273,7 +11276,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/iACNJuCJ9cI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "iACNJuCJ9cI",
@@ -11287,7 +11290,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29983,
     "createdAt": "2026-09-21T05:16:00.963Z",
     "updatedAt": "2026-09-25T09:58:18.496Z"
@@ -11310,7 +11313,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/IZyHBHWRqwg/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "IZyHBHWRqwg",
@@ -11324,7 +11327,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 19207,
     "createdAt": "2026-09-16T23:20:00.553Z",
     "updatedAt": "2026-09-25T09:58:18.521Z"
@@ -11346,7 +11349,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/HDUm03_yI4w/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "HDUm03_yI4w",
@@ -11360,7 +11363,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 15868,
     "createdAt": "2026-09-17T16:15:19.499Z",
     "updatedAt": "2026-09-25T09:58:18.512Z"
@@ -11382,7 +11385,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/tY4E9qLq534/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "tY4E9qLq534",
@@ -11396,7 +11399,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 32507,
     "createdAt": "2026-09-22T20:11:33.366Z",
     "updatedAt": "2026-09-25T09:58:19.296Z"
@@ -11419,7 +11422,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/i2PgRG1ML1U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "i2PgRG1ML1U",
@@ -11433,7 +11436,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6191,
     "createdAt": "2026-09-14T11:52:14.549Z",
     "updatedAt": "2026-09-25T09:58:19.302Z"
@@ -11456,7 +11459,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/WvaoK1sfh58/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "WvaoK1sfh58",
@@ -11470,7 +11473,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 39774,
     "createdAt": "2026-09-21T01:15:04.381Z",
     "updatedAt": "2026-09-25T09:58:19.135Z"
@@ -11492,7 +11495,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/Ws7xbyS1fkI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "Ws7xbyS1fkI",
@@ -11506,7 +11509,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 31717,
     "createdAt": "2026-09-21T00:03:05.090Z",
     "updatedAt": "2026-09-25T09:58:19.278Z"
@@ -11529,7 +11532,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/aznY9RAldlE/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "aznY9RAldlE",
@@ -11543,7 +11546,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 6054,
     "createdAt": "2026-09-25T00:25:12.365Z",
     "updatedAt": "2026-09-25T09:58:18.872Z"
@@ -11565,7 +11568,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/OvYa2jIbT1U/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "OvYa2jIbT1U",
@@ -11579,7 +11582,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 17005,
     "createdAt": "2026-09-21T04:15:26.334Z",
     "updatedAt": "2026-09-25T09:58:19.211Z"
@@ -11602,7 +11605,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ZuszhEdHLNQ/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ZuszhEdHLNQ",
@@ -11616,7 +11619,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27635,
     "createdAt": "2026-09-18T04:06:47.258Z",
     "updatedAt": "2026-09-25T09:58:19.063Z"
@@ -11638,7 +11641,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "anxiety relief"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/i2_auO0sNmk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "i2_auO0sNmk",
@@ -11652,7 +11655,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23298,
     "createdAt": "2026-09-15T13:08:56.127Z",
     "updatedAt": "2026-09-25T09:58:19.295Z"
@@ -11675,7 +11678,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/0FLaSAe-78c/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "0FLaSAe-78c",
@@ -11689,7 +11692,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 40617,
     "createdAt": "2026-09-15T03:17:17.354Z",
     "updatedAt": "2026-09-25T09:58:19.266Z"
@@ -11712,7 +11715,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/5gGLlmkHmx4/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "5gGLlmkHmx4",
@@ -11726,7 +11729,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 14428,
     "createdAt": "2026-09-19T12:24:56.280Z",
     "updatedAt": "2026-09-25T09:58:19.150Z"
@@ -11748,7 +11751,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/1fKJoFoZrvI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "1fKJoFoZrvI",
@@ -11762,7 +11765,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 38324,
     "createdAt": "2026-09-17T23:19:14.697Z",
     "updatedAt": "2026-09-25T09:58:19.614Z"
@@ -11784,7 +11787,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/MuLiyuFqcl0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "MuLiyuFqcl0",
@@ -11798,7 +11801,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10101,
     "createdAt": "2026-09-24T09:24:33.246Z",
     "updatedAt": "2026-09-25T09:58:19.651Z"
@@ -11821,7 +11824,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/TwnRW4nlxNw/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "TwnRW4nlxNw",
@@ -11835,7 +11838,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 23636,
     "createdAt": "2026-09-23T00:45:55.240Z",
     "updatedAt": "2026-09-25T09:58:19.674Z"
@@ -11857,7 +11860,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/de3KHwkMBdI/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "de3KHwkMBdI",
@@ -11871,7 +11874,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 16998,
     "createdAt": "2026-09-21T04:52:40.657Z",
     "updatedAt": "2026-09-25T09:58:19.648Z"
@@ -11894,7 +11897,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/2aE-Rhrrbpk/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "2aE-Rhrrbpk",
@@ -11908,7 +11911,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 10589,
     "createdAt": "2026-09-17T09:32:27.068Z",
     "updatedAt": "2026-09-25T09:58:19.644Z"
@@ -11931,7 +11934,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/fSaG8Amhv6I/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "fSaG8Amhv6I",
@@ -11945,7 +11948,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 27622,
     "createdAt": "2026-09-22T11:42:09.490Z",
     "updatedAt": "2026-09-25T09:58:19.625Z"
@@ -11967,7 +11970,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "expansion"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/thEyvZZivx0/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "thEyvZZivx0",
@@ -11981,7 +11984,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 1457,
     "createdAt": "2026-09-18T11:24:50.807Z",
     "updatedAt": "2026-09-25T09:58:19.653Z"
@@ -12004,7 +12007,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "memory"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/CWEXXb9qVrA/hqdefault.jpg",
-    "audioUrl": "https://actions.google.com/sounds/v1/weather/ambient_stream.ogg",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "CWEXXb9qVrA",
@@ -12018,7 +12021,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "ready",
+    "processingStatus": "processing",
     "playCount": 29297,
     "createdAt": "2026-09-14T02:09:50.207Z",
     "updatedAt": "2026-09-25T09:58:19.691Z"
