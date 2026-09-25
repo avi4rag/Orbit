@@ -3,6 +3,8 @@ import { SubliminalRepository } from '../models/Subliminal.js';
 import { UserRepository } from '../models/User.js';
 import { requireAuth, AuthRequest } from '../middleware/auth.js';
 import { youtubeDiscoveryEngine } from '../services/youtubeDiscovery.js';
+import { playlistIngestionService } from '../services/playlistIngestion.js';
+import { PLAYLIST_SOURCES, getUniquePlaylistIds } from '../config/playlists.js';
 
 export const subliminalsRouter = Router();
 
@@ -268,4 +270,35 @@ subliminalsRouter.post('/import-youtube', async (req: Request, res: Response) =>
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'YouTube import failed.' });
   }
+});
+
+// GET /api/subliminals/playlists (Configured playlist sources)
+subliminalsRouter.get('/playlists', (_req: Request, res: Response) => {
+  const uniqueIds = getUniquePlaylistIds();
+  res.json({
+    totalSources: PLAYLIST_SOURCES.length,
+    uniquePlaylistsCount: uniqueIds.length,
+    playlistIds: uniqueIds,
+    sources: PLAYLIST_SOURCES,
+    progress: playlistIngestionService.getProgress(),
+  });
+});
+
+// POST /api/subliminals/sync-playlists (Trigger background ingestion of all playlists)
+subliminalsRouter.post('/sync-playlists', async (req: Request, res: Response) => {
+  try {
+    const { sources } = req.body;
+    const progress = await playlistIngestionService.ingestAllPlaylists(sources);
+    res.json({
+      message: 'Playlist ingestion initiated in background.',
+      progress,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to start playlist ingestion.' });
+  }
+});
+
+// GET /api/subliminals/sync-status (Current ingestion progress)
+subliminalsRouter.get('/sync-status', (_req: Request, res: Response) => {
+  res.json({ progress: playlistIngestionService.getProgress() });
 });
