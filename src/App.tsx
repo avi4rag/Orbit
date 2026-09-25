@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootLayout } from './components/layout/RootLayout';
 import { PlayerProvider } from './context/PlayerContext';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import ExplorePage from './pages/ExplorePage';
 import RitualPage from './pages/RitualPage';
@@ -13,22 +15,84 @@ import ProfilePage from './pages/ProfilePage';
 
 export default function App() {
   return (
-    <PlayerProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<RootLayout />}>
-            <Route index element={<LandingPage />} />
-            <Route path="app" element={<CelestialUniversePage />} />
-            <Route path="explore" element={<ExplorePage />} />
-            <Route path="session/:id" element={<SessionDetailPage />} />
-            <Route path="modes" element={<SessionModesPage />} />
-            <Route path="ritual" element={<RitualPage />} />
-            <Route path="actions" element={<ActionsPage />} />
-            <Route path="generator" element={<AIGeneratorPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </PlayerProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <PlayerProvider>
+          <Routes>
+            <Route path="/" element={<RootLayout />}>
+              {/* Public route */}
+              <Route index element={<LandingPage />} />
+
+              {/* Authenticated routes guarded by ProtectedRoute */}
+              <Route
+                path="app"
+                element={
+                  <ProtectedRoute>
+                    <CelestialUniversePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="explore"
+                element={
+                  <ProtectedRoute>
+                    <ExplorePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="session/:id"
+                element={
+                  <ProtectedRoute>
+                    <SessionDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="modes"
+                element={
+                  <ProtectedRoute>
+                    <SessionModesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="ritual"
+                element={
+                  <ProtectedRoute>
+                    <RitualPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="actions"
+                element={
+                  <ProtectedRoute>
+                    <ActionsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="generator"
+                element={
+                  <ProtectedRoute>
+                    <AIGeneratorPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </PlayerProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
+
