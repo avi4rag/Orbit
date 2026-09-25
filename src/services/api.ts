@@ -148,6 +148,53 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       return { actions: [] };
     }
 
+    if (endpoint.startsWith('/subliminals/categories')) {
+      return {
+        categories: [
+          { slug: 'wealth', title: 'Wealth & Abundance', tagline: 'Align your neural pathways with compounding abundance, sovereign wealth, and prosperity consciousness.', accentColor: '#fbbf24', sessionCount: 5 },
+          { slug: 'confidence', title: 'Confidence', tagline: 'Dissolve self-doubt and anchor into unshakable, calm self-assurance and magnetic presence.', accentColor: '#38bdf8', sessionCount: 4 },
+          { slug: 'looks', title: 'Looks & Appearance', tagline: 'Cultivate radiant cellular glow, magnetic posture, symmetry, and authentic physical vitality.', accentColor: '#f43f5e', sessionCount: 3 },
+          { slug: 'self-concept', title: 'Self Concept', tagline: 'Shift the foundational blueprint of who you believe you are in this reality.', accentColor: '#a855f7', sessionCount: 4 },
+          { slug: 'love', title: 'Love & Relationships', tagline: 'Harmonize your relational field to attract and nurture mutual, elevating, and authentic devotion.', accentColor: '#ec4899', sessionCount: 3 },
+          { slug: 'career', title: 'Career & Success', tagline: 'Elevate into high-impact creative leadership, professional mastery, and effortless opportunities.', accentColor: '#6366f1', sessionCount: 4 },
+          { slug: 'academic', title: 'Academic Success', tagline: 'Unlock photographic memory retention, calm exam composure, and effortless intellectual clarity.', accentColor: '#0ea5e9', sessionCount: 3 },
+          { slug: 'motivation', title: 'Motivation', tagline: 'Ignite unstoppable internal drive that turns passive intention into effortless daily momentum.', accentColor: '#f97316', sessionCount: 3 },
+          { slug: 'discipline', title: 'Discipline', tagline: 'Embody frictionless consistency, structured execution, and the elimination of procrastination.', accentColor: '#84cc16', sessionCount: 3 },
+          { slug: 'social-confidence', title: 'Social Confidence', tagline: 'Command effortless charisma, social ease, witty conversational flow, and magnetic warmth.', accentColor: '#14b8a6', sessionCount: 3 },
+          { slug: 'focus', title: 'Focus & Productivity', tagline: 'Enter deep flow states with zero cognitive drift, razor-sharp attention, and high output.', accentColor: '#06b6d4', sessionCount: 4 },
+          { slug: 'health', title: 'Health & Wellness', tagline: 'Revitalize cellular repair, somatic balance, radiant digestion, and vibrant longevity.', accentColor: '#10b981', sessionCount: 3 },
+          { slug: 'energy', title: 'Energy', tagline: 'Infuse your body and mind with clean, vibrant, caffeine-free aliveness throughout your day.', accentColor: '#eab308', sessionCount: 3 },
+          { slug: 'peace', title: 'Peace & Calm', tagline: 'Anchor into profound inner stillness, somatic safety, and complete release of tension.', accentColor: '#818cf8', sessionCount: 4 },
+          { slug: 'sleep', title: 'Sleep', tagline: 'Subconscious reprogramming while you sleep; delta-wave soundscapes and overnight loops.', accentColor: '#4f46e5', sessionCount: 4 },
+          { slug: 'luck', title: 'Luck / Opportunities', tagline: 'Synchronize with beneficial synchronicities, serendipitous timing, and golden encounters.', accentColor: '#22c55e', sessionCount: 3 },
+          { slug: 'growth', title: 'Personal Growth', tagline: 'Radical mindset expansion, dissolving limiting beliefs, and stepping into your highest self.', accentColor: '#d946ef', sessionCount: 4 },
+        ],
+      };
+    }
+
+    if (endpoint.startsWith('/subliminals/category/')) {
+      const slug = endpoint.split('/category/')[1]?.split('?')[0] || 'wealth';
+      return {
+        category: {
+          slug,
+          title: slug.charAt(0).toUpperCase() + slug.slice(1).replace('-', ' '),
+          tagline: 'Sessions designed around this pillar of reality.',
+          sessionCount: 3,
+        },
+        subliminals: [],
+      };
+    }
+
+    if (endpoint.startsWith('/subliminals')) {
+      if (endpoint.endsWith('/favorite')) {
+        return { isFavorite: true, favorites: [] };
+      }
+      if (endpoint.endsWith('/play')) {
+        return { success: true };
+      }
+      return { subliminals: [], total: 0 };
+    }
+
     if (endpoint === '/catalog/sessions') {
       return { sessions: [] };
     }
@@ -423,5 +470,50 @@ export const api = {
 
   async toggleFavorite(sessionId: string) {
     return request(`/catalog/favorites/${sessionId}/toggle`, { method: 'POST' });
+  },
+
+  // Subliminal Library Methods (§1 - §21)
+  async getSubliminals(params?: {
+    category?: string;
+    usageType?: string;
+    search?: string;
+    sort?: string;
+    limit?: number;
+    offset?: number;
+  }) {
+    const query = new URLSearchParams();
+    if (params?.category) query.set('category', params.category);
+    if (params?.usageType) query.set('usageType', params.usageType);
+    if (params?.search) query.set('search', params.search);
+    if (params?.sort) query.set('sort', params.sort);
+    if (params?.limit) query.set('limit', String(params.limit));
+    if (params?.offset) query.set('offset', String(params.offset));
+    const qs = query.toString();
+    return request(`/subliminals${qs ? `?${qs}` : ''}`);
+  },
+
+  async getSubliminalCategories() {
+    return request('/subliminals/categories');
+  },
+
+  async getSubliminalCategory(slug: string, params?: { usageType?: string; search?: string; sort?: string }) {
+    const query = new URLSearchParams();
+    if (params?.usageType) query.set('usageType', params.usageType);
+    if (params?.search) query.set('search', params.search);
+    if (params?.sort) query.set('sort', params.sort);
+    const qs = query.toString();
+    return request(`/subliminals/category/${slug}${qs ? `?${qs}` : ''}`);
+  },
+
+  async getSubliminalById(id: string) {
+    return request(`/subliminals/${id}`);
+  },
+
+  async recordSubliminalPlay(id: string) {
+    return request(`/subliminals/${id}/play`, { method: 'POST' });
+  },
+
+  async toggleSubliminalFavorite(id: string) {
+    return request(`/subliminals/${id}/favorite`, { method: 'POST' });
   },
 };
