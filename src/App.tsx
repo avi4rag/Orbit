@@ -44,6 +44,14 @@ export default function App() {
                 }
               />
               <Route
+                path="subliminals"
+                element={
+                  <ProtectedRoute>
+                    <ExplorePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="explore"
                 element={
                   <ProtectedRoute>
