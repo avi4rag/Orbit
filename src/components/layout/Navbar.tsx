@@ -67,12 +67,12 @@ export const Navbar: React.FC = () => {
 
   // Navigation items based on authentication state
   // Unauthenticated: ONLY expose Philosophy / Overview
-  // Authenticated: full ORBIT application navigation
+  // Authenticated: Primary navigation (Overview, Subliminals, 5 Modes, AI Architect, Daily Ritual, Aligned Actions)
+  // Note: 'My Universe' is an account-level personal space and lives exclusively inside the Profile dropdown.
   const navLinks = isAuthenticated
     ? [
         { path: '/', label: 'Overview', icon: Compass },
-        { path: '/app', label: 'My Universe', icon: Orbit },
-        { path: '/explore', label: 'Soundscapes', icon: Headphones },
+        { path: '/subliminals', label: 'Subliminals', icon: Headphones },
         { path: '/modes', label: '5 Modes', icon: Sparkles },
         { path: '/generator', label: 'AI Architect', icon: Wand2 },
         { path: '/ritual', label: 'Daily Ritual', icon: SunMoon },
