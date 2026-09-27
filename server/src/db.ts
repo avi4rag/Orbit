@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 let isConnected = false;
 
 export async function connectDB(): Promise<boolean> {
-  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/orbit';
+  const uri = process.env.MONGODB_URI || 'mongodb+srv://anurags125_db_user:Anurag0106@cluster0.nr3jcwl.mongodb.net/Orbit';
   try {
     mongoose.set('strictQuery', true);
     await mongoose.connect(uri, {

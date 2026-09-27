@@ -18,6 +18,10 @@ server/dist
 server/media/subliminals/*.mp3
 server/media/subliminals/*.webm
 server/media/subliminals/temp_*
+server/media/sessions/*.mp3
+server/media/temp/
+server/media/*.mp3
+server/media/ambience/**/*.mp3
 
 # Editor directories and files
 .vscode/*
