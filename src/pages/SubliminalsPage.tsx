@@ -30,6 +30,7 @@ export const SubliminalsPage: React.FC = () => {
 
   const [allSessions, setAllSessions] = useState<SubliminalSession[]>([]);
   const [recentlyPlayedSessions, setRecentlyPlayedSessions] = useState<SubliminalSession[]>([]);
+  const [userGeneratedSessions, setUserGeneratedSessions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -44,6 +45,16 @@ export const SubliminalsPage: React.FC = () => {
     const loadSessions = async () => {
       setLoading(true);
       try {
+        // Load personalized AI sessions
+        try {
+          const pRes: any = await api.listPersonalizedSessions();
+          if (isMounted && pRes?.sessions) {
+            setUserGeneratedSessions(pRes.sessions);
+          }
+        } catch (pErr) {
+          console.warn('Personalized sessions load failed:', pErr);
+        }
+
         const res = await api.getSubliminals();
         if (isMounted && res?.subliminals) {
           const sessions: SubliminalSession[] = res.subliminals;
@@ -122,6 +133,21 @@ export const SubliminalsPage: React.FC = () => {
     });
 
     api.recordSubliminalPlay(session.id, { progress: 0, completed: false }).catch(() => {});
+  };
+
+  const handlePlayPersonalized = (session: any) => {
+    if (!session.audio?.url) return;
+    const track: SessionTrack = {
+      id: session._id,
+      title: session.title,
+      creator: 'Orbit AI',
+      category: session.category || 'Manifestation',
+      duration: session.audio.durationSeconds,
+      audioUrl: session.audio.url,
+      thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
+      spokenAffirmations: session.script?.affirmations || []
+    };
+    play(track);
   };
 
   const handleDrawerSelectCategory = (slug: string) => {
@@ -393,6 +419,75 @@ export const SubliminalsPage: React.FC = () => {
         ) : (
           /* Spotify-Style Horizontal Rails View */
           <div className="orbit-subliminals-rails" ref={railsContainerRef}>
+            {/* ✨ Personalized Subliminal Audio Journeys (AI Pivot) */}
+            <div className="orbit-personalized-banner p-6 rounded-2xl bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-cyan-900/40 border border-cyan-500/30 backdrop-blur-xl mb-8 relative overflow-hidden shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-bold uppercase tracking-wider mb-1.5">
+                    <Sparkles className="w-3.5 h-3.5" /> AI Personalized Realization
+                  </div>
+                  <h2 className="text-xl font-bold text-white">Your Custom Subconscious Sessions</h2>
+                  <p className="text-xs text-gray-300">
+                    Bespoke acoustic realignment sessions generated specifically for your intention.
+                  </p>
+                </div>
+                <Link
+                  to="/onboarding"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition-all shrink-0"
+                >
+                  <Sparkles className="w-4 h-4" /> Create New Audio Session
+                </Link>
+              </div>
+
+              {userGeneratedSessions.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {userGeneratedSessions.map((ps) => (
+                    <div
+                      key={ps._id}
+                      onClick={() => handlePlayPersonalized(ps)}
+                      className="group p-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                            {ps.category || 'Manifestation'}
+                          </span>
+                          <span className="text-[10px] text-cyan-400 font-medium flex items-center gap-1">
+                            {ps.settings?.frequencyHz ? `${ps.settings.frequencyHz} Hz` : 'Rain Master'}
+                          </span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                          {ps.title}
+                        </h4>
+                        <p className="text-xs text-gray-300 mt-1 line-clamp-2">
+                          "{ps.intention?.desiredIdentity || ps.script?.affirmations?.[0] || 'Personalized subconscious alignment'}"
+                        </p>
+                      </div>
+
+                      <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between">
+                        <span className="text-[11px] text-gray-400">
+                          {Math.round((ps.audio?.durationSeconds || 180) / 60)} min session
+                        </span>
+                        <button
+                          type="button"
+                          className="px-3 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                        >
+                          ▶ Play
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-4 rounded-xl bg-white/[0.02] border border-dashed border-white/10 text-center">
+                  <p className="text-xs text-gray-400">No custom sessions generated yet.</p>
+                  <Link to="/onboarding" className="text-xs text-cyan-400 hover:underline font-semibold mt-1 inline-block">
+                    Take the 6-question intention questionnaire to generate your first session →
+                  </Link>
+                </div>
+              )}
+            </div>
+
             {/* 1. Made For You */}
             <div id="made-for-you-rail">
               <SubliminalRail

@@ -1,198 +1,234 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Briefcase,
-  Coins,
   Sparkles,
-  Heart,
-  Compass,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  Orbit,
+  Coins,
+  Briefcase,
   Flame,
-  Zap,
-  Volume2,
+  Heart,
+  Brain,
+  Zap
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
+import { IntentionBreakdown, type IntentionAnalysisData, type ConceptItem } from '../components/session/IntentionBreakdown';
+import { SessionCustomizerModal } from '../components/session/SessionCustomizerModal';
 import './OnboardingPage.css';
 
 interface CategoryOption {
-  id: 'career' | 'wealth' | 'peace' | 'confidence' | 'love' | 'travel';
+  id: string;
   title: string;
   desc: string;
-  icon: React.FC<{ size: number; color?: string }>;
-  suggestedGoal: string;
-  suggestedIdentity: string;
+  icon: React.FC<{ size: number }>;
 }
 
 const CATEGORIES: CategoryOption[] = [
   {
     id: 'wealth',
     title: 'Wealth & Financial Sovereignty',
-    desc: 'Dissolving scarcity and stepping into grounded financial freedom and abundance.',
+    desc: 'Compounding abundance, mindful stewardship, and sovereign peace.',
     icon: Coins,
-    suggestedGoal: 'Financial freedom and abundant passive income streams',
-    suggestedIdentity: 'I am a creator and natural steward of sustainable wealth.',
   },
   {
     id: 'career',
     title: 'Calling & Creative Mastery',
-    desc: 'Leading work that fulfills your highest creative and professional potential.',
+    desc: 'Effortless execution, high-impact craft, and recognized leadership.',
     icon: Briefcase,
-    suggestedGoal: 'Leading visionary creative work that creates lasting global value',
-    suggestedIdentity: 'I am disciplined, visionary, and deeply valued for my craft.',
-  },
-  {
-    id: 'peace',
-    title: 'Inner Stillness & Clarity',
-    desc: 'Untangling mental friction, living centered in present calm and grounded focus.',
-    icon: Sparkles,
-    suggestedGoal: 'Unshakable peace of mind and calm sovereign presence',
-    suggestedIdentity: 'I am centered, unreactive, and anchored in quiet self-assurance.',
   },
   {
     id: 'confidence',
-    title: 'Vitality & Unshakable Trust',
-    desc: 'Reclaiming high physical energy, deep somatic confidence, and authentic self-trust.',
+    title: 'Unshakable Certainty & Presence',
+    desc: 'Dissolving self-doubt and stepping into magnetic self-assurance.',
     icon: Flame,
-    suggestedGoal: 'Peak physical vitality and radical belief in my capabilities',
-    suggestedIdentity: 'I am strong, resilient, and trust my intuition completely.',
+  },
+  {
+    id: 'focus',
+    title: 'Deep Clarity & Cognitive Flow',
+    desc: 'Laser mental stillness, eliminating friction and overthinking.',
+    icon: Brain,
   },
   {
     id: 'love',
-    title: 'Deep Connection & Harmony',
-    desc: 'Attracting and cultivating authentic, mutual, and elevating relationships.',
+    title: 'Devoted Harmony & Connection',
+    desc: 'Attracting and nurturing mutual, elevating, and authentic relationships.',
     icon: Heart,
-    suggestedGoal: 'Deep, honest, supportive love and lifelong collaborative bonds',
-    suggestedIdentity: 'I am worthy of authentic connection and bring openness to every interaction.',
   },
   {
-    id: 'travel',
-    title: 'Freedom & Exploration',
-    desc: 'Designing an unconstrained life of geographic mobility, beauty, and discovery.',
-    icon: Compass,
-    suggestedGoal: 'A flexible life of worldwide exploration and location independence',
-    suggestedIdentity: 'I am adaptable, free, and live life as an expansive adventure.',
+    id: 'vitality',
+    title: 'Peak Energy & Somatic Radiance',
+    desc: 'Cellular glow, restorative physical vitality, and inner stamina.',
+    icon: Zap,
   },
-];
-
-const EMOTIONAL_FREQUENCIES = [
-  {
-    name: 'Grounded Serenity',
-    frequency: '432 Hz',
-    desc: 'Earth resonance, emotional equilibrium, calm assurance',
-    color: '#38bdf8',
-  },
-  {
-    name: 'Radiant Transformation',
-    frequency: '528 Hz',
-    desc: 'Miracle tone, deep cellular harmony, high vitality',
-    color: '#10b981',
-  },
-  {
-    name: 'Harmonious Connection',
-    frequency: '639 Hz',
-    desc: 'Interpersonal resonance, empathy, magnetic presence',
-    color: '#8b5cf6',
-  },
-  {
-    name: 'Sovereign Purpose',
-    frequency: '741 Hz',
-    desc: 'Intuition, mental clarity, dissolving imposter syndrome',
-    color: '#fbbf24',
-  },
-];
-
-const MICRO_ACTIONS = [
-  'Commit to a 10-minute Morning Identity launch tomorrow',
-  'Clear physical distractions from my creative workspace',
-  'Complete one high-priority aligned task without multitasking',
-  'Take a 15-minute contemplative walk listening to Solfeggio audio',
-  'Write down 3 moments where reality has already begun shifting',
 ];
 
 export const OnboardingPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, updateUserLocal } = useAuth();
 
+  // 6 Onboarding Questions State
   const [step, setStep] = useState(1);
-  const [submitting, setSubmitting] = useState(false);
+  const [desiredOutcome, setDesiredOutcome] = useState('Unshakable mental clarity and compounding creative momentum');
+  const [desiredIdentity, setDesiredIdentity] = useState('A calm, prolific creator who executes with quiet sovereignty');
+  const [emotionalState, setEmotionalState] = useState('Grounded, serene, expansive certainty');
+  const [currentBlock, setCurrentBlock] = useState('Overthinking, hesitation, and self-imposed pressure');
+  const [dailyAction, setDailyAction] = useState('1 hour of uninterrupted morning deep work');
+  const [selectedCategory, setSelectedCategory] = useState('focus');
 
-  // Form State
-  const [selectedCategory, setSelectedCategory] = useState<CategoryOption['id']>('wealth');
-  const [realityGoal, setRealityGoal] = useState('Financial freedom and abundant passive income streams');
-  const [futureLifeVision, setFutureLifeVision] = useState(
-    'I wake up without an alarm, centered and free. My schedule is sovereign, my work generates high impact, and I invest in what I believe in with effortless confidence.'
-  );
-  const [identityStatement, setIdentityStatement] = useState('I am a creator and natural steward of sustainable wealth.');
-  const [selectedFrequency, setSelectedFrequency] = useState('528 Hz');
-  const [selectedAction, setSelectedAction] = useState(MICRO_ACTIONS[0]);
-
-  const handleCategorySelect = (cat: CategoryOption) => {
-    setSelectedCategory(cat.id);
-    setRealityGoal(cat.suggestedGoal);
-    setIdentityStatement(cat.suggestedIdentity);
-  };
+  // Analysis & Concept States
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisData, setAnalysisData] = useState<IntentionAnalysisData | null>(null);
+  const [selectedConcept, setSelectedConcept] = useState<ConceptItem | null>(null);
+  const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
 
   const handleNext = () => {
-    if (step < 5) {
-      setStep((prev) => prev + 1);
+    if (step < 6) {
+      setStep(prev => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      handleComplete();
+      handleCompleteQuestions();
     }
   };
 
   const handleBack = () => {
     if (step > 1) {
-      setStep((prev) => prev - 1);
+      setStep(prev => prev - 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleComplete = async () => {
-    setSubmitting(true);
+  const handleCompleteQuestions = async () => {
+    setIsAnalyzing(true);
     try {
-      // 1. Add primary goal to user's universe simulation
-      await api.addGoal(realityGoal, selectedCategory, identityStatement);
+      const payload = {
+        desiredOutcome,
+        desiredIdentity,
+        emotionalState,
+        currentBlock,
+        dailyAction,
+        category: selectedCategory
+      };
 
-      // 2. Update user preferences
-      await api.updateProfile(undefined, {
-        preferredMood: selectedFrequency,
-        preferredDuration: 15,
-        visualizationStyle: 'embodied',
-        affirmationStyle: 'present-tense',
-      });
-
-      // 3. Mark user as onboarded in storage and AuthContext
-      const userId = user?.id || user?.email || 'current';
-      localStorage.setItem(`orbit_onboarded_${userId}`, 'true');
-      updateUserLocal({ onboarded: true });
-
-      // 4. Redirect to celestial universe
-      navigate('/app');
+      const res: any = await api.analyzeIntention(payload);
+      if (res?.success && res.data) {
+        setAnalysisData(res.data);
+      } else {
+        throw new Error(res?.message || 'Failed to analyze intention');
+      }
     } catch (err) {
-      console.warn('Onboarding save error:', err);
-      // Fallback: still mark onboarded locally so user can continue
-      const userId = user?.id || user?.email || 'current';
-      localStorage.setItem(`orbit_onboarded_${userId}`, 'true');
-      updateUserLocal({ onboarded: true });
-      navigate('/app');
+      console.error('Analysis error:', err);
+      // Fallback analysis if offline
+      setAnalysisData({
+        coreShift: `Transforming from "${currentBlock}" into "${desiredIdentity}".`,
+        keyThemes: ['Sovereign Calm', 'Effortless Flow', 'Identity Alignment'],
+        recommendedFocus: `Anchor daily with: "${dailyAction}".`,
+        concepts: [
+          {
+            id: 'sovereign-momentum',
+            title: 'Sovereign Flow: Unshakable Certainty',
+            tagline: 'Quiet the mental noise and align with effortless execution.',
+            description: 'A deep acoustic journey weaving gentle rain and calming frequencies to dissolve hesitation.',
+            targetOutcome: desiredOutcome,
+            category: selectedCategory,
+            suggestedDuration: 5,
+            suggestedAmbience: 'rain-light',
+            suggestedFrequencyHz: 432
+          },
+          {
+            id: 'deep-grounding-alignment',
+            title: 'Earth Anchor: Cellular Peace',
+            tagline: 'Step into complete somatic stability and creative poise.',
+            description: 'Rich rain on glass layered with low frequencies to center your nervous system.',
+            targetOutcome: desiredOutcome,
+            category: selectedCategory,
+            suggestedDuration: 10,
+            suggestedAmbience: 'rain-window',
+            suggestedFrequencyHz: 528
+          }
+        ]
+      });
     } finally {
-      setSubmitting(false);
+      setIsAnalyzing(false);
     }
   };
 
-  const stepLabels = ['Reality Shift', 'Future Memory', 'Identity', 'Frequency', 'Action Anchor'];
+  const handleConceptSelect = (concept: ConceptItem) => {
+    setSelectedConcept(concept);
+    setIsCustomizerOpen(true);
+  };
+
+  const handleSessionSuccess = async (_session: any) => {
+    // Mark user as onboarded in storage and AuthContext
+    const userId = user?.id || user?.email || 'current';
+    localStorage.setItem(`orbit_onboarded_${userId}`, 'true');
+    updateUserLocal({ onboarded: true });
+
+    // Close modal and navigate to universe/subliminals
+    setIsCustomizerOpen(false);
+    navigate('/subliminals');
+  };
+
+  // If analysis is ready, show Intention Breakdown Screen
+  if (analysisData) {
+    return (
+      <div className="orbit-onboarding-container">
+        <div className="orbit-onboarding-wrapper">
+          <IntentionBreakdown
+            analysis={analysisData}
+            onSelectConcept={handleConceptSelect}
+            onBack={() => setAnalysisData(null)}
+          />
+
+          {selectedConcept && (
+            <SessionCustomizerModal
+              concept={selectedConcept}
+              answers={{
+                desiredOutcome,
+                desiredIdentity,
+                emotionalState,
+                currentBlock,
+                dailyAction,
+                category: selectedCategory
+              }}
+              isOpen={isCustomizerOpen}
+              onClose={() => setIsCustomizerOpen(false)}
+              onSuccess={handleSessionSuccess}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Analyzing state screen
+  if (isAnalyzing) {
+    return (
+      <div className="orbit-onboarding-container">
+        <div className="orbit-onboarding-wrapper text-center py-20 animate-fade-in">
+          <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border-4 border-indigo-500/20 border-t-cyan-400 animate-spin" />
+            <Sparkles size={36} className="text-cyan-400 animate-pulse" />
+          </div>
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">
+            Synthesizing Your Neural Architecture
+          </h2>
+          <p className="text-sm text-gray-400 mt-2 max-w-md mx-auto">
+            Analyzing your core desired identity and subconscious friction points with Gemini...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const stepLabels = ['Outcome', 'Identity', 'Feeling', 'Friction', 'Anchor', 'Sphere'];
   const progressPercent = ((step - 1) / (stepLabels.length - 1)) * 100;
 
   return (
     <div className="orbit-onboarding-container">
       <div className="orbit-onboarding-wrapper">
-        {/* Stepper Progress */}
-        <div className="orbit-onboarding-progress" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={5}>
+        {/* Progress Stepper */}
+        <div className="orbit-onboarding-progress" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={6}>
           <div className="orbit-onboarding-progress-bar-bg" />
           <div
             className="orbit-onboarding-progress-bar-fill"
@@ -201,18 +237,15 @@ export const OnboardingPage: React.FC = () => {
 
           {stepLabels.map((label, idx) => {
             const stepNum = idx + 1;
-            const isCompleted = stepNum < step;
-            const isActive = stepNum === step;
-
+            const isActive = step === stepNum;
+            const isCompleted = step > stepNum;
             return (
               <div
                 key={label}
-                className={`orbit-onboarding-step-indicator ${
-                  isCompleted ? 'completed' : isActive ? 'active' : ''
-                }`}
+                className={`orbit-onboarding-step-indicator ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
               >
                 <div className="orbit-onboarding-step-dot">
-                  {isCompleted ? <CheckCircle2 size={16} /> : stepNum}
+                  {isCompleted ? '✓' : stepNum}
                 </div>
                 <span className="orbit-onboarding-step-label">{label}</span>
               </div>
@@ -220,339 +253,225 @@ export const OnboardingPage: React.FC = () => {
           })}
         </div>
 
-        {/* Dynamic Step Content Card */}
-        <div className="orbit-onboarding-card">
-          {/* STEP 1: What do you want to change in your reality? */}
+        {/* Card Body */}
+        <div className="orbit-onboarding-card p-8 rounded-2xl bg-[#0b0d26]/80 border border-white/10 backdrop-blur-xl shadow-2xl animate-fade-in">
+          {/* Question 1: Desired Outcome */}
           {step === 1 && (
-            <div>
-              <div className="orbit-onboarding-step-badge">
-                <Orbit size={14} />
-                <span>Step 1 of 5 • Prime Your Universe</span>
-              </div>
-              <h1 className="orbit-onboarding-question">
-                What do you want to change in your reality?
-              </h1>
-              <p className="orbit-onboarding-subtitle">
-                Select the pillar of life you are currently ready to transform. This will become your primary celestial focal planet.
-              </p>
-
-              <div className="orbit-category-grid">
-                {CATEGORIES.map((cat) => {
-                  const Icon = cat.icon;
-                  const isSelected = selectedCategory === cat.id;
-
-                  return (
-                    <button
-                      type="button"
-                      key={cat.id}
-                      className={`orbit-category-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => handleCategorySelect(cat)}
-                    >
-                      <div className="orbit-category-icon-wrapper">
-                        <Icon size={20} color={isSelected ? '#ffffff' : 'var(--celestial-cyan)'} />
-                      </div>
-                      <div>
-                        <div className="orbit-category-title">{cat.title}</div>
-                        <div className="orbit-category-desc">{cat.desc}</div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
+            <div className="space-y-6">
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-                  Refine your reality shift statement:
-                </label>
-                <input
-                  type="text"
-                  className="orbit-onboarding-input"
-                  value={realityGoal}
-                  onChange={(e) => setRealityGoal(e.target.value)}
-                  placeholder="e.g. Achieving location-independent financial abundance"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* STEP 2: What would your life look like if you already had it? */}
-          {step === 2 && (
-            <div>
-              <div className="orbit-onboarding-step-badge">
-                <Sparkles size={14} />
-                <span>Step 2 of 5 • The Somatic Vision</span>
-              </div>
-              <h1 className="orbit-onboarding-question">
-                What would your life look like if you already had it?
-              </h1>
-              <p className="orbit-onboarding-subtitle">
-                Do not view it as a far-off hope. Ground yourself in the vivid reality that it has already manifested. What sensory details fill your day?
-              </p>
-
-              <div className="orbit-prompt-pills">
-                <button
-                  type="button"
-                  className="orbit-prompt-pill"
-                  onClick={() =>
-                    setFutureLifeVision(
-                      'I wake up calmly in a light-filled space. My time is sovereign, and my work is a joyful reflection of my natural curiosity.'
-                    )
-                  }
-                >
-                  🌅 Peaceful Morning Routine
-                </button>
-                <button
-                  type="button"
-                  className="orbit-prompt-pill"
-                  onClick={() =>
-                    setFutureLifeVision(
-                      'I walk into rooms with calm certitude. I lead creative projects effortlessly, surrounded by trusted peers who challenge and support me.'
-                    )
-                  }
-                >
-                  💼 Sovereign Creative Flow
-                </button>
-                <button
-                  type="button"
-                  className="orbit-prompt-pill"
-                  onClick={() =>
-                    setFutureLifeVision(
-                      'My bank balance is abundant and steadily compounding. Money is an easy, stress-free tool for security, generosity, and freedom.'
-                    )
-                  }
-                >
-                  💎 Effortless Abundance
-                </button>
+                <span className="text-xs uppercase tracking-wider text-cyan-400 font-bold">Step 1 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">What reality are you calling in?</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  Describe the tangible outcome, achievement, or life reality you are choosing to manifest.
+                </p>
               </div>
 
               <textarea
-                className="orbit-onboarding-textarea"
-                value={futureLifeVision}
-                onChange={(e) => setFutureLifeVision(e.target.value)}
-                placeholder="Describe your reality in present tense... Where are you? What are you doing? How does your day unfold?"
+                value={desiredOutcome}
+                onChange={(e) => setDesiredOutcome(e.target.value)}
+                rows={4}
+                className="w-full p-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-400 text-white text-sm focus:outline-none transition-all placeholder-gray-500 leading-relaxed"
+                placeholder="e.g. Unshakable creative momentum, financial freedom, sovereign peace..."
               />
             </div>
           )}
 
-          {/* STEP 3: Who are you in that reality? */}
-          {step === 3 && (
-            <div>
-              <div className="orbit-onboarding-step-badge">
-                <Zap size={14} />
-                <span>Step 3 of 5 • Identity Shift</span>
+          {/* Question 2: Desired Identity */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-purple-400 font-bold">Step 2 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">Who do you become when this is your truth?</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  Shift from "trying to get" to the core identity statement of the person who naturally has it.
+                </p>
               </div>
-              <h1 className="orbit-onboarding-question">
-                Who are you in that reality?
-              </h1>
-              <p className="orbit-onboarding-subtitle">
-                Manifestation is an identity shift, never wishful thinking. You do not attract what you want; you attract what you embody.
-              </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              <textarea
+                value={desiredIdentity}
+                onChange={(e) => setDesiredIdentity(e.target.value)}
+                rows={4}
+                className="w-full p-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-purple-400 text-white text-sm focus:outline-none transition-all placeholder-gray-500 leading-relaxed"
+                placeholder="e.g. I am a prolific, grounded creator who executes effortlessly..."
+              />
+            </div>
+          )}
+
+          {/* Question 3: Emotional State */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-emerald-400 font-bold">Step 3 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">What is your primary feeling in this state?</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  Name the emotional frequency and somatic texture of this reality.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
                 {[
-                  'I am a creator and natural steward of sustainable wealth.',
-                  'I am disciplined, focused, and deeply confident in my execution.',
-                  'I am centered, sovereign, and calm amidst any external turbulence.',
-                  'I am courageous and embrace aligned action without hesitation.',
-                ].map((statement) => (
+                  'Grounded, serene certainty',
+                  'Quiet, unshakable confidence',
+                  'Expansive creative ecstasy',
+                  'Deep somatic peace and ease',
+                  'Magnetic, effortless presence',
+                  'Laser-clear mental stillness'
+                ].map((feel) => (
                   <button
-                    key={statement}
+                    key={feel}
                     type="button"
-                    onClick={() => setIdentityStatement(statement)}
-                    style={{
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '12px',
-                      background: identityStatement === statement ? 'rgba(139, 92, 246, 0.2)' : 'rgba(255, 255, 255, 0.03)',
-                      border: identityStatement === statement ? '1px solid #8b5cf6' : '1px solid rgba(255, 255, 255, 0.08)',
-                      color: identityStatement === statement ? '#ffffff' : 'var(--text-secondary)',
-                      fontSize: '0.875rem',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                    }}
+                    onClick={() => setEmotionalState(feel)}
+                    className={`p-3 rounded-xl border text-xs font-semibold text-left transition-all ${
+                      emotionalState === feel
+                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200'
+                        : 'bg-white/[0.02] border-white/10 text-gray-400 hover:border-white/20'
+                    }`}
                   >
-                    "{statement}"
+                    {feel}
                   </button>
                 ))}
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-                  Or write your own present-tense "I AM" statement:
-                </label>
-                <input
-                  type="text"
-                  className="orbit-onboarding-input"
-                  value={identityStatement}
-                  onChange={(e) => setIdentityStatement(e.target.value)}
-                  placeholder="I am..."
-                />
-              </div>
+              <input
+                type="text"
+                value={emotionalState}
+                onChange={(e) => setEmotionalState(e.target.value)}
+                className="w-full p-3 rounded-xl bg-white/[0.03] border border-white/10 focus:border-emerald-400 text-white text-xs focus:outline-none transition-all mt-2"
+                placeholder="Or type a custom emotional state..."
+              />
             </div>
           )}
 
-          {/* STEP 4: How does that version of you feel? */}
+          {/* Question 4: Current Block */}
           {step === 4 && (
-            <div>
-              <div className="orbit-onboarding-step-badge">
-                <Volume2 size={14} />
-                <span>Step 4 of 5 • Emotional Frequency</span>
+            <div className="space-y-6">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-rose-400 font-bold">Step 4 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">What internal friction are you releasing?</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  Be honest about the recurrent thought loop, hesitation, or fear ORBIT will gently dissolve.
+                </p>
               </div>
-              <h1 className="orbit-onboarding-question">
-                How does that version of you feel?
-              </h1>
-              <p className="orbit-onboarding-subtitle">
-                Tune your inner state. Select the primary emotional frequency that represents the embodiment of your achieved desire.
-              </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-                {EMOTIONAL_FREQUENCIES.map((freq) => {
-                  const isSelected = selectedFrequency === freq.frequency;
-
-                  return (
-                    <button
-                      key={freq.name}
-                      type="button"
-                      onClick={() => setSelectedFrequency(freq.frequency)}
-                      style={{
-                        padding: '1.25rem',
-                        borderRadius: '14px',
-                        background: isSelected ? 'rgba(139, 92, 246, 0.2)' : 'rgba(255, 255, 255, 0.03)',
-                        border: isSelected ? `1px solid ${freq.color}` : '1px solid rgba(255, 255, 255, 0.08)',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#ffffff' }}>
-                          {freq.name}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '0.75rem',
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            borderRadius: '999px',
-                            background: 'rgba(255, 255, 255, 0.08)',
-                            color: freq.color,
-                          }}
-                        >
-                          {freq.frequency}
-                        </span>
-                      </div>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
-                        {freq.desc}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
+              <textarea
+                value={currentBlock}
+                onChange={(e) => setCurrentBlock(e.target.value)}
+                rows={4}
+                className="w-full p-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-rose-400 text-white text-sm focus:outline-none transition-all placeholder-gray-500 leading-relaxed"
+                placeholder="e.g. Overthinking decisions, imposter feelings, procrastination loop..."
+              />
             </div>
           )}
 
-          {/* STEP 5: What are you willing to do to move toward it? */}
+          {/* Question 5: Daily Anchoring Action */}
           {step === 5 && (
-            <div>
-              <div className="orbit-onboarding-step-badge">
-                <CheckCircle2 size={14} />
-                <span>Step 5 of 5 • The Controllable Action Anchor</span>
+            <div className="space-y-6">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-amber-400 font-bold">Step 5 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">What single action anchors this daily?</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  A tangible, effortless daily micro-habit that locks your physical body into this frequency.
+                </p>
               </div>
-              <h1 className="orbit-onboarding-question">
-                What are you willing to do to move toward it?
-              </h1>
-              <p className="orbit-onboarding-subtitle">
-                <strong>Manifestation is not a replacement for action.</strong> Thought primes the compass, but consistent disciplined execution moves the ship. Choose your first reality anchor:
-              </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                {MICRO_ACTIONS.map((action) => {
-                  const isSelected = selectedAction === action;
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  '1 hour of morning uninterrupted creative deep work',
+                  '15-minute silent walk listening to subliminal audio',
+                  'Writing down 3 moments where reality is already shifting',
+                  'Starting my day before opening any digital feeds'
+                ].map((act) => (
+                  <button
+                    key={act}
+                    type="button"
+                    onClick={() => setDailyAction(act)}
+                    className={`p-3 rounded-xl border text-xs font-semibold text-left transition-all ${
+                      dailyAction === act
+                        ? 'bg-amber-500/20 border-amber-400 text-amber-200'
+                        : 'bg-white/[0.02] border-white/10 text-gray-400 hover:border-white/20'
+                    }`}
+                  >
+                    {act}
+                  </button>
+                ))}
+              </div>
 
+              <input
+                type="text"
+                value={dailyAction}
+                onChange={(e) => setDailyAction(e.target.value)}
+                className="w-full p-3 rounded-xl bg-white/[0.03] border border-white/10 focus:border-amber-400 text-white text-xs focus:outline-none transition-all mt-2"
+                placeholder="Or define your own daily micro-habit..."
+              />
+            </div>
+          )}
+
+          {/* Question 6: Category Focus */}
+          {step === 6 && (
+            <div className="space-y-6">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-cyan-400 font-bold">Step 6 of 6</span>
+                <h2 className="text-2xl font-bold text-white mt-1">Select your primary energetic sphere</h2>
+                <p className="text-sm text-gray-400 mt-1">
+                  This fine-tunes the subconscious vocabulary and acoustic resonance of your sessions.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {CATEGORIES.map((cat) => {
+                  const Icon = cat.icon;
+                  const isSel = selectedCategory === cat.id;
                   return (
                     <button
-                      key={action}
+                      key={cat.id}
                       type="button"
-                      onClick={() => setSelectedAction(action)}
-                      style={{
-                        padding: '1rem 1.25rem',
-                        borderRadius: '12px',
-                        background: isSelected ? 'rgba(139, 92, 246, 0.2)' : 'rgba(255, 255, 255, 0.03)',
-                        border: isSelected ? '1px solid #8b5cf6' : '1px solid rgba(255, 255, 255, 0.08)',
-                        color: isSelected ? '#ffffff' : 'var(--text-secondary)',
-                        fontSize: '0.875rem',
-                        fontWeight: isSelected ? 600 : 500,
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.75rem',
-                        transition: 'all 0.2s ease',
-                      }}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`p-4 rounded-xl border text-left flex items-start gap-3 transition-all ${
+                        isSel
+                          ? 'bg-cyan-500/20 border-cyan-400 text-white shadow-lg shadow-cyan-500/10'
+                          : 'bg-white/[0.02] border-white/10 text-gray-400 hover:border-white/20'
+                      }`}
                     >
-                      <div
-                        style={{
-                          width: '20px',
-                          height: '20px',
-                          borderRadius: '50%',
-                          border: isSelected ? '2px solid #38bdf8' : '2px solid rgba(255, 255, 255, 0.2)',
-                          background: isSelected ? '#38bdf8' : 'transparent',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        {isSelected && <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0b0d21' }} />}
+                      <div className={`p-2 rounded-lg ${isSel ? 'bg-cyan-500/30 text-cyan-300' : 'bg-white/5 text-gray-400'}`}>
+                        <Icon size={18} />
                       </div>
-                      <span>{action}</span>
+                      <div>
+                        <div className="text-xs font-bold text-white">{cat.title}</div>
+                        <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-2">{cat.desc}</div>
+                      </div>
                     </button>
                   );
                 })}
               </div>
-
-              {/* Standing Formula reminder */}
-              <div
-                style={{
-                  padding: '1rem 1.25rem',
-                  borderRadius: '12px',
-                  background: 'rgba(251, 191, 36, 0.08)',
-                  border: '1px solid rgba(251, 191, 36, 0.25)',
-                  fontSize: '0.825rem',
-                  color: 'var(--celestial-gold)',
-                  lineHeight: 1.5,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.65rem',
-                }}
-              >
-                <span>⚡</span>
-                <span>
-                  <strong>The ORBIT Equation:</strong> INTENTION + BELIEF + CONSISTENT ACTION + PATIENCE + REFLECTION
-                </span>
-              </div>
             </div>
           )}
 
-          {/* Stepper Footer Controls */}
-          <div className="orbit-onboarding-footer">
+          {/* Nav Controls */}
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
             {step > 1 ? (
-              <button type="button" className="orbit-btn-back" onClick={handleBack} disabled={submitting}>
-                <ArrowLeft size={16} />
-                <span>Back</span>
+              <button
+                type="button"
+                onClick={handleBack}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+              >
+                <ArrowLeft size={16} /> Back
               </button>
-            ) : (
-              <div />
-            )}
+            ) : <div />}
 
             <button
               type="button"
-              className="orbit-btn-next"
               onClick={handleNext}
-              disabled={submitting || (step === 1 && !realityGoal.trim())}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition-all"
             >
-              <span>{submitting ? 'Creating Celestial Universe...' : step === 5 ? 'Enter My Universe' : 'Continue'}</span>
-              <ArrowRight size={16} />
+              {step === 6 ? (
+                <>
+                  <Sparkles size={16} /> Synthesize Intention
+                </>
+              ) : (
+                <>
+                  Continue <ArrowRight size={16} />
+                </>
+              )}
             </button>
           </div>
         </div>

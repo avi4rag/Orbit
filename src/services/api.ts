@@ -556,4 +556,50 @@ export const api = {
   async toggleSubliminalFavorite(id: string) {
     return request(`/subliminals/${id}/favorite`, { method: 'POST' });
   },
+
+  // Personalized AI Subliminal Audio Sessions (Pivot)
+  async getSessionCatalog() {
+    return request('/sessions/catalog');
+  },
+
+  async analyzeIntention(answers: {
+    desiredOutcome: string;
+    desiredIdentity: string;
+    emotionalState: string;
+    currentBlock: string;
+    dailyAction: string;
+    category?: string;
+  }) {
+    return request('/sessions/analyze-intention', {
+      method: 'POST',
+      body: JSON.stringify(answers),
+    });
+  },
+
+  async createPersonalizedSession(payload: {
+    concept: any;
+    answers: any;
+    settings: {
+      durationMinutes: number;
+      usageContext: string;
+      ambienceTrackId: string;
+      frequencyHz?: number;
+      voiceId: string;
+      ttsProvider: string;
+      subliminalIntensity: string;
+    };
+  }) {
+    return request('/sessions', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async getSession(id: string) {
+    return request(`/sessions/${id}`);
+  },
+
+  async listPersonalizedSessions() {
+    return request('/sessions');
+  },
 };
