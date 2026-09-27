@@ -9,6 +9,7 @@ import { ritualsRouter } from './routes/rituals.js';
 import { actionsRouter } from './routes/actions.js';
 import { catalogRouter } from './routes/catalog.js';
 import { subliminalsRouter } from './routes/subliminals.js';
+import { audioProcessorService } from './services/audioProcessor.js';
 
 dotenv.config();
 
@@ -42,6 +43,10 @@ async function bootstrap() {
   await connectDB();
   app.listen(PORT, () => {
     console.log(`[Orbit API] Server listening on http://localhost:${PORT}`);
+    // Step 2 & 16: Automatically process pending/eligible tracks in background
+    audioProcessorService.startBackgroundQueue(25).catch((err) => {
+      console.error('[Orbit API] Failed to start background queue:', err);
+    });
   });
 }
 

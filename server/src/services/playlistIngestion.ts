@@ -1,5 +1,7 @@
 import { PLAYLIST_SOURCES, getUniquePlaylistIds, extractPlaylistId } from '../config/playlists.js';
 import { SubliminalRepository } from '../models/Subliminal.js';
+import { storageService } from './storage.js';
+import { audioProcessorService } from './audioProcessor.js';
 
 export interface IngestionProgress {
   status: 'idle' | 'running' | 'completed' | 'failed';
@@ -250,7 +252,10 @@ export class PlaylistIngestionService {
           const isOvernight = usageTypes.includes('SLEEP');
           const duration = isOvernight ? 28800 : 900;
 
-          await SubliminalRepository.upsertByVideoId({
+          const storageKey = storageService.getStorageKey(videoId);
+          const hasLocalAudio = audioProcessorService.hasMediaFile(`${videoId}.mp3`);
+
+          const inserted: any = await SubliminalRepository.upsertByVideoId({
             title: meta.title,
             description: `Imported subliminal soundscape (${classification.category} - ${classification.subcategory})`,
             category: classification.category,
@@ -258,7 +263,8 @@ export class PlaylistIngestionService {
             usageTypes,
             tags: classification.tags,
             artworkUrl: meta.thumbnailUrl,
-            audioUrl: 'https://actions.google.com/sounds/v1/weather/ambient_stream.ogg',
+            audioUrl: hasLocalAudio ? storageService.getAudioUrl(storageKey) : '',
+            audioStorageKey: storageKey,
             source: {
               platform: 'youtube',
               videoId,
@@ -268,8 +274,19 @@ export class PlaylistIngestionService {
             duration,
             binauralFreq: isOvernight ? 2.5 : 7.83,
             carrierFreq: 528,
-            processingStatus: 'ready',
+            processingStatus: hasLocalAudio ? 'COMPLETED' : 'PENDING',
+            processingCompletedAt: hasLocalAudio ? new Date() : undefined,
           });
+
+          // Trigger processing job for newly inserted pending videos
+          if (!hasLocalAudio && inserted) {
+            const docId = inserted.id || inserted._id?.toString();
+            if (docId) {
+              audioProcessorService.processSubliminal(docId).catch((err: any) => {
+                console.error(`[PlaylistIngestion] Async processing failed for ${videoId}:`, err.message);
+              });
+            }
+          }
 
           currentProgress.processedCount++;
         } catch (err: any) {

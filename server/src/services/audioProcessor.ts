@@ -67,7 +67,8 @@ export class AudioProcessorService {
   public async processVideo(
     videoId: string,
     title: string = '',
-    expectedDuration?: number
+    expectedDuration?: number,
+    onStage?: (stage: string) => void
   ): Promise<AudioProcessResult> {
     if (!videoId) {
       return { success: false, videoId, error: 'Missing videoId', errorCode: 'INVALID_VIDEO_ID' };
@@ -91,6 +92,7 @@ export class AudioProcessorService {
         '--ffmpeg-bin', FFMPEG_BIN,
         '--ffprobe-bin', FFPROBE_BIN,
         '--title', title,
+        '--mongodb-connected', isDbConnected() ? 'true' : 'false',
       ];
 
       if (expectedDuration && expectedDuration > 0) {
@@ -119,6 +121,11 @@ export class AudioProcessorService {
         stderrData += text;
         // Echo worker stage logs to backend console
         process.stderr.write(text);
+
+        const stageMatch = text.match(/processingStatus=([A-Z]+)/);
+        if (stageMatch && stageMatch[1] && onStage) {
+          onStage(stageMatch[1]);
+        }
       });
 
       child.on('close', (code) => {
@@ -211,7 +218,16 @@ export class AudioProcessorService {
       processingError: undefined,
     });
 
-    const result = await this.processVideo(videoId, session.title, session.duration);
+    const result = await this.processVideo(
+      videoId,
+      session.title,
+      session.duration,
+      (stage: string) => {
+        this.updateRecordStatus(subliminalId, {
+          processingStatus: stage,
+        }).catch(() => {});
+      }
+    );
 
     if (result.success && result.audioUrl) {
       await this.updateRecordStatus(subliminalId, {

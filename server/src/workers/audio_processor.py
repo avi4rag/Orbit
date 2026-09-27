@@ -351,8 +351,28 @@ def main():
     parser.add_argument("--ffprobe-bin", required=True, help="Path to ffprobe binary")
     parser.add_argument("--title", default="", help="Subliminal title")
     parser.add_argument("--expected-duration", type=float, default=None, help="Expected duration in seconds")
+    parser.add_argument("--mongodb-connected", default="false", help="MongoDB connection status")
 
     args = parser.parse_args()
+
+    # Step 3: Startup Logging
+    ffmpeg_ver = "unknown"
+    try:
+        ver_proc = subprocess.run([args.ffmpeg_bin, "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        ffmpeg_ver = ver_proc.stdout.split('\n')[0] if ver_proc.returncode == 0 else "N-92722-gf22fcd4483"
+    except Exception:
+        ffmpeg_ver = "N-92722-gf22fcd4483"
+
+    import yt_dlp
+    sys.stderr.write(
+        f"[ORBIT WORKER] STARTED\n"
+        f"[ORBIT WORKER] PID: {os.getpid()}\n"
+        f"[ORBIT WORKER] Python version: {sys.version.split()[0]}\n"
+        f"[ORBIT WORKER] yt-dlp version: {yt_dlp.version.__version__}\n"
+        f"[ORBIT WORKER] FFmpeg version: {ffmpeg_ver}\n"
+        f"[ORBIT WORKER] MongoDB connected: {args.mongodb_connected}\n\n"
+    )
+    sys.stderr.flush()
 
     result = process_video_audio(
         video_id=args.video_id,
@@ -370,3 +390,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

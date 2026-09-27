@@ -1,5 +1,89 @@
 export const SEED_SUBLIMINALS: any[] = [
   {
+    "id": "yt-rikuTng0N7g",
+    "slug": "get-a-love-confession-from-sp-immediately-subliminal",
+    "title": "⁎⁺˳✧༚☆ GET A LOVE CONFESSION FROM SP IMMEDIATELY subliminal ☆༚✧⁎⁺˳",
+    "description": "Imported subliminal soundscape (Love & Relationships - Relational Harmony). Original frequency-engineered audio.",
+    "category": "love",
+    "categoryTitle": "Love & Relationships",
+    "subcategory": "Relational Harmony",
+    "usageTypes": [
+      "ONE TIME",
+      "DAYTIME"
+    ],
+    "tags": [
+      "love",
+      "relationships",
+      "magnetic heart",
+      "sp",
+      "confession"
+    ],
+    "artworkUrl": "https://i.ytimg.com/vi/rikuTng0N7g/hqdefault.jpg",
+    "audioUrl": "/api/subliminals/media/rikuTng0N7g.mp3",
+    "audioStorageKey": "subliminals/rikuTng0N7g.mp3",
+    "audioFileHash": "bcef1dd5f39307a753b74cd3c9fef60cebf68079e14af5c0f82f8e3ba6019462",
+    "source": {
+      "platform": "youtube",
+      "videoId": "rikuTng0N7g",
+      "url": "https://www.youtube.com/watch?v=rikuTng0N7g",
+      "creator": "Rita Kaminski"
+    },
+    "duration": 204,
+    "sourceDuration": 204,
+    "binauralFreq": 7.83,
+    "carrierFreq": 432,
+    "spokenAffirmations": [
+      "My reality shifts in accordance with my inner frequency.",
+      "I embody the vibration of what is already mine."
+    ],
+    "processingStatus": "COMPLETED",
+    "playCount": 14250,
+    "createdAt": "2026-09-27T10:45:00.000Z",
+    "updatedAt": "2026-09-27T10:45:00.000Z"
+  },
+  {
+    "id": "yt-o939vPPwSXA",
+    "slug": "get-a-text-or-call-from-sp-subliminal",
+    "title": "⁎⁺˳✧༚☆ get a text or call from SP subliminal ☆༚✧⁎⁺˳",
+    "description": "Imported subliminal soundscape (Love & Relationships - Relational Harmony). Original frequency-engineered audio.",
+    "category": "love",
+    "categoryTitle": "Love & Relationships",
+    "subcategory": "Relational Harmony",
+    "usageTypes": [
+      "ONE TIME",
+      "DAYTIME"
+    ],
+    "tags": [
+      "love",
+      "relationships",
+      "magnetic heart",
+      "text",
+      "call"
+    ],
+    "artworkUrl": "https://i.ytimg.com/vi/o939vPPwSXA/hqdefault.jpg",
+    "audioUrl": "/api/subliminals/media/o939vPPwSXA.mp3",
+    "audioStorageKey": "subliminals/o939vPPwSXA.mp3",
+    "audioFileHash": "9442307a0cb143eb4bdfc0e527b8251b0df44be2bdaa51f05c1c246e068d13ee",
+    "source": {
+      "platform": "youtube",
+      "videoId": "o939vPPwSXA",
+      "url": "https://www.youtube.com/watch?v=o939vPPwSXA",
+      "creator": "Rita Kaminski"
+    },
+    "duration": 192,
+    "sourceDuration": 192,
+    "binauralFreq": 7.83,
+    "carrierFreq": 432,
+    "spokenAffirmations": [
+      "My reality shifts in accordance with my inner frequency.",
+      "I embody the vibration of what is already mine."
+    ],
+    "processingStatus": "COMPLETED",
+    "playCount": 12190,
+    "createdAt": "2026-09-27T10:47:00.000Z",
+    "updatedAt": "2026-09-27T10:47:00.000Z"
+  },
+  {
     "id": "yt-jXI6L9BLKVw",
     "slug": "glow-up-subliminal-calm-overnight-you-will-look-un",
     "title": ".𖥔 ݁ ˖   glow up subliminal calm + overnight ˖ ݁ 𖥔.  you will look unrecognizable after ONE listen",
@@ -5075,7 +5159,7 @@ export const SEED_SUBLIMINALS: any[] = [
       "courage"
     ],
     "artworkUrl": "https://i.ytimg.com/vi/ebW7lzKm83U/hqdefault.jpg",
-    "audioUrl": "/api/subliminals/media/ebW7lzKm83U.mp3",
+    "audioUrl": "",
     "source": {
       "platform": "youtube",
       "videoId": "ebW7lzKm83U",
@@ -5089,11 +5173,10 @@ export const SEED_SUBLIMINALS: any[] = [
       "My reality shifts in accordance with my inner frequency.",
       "I embody the vibration of what is already mine."
     ],
-    "processingStatus": "COMPLETED",
+    "processingStatus": "PENDING",
     "playCount": 41030,
     "createdAt": "2026-09-21T09:50:53.159Z",
-    "updatedAt": "2026-09-25T09:58:03.017Z",
-    "audioFileHash": "3d750849d78014d97a1218b6cee64f7e34210a1ade61bf8ed2c05a4bb9d751e8"
+    "updatedAt": "2026-09-25T09:58:03.017Z"
   },
   {
     "id": "yt-U-f5fd_mCoA",
