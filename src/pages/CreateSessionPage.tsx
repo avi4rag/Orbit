@@ -11,11 +11,21 @@ import {
   AlertCircle,
   ArrowLeft,
   Volume2,
-  Mic
+  Mic,
+  Target,
+  TrendingUp,
+  Star,
+  Wand2,
+  Moon,
+  Zap,
+  Shield,
+  RefreshCw
 } from 'lucide-react';
 import { api } from '../services/api';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
+import './CreateSessionPage.css';
 
+// ── Types ──────────────────────────────────────────────────────────────────────
 export interface ConceptItem {
   id: string;
   title: string;
@@ -28,25 +38,187 @@ export interface ConceptItem {
   recommendedVoiceStyle: string;
 }
 
+// ── Deterministic category artwork ────────────────────────────────────────────
+function getCategoryArtwork(category: string, index: number): React.ReactNode {
+  const cat = (category || '').toLowerCase();
+
+  const configs: Record<string, { bg: string; accent: string; icon: React.ReactNode }> = {
+    focus:      { bg: 'rgba(37,99,235,0.22)',   accent: '#3b82f6', icon: <Target size={20} /> },
+    wealth:     { bg: 'rgba(109,40,217,0.22)',  accent: '#8b5cf6', icon: <TrendingUp size={20} /> },
+    confidence: { bg: 'rgba(251,191,36,0.15)',  accent: '#fbbf24', icon: <Star size={20} /> },
+    creative:   { bg: 'rgba(236,72,153,0.18)',  accent: '#ec4899', icon: <Wand2 size={20} /> },
+    peace:      { bg: 'rgba(56,189,248,0.15)',  accent: '#38bdf8', icon: <Moon size={20} /> },
+    health:     { bg: 'rgba(16,185,129,0.18)',  accent: '#10b981', icon: <Zap size={20} /> },
+    block:      { bg: 'rgba(244,63,94,0.15)',   accent: '#f43f5e', icon: <Shield size={20} /> },
+  };
+
+  const key = Object.keys(configs).find(k => cat.includes(k)) || '';
+  const cfg = configs[key] || {
+    bg: `rgba(${60 + (index * 37) % 120}, ${20 + (index * 53) % 80}, ${140 + (index * 29) % 100}, 0.2)`,
+    accent: '#8b5cf6',
+    icon: <Sparkles size={20} />
+  };
+
+  return (
+    <div
+      className="cs-card__artwork-inner"
+      style={{ background: `radial-gradient(ellipse at 60% 50%, ${cfg.bg} 0%, rgba(6,7,19,0.6) 80%)` }}
+    >
+      {/* Orbital rings */}
+      <svg style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}
+           width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="28" stroke={cfg.accent} strokeWidth="1" strokeDasharray="4 6" />
+        <circle cx="36" cy="36" r="16" stroke={cfg.accent} strokeWidth="0.75" opacity="0.6" />
+        <circle cx="36" cy="36" r="5" fill={cfg.accent} opacity="0.7" />
+        <circle cx="64" cy="36" r="3" fill={cfg.accent} opacity="0.8" />
+      </svg>
+      {/* Icon */}
+      <div style={{
+        position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+        width: 36, height: 36, borderRadius: 10,
+        background: `${cfg.accent}22`, border: `1px solid ${cfg.accent}44`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: cfg.accent
+      }}>
+        {cfg.icon}
+      </div>
+    </div>
+  );
+}
+
+// ── Concept Card ──────────────────────────────────────────────────────────────
+interface ConceptCardProps {
+  concept: ConceptItem;
+  index: number;
+  total: number;
+  isSelected: boolean;
+  isFirst: boolean;
+  previewingAmbience: string | null;
+  onChoose: (concept: ConceptItem) => void;
+  onPreview: (atmosphere: string) => void;
+}
+
+const ConceptCard: React.FC<ConceptCardProps> = ({
+  concept, index, total, isSelected, isFirst,
+  previewingAmbience, onChoose, onPreview
+}) => {
+  const isPreviewing = previewingAmbience === concept.recommendedAtmosphere;
+
+  return (
+    <div className={`cs-card ${isSelected ? 'cs-card--selected' : ''}`}>
+      {/* Artwork strip */}
+      <div className="cs-card__artwork">
+        {getCategoryArtwork(concept.category, index)}
+      </div>
+
+      <div className="cs-card__body">
+        {/* Top row: index / total, category badge, duration */}
+        <div className="cs-card__toprow">
+          <span className="cs-card__num">{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
+          <span className="cs-card__category">{concept.category}</span>
+          <span className="cs-card__duration">
+            <Clock size={11} />
+            {concept.recommendedDuration} min
+          </span>
+        </div>
+
+        {/* Recommendation badge for first concept */}
+        {isFirst && (
+          <div className="cs-card__rec-badge">
+            <Sparkles size={9} />
+            ORBIT'S RECOMMENDATION
+          </div>
+        )}
+
+        {/* Title */}
+        <h3 className="cs-card__title">{concept.title}</h3>
+
+        {/* Description */}
+        <p className="cs-card__desc">{concept.description}</p>
+
+        {/* Why selected */}
+        {concept.rationale && (
+          <div className="cs-card__why">
+            <span className="cs-card__why-label">WHY ORBIT SELECTED THIS</span>
+            <p className="cs-card__why-text">{concept.rationale}</p>
+          </div>
+        )}
+
+        {/* Metadata grid */}
+        <div className="cs-card__meta">
+          <div className="cs-card__meta-item">
+            <span className="cs-card__meta-label">
+              <Waves size={11} />
+              Atmosphere
+            </span>
+            <span className="cs-card__meta-val">{concept.recommendedAtmosphere}</span>
+          </div>
+          <div className="cs-card__meta-item">
+            <span className="cs-card__meta-label">
+              <Sliders size={11} />
+              Usage
+            </span>
+            <span className="cs-card__meta-val">{concept.recommendedUsage}</span>
+          </div>
+          <div className="cs-card__meta-item">
+            <span className="cs-card__meta-label">
+              <Mic size={11} />
+              Voice
+            </span>
+            <span className="cs-card__meta-val">{concept.recommendedVoiceStyle}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer: actions */}
+      <div className="cs-card__footer">
+        <button
+          type="button"
+          className={`cs-btn-preview ${isPreviewing ? 'cs-btn-preview--active' : ''}`}
+          onClick={() => onPreview(concept.recommendedAtmosphere)}
+          aria-label={isPreviewing ? 'Stop atmosphere preview' : 'Preview atmosphere'}
+        >
+          {isPreviewing ? (
+            <><Pause size={13} /> Stop</>
+          ) : (
+            <><Volume2 size={13} /> Preview</>
+          )}
+        </button>
+
+        <button
+          type="button"
+          className={`cs-btn-choose ${isSelected ? 'cs-btn-choose--chosen' : ''}`}
+          onClick={() => onChoose(concept)}
+          aria-pressed={isSelected}
+        >
+          {isSelected ? (
+            <><CheckCircle2 size={14} /> Chosen</>
+          ) : (
+            <>Choose This Session <ArrowLeft size={13} style={{ transform: 'rotate(180deg)' }} /></>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ── Main Component ────────────────────────────────────────────────────────────
 export const CreateSessionPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { play } = usePlayer();
 
-  // State loaded from navigation or fetched from latest MongoDB record
+  // ── State (identical to original) ─────────────────────────────────────────
   const [onboardingId, setOnboardingId] = useState<string>(location.state?.onboardingId || '');
   const [answers, setAnswers] = useState<any>(location.state?.answers || null);
   const [concepts, setConcepts] = useState<ConceptItem[]>(location.state?.concepts || []);
   const [isLoading, setIsLoading] = useState<boolean>(!location.state?.concepts);
 
-  // Selected Concept for Phase 8 Customization
   const [selectedConcept, setSelectedConcept] = useState<ConceptItem | null>(null);
 
-  // Ambience Preview Audio element
   const [previewingAmbience, setPreviewingAmbience] = useState<string | null>(null);
   const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Customization Form State (Phase 8)
   const [durationMinutes, setDurationMinutes] = useState<number>(15);
   const [customDuration, setCustomDuration] = useState<string>('');
   const [isCustomDuration, setIsCustomDuration] = useState<boolean>(false);
@@ -59,13 +231,12 @@ export const CreateSessionPage: React.FC = () => {
   const [voiceStyle, setVoiceStyle] = useState<string>('Calm');
   const [intensity, setIntensity] = useState<'Normal' | 'Soft' | 'Very Soft'>('Soft');
 
-  // Generation Pipeline State (Phase 9)
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [pipelineStatus, setPipelineStatus] = useState<string>('IDLE');
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [completedSession, setCompletedSession] = useState<any | null>(null);
 
-  // Load onboarding data if navigated directly
+  // ── Load onboarding if navigated directly ─────────────────────────────────
   useEffect(() => {
     let isMounted = true;
     if (!concepts.length) {
@@ -96,7 +267,7 @@ export const CreateSessionPage: React.FC = () => {
     };
   }, []);
 
-  // When a concept is chosen, populate recommended defaults
+  // ── Handlers (identical to original) ──────────────────────────────────────
   const handleChooseConcept = (concept: ConceptItem) => {
     setSelectedConcept(concept);
     setDurationMinutes(concept.recommendedDuration || 15);
@@ -104,7 +275,6 @@ export const CreateSessionPage: React.FC = () => {
     setUsageContext(concept.recommendedUsage || 'Focus');
     setVoiceStyle(concept.recommendedVoiceStyle || 'Calm');
 
-    // Map recommended atmosphere
     if (concept.recommendedAtmosphere?.includes('Window')) {
       setAmbienceTrackId('rain-window');
     } else if (concept.recommendedAtmosphere?.includes('Forest')) {
@@ -117,13 +287,11 @@ export const CreateSessionPage: React.FC = () => {
       setAmbienceTrackId('rain-light');
     }
 
-    // Scroll smoothly to customization section
     setTimeout(() => {
       document.getElementById('customization-section')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
 
-  // Preview Atmosphere Audio
   const handleToggleAtmospherePreview = (atmosphereName: string) => {
     if (previewingAmbience === atmosphereName) {
       if (previewAudioRef.current) previewAudioRef.current.pause();
@@ -144,7 +312,6 @@ export const CreateSessionPage: React.FC = () => {
     setPreviewingAmbience(atmosphereName);
   };
 
-  // Phase 9: Audio Generation Trigger
   const handleStartGeneration = async () => {
     if (!selectedConcept) return;
 
@@ -163,8 +330,7 @@ export const CreateSessionPage: React.FC = () => {
       frequencyHz = parseInt(frequencyOption, 10) || undefined;
     }
 
-    // Map voice style to real TTS voice id
-    let voiceId = 'bella'; // Soft
+    let voiceId = 'bella';
     if (voiceStyle === 'Deep') voiceId = 'adam';
     if (voiceStyle === 'Warm') voiceId = 'antoni';
     if (voiceStyle === 'Neutral') voiceId = 'arnold';
@@ -208,7 +374,6 @@ export const CreateSessionPage: React.FC = () => {
 
       const sessionId = res.session._id;
 
-      // Poll session status
       const pollInterval = setInterval(async () => {
         try {
           const pollRes: any = await api.getSession(sessionId);
@@ -245,181 +410,176 @@ export const CreateSessionPage: React.FC = () => {
       category: completedSession.category || 'Manifestation',
       duration: completedSession.audio.durationSeconds,
       audioUrl: completedSession.audio.url,
-      thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
+      thumbnail: undefined,
       spokenAffirmations: completedSession.script?.affirmations || []
     };
     play(track);
     navigate('/subliminals');
   };
 
+  // Helper: get pipeline step state
+  const getPipelineStepClass = (stepStatus: string, afterStatuses: string[]) => {
+    if (pipelineStatus === stepStatus) return 'cust-pipeline__step--active';
+    if (afterStatuses.includes(pipelineStatus)) return 'cust-pipeline__step--done';
+    return 'cust-pipeline__step--idle';
+  };
+
+  // ── Loading ────────────────────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#060713] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-full border-2 border-cyan-500/20 border-t-cyan-400 animate-spin mb-4" />
-        <h2 className="text-xl font-bold text-white tracking-wide">Retrieving Your Intention Profile...</h2>
-        <p className="text-xs text-gray-400 mt-1">Connecting to MongoDB Atlas</p>
+      <div className="cs-loading">
+        <div className="cs-loading__ring" />
+        <p className="cs-loading__title">Retrieving Your Intention Profile…</p>
+        <p className="cs-loading__sub">Connecting to Atlas</p>
       </div>
     );
   }
 
+  // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#060713] text-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto space-y-12">
-        {/* Top Breadcrumb & Intention Summary Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
-          <Link
-            to="/onboarding"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={16} /> Re-take Intention Questionnaire
+    <div className="cs-page">
+      <div className="cs-inner">
+
+        {/* ── Top Nav ─────────────────────────────────────────────────────── */}
+        <div className="cs-topbar">
+          <Link to="/onboarding" className="cs-back-link">
+            <ArrowLeft size={14} />
+            Back to Intention
           </Link>
-          {answers && (
-            <div className="flex flex-wrap items-center gap-2 text-xs text-gray-300">
-              <span className="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-semibold">
-                Outcome: {answers.desire}
-              </span>
-              <span className="px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 font-semibold">
-                Releasing: {answers.currentBlock}
-              </span>
-              <span className="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-semibold">
-                Identity: {answers.identity}
-              </span>
-            </div>
-          )}
         </div>
 
-        {/* Phase 4 Header: Exact copy required */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-bold uppercase tracking-widest">
-            <Sparkles size={14} /> Personalized Subconscious Architect
+        {/* ── Page Header ─────────────────────────────────────────────────── */}
+        <div className="cs-header">
+          <div className="cs-header__badge">
+            <Sparkles size={12} />
+            PERSONALIZED SUBLIMINAL ARCHITECT
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase">
-            YOUR ORBIT SESSIONS
-          </h1>
-          <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto font-medium">
+          <h1 className="cs-header__title">YOUR ORBIT SESSIONS</h1>
+          <p className="cs-header__sub">
             Based on what you shared, here are a few directions you can explore.
           </p>
         </div>
 
-        {/* Phase 5 & 6: 6–10 Concepts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {concepts.map((concept, index) => {
-            const isSelected = selectedConcept?.id === concept.id;
-            return (
-              <div
-                key={concept.id || index}
-                className={`p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between relative overflow-hidden ${
-                  isSelected
-                    ? 'bg-gradient-to-b from-cyan-950/40 to-indigo-950/40 border-cyan-400 shadow-xl shadow-cyan-500/10'
-                    : 'bg-white/[0.03] hover:bg-white/[0.06] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                      Concept #{index + 1} • {concept.category}
-                    </span>
-                    <span className="text-xs text-gray-400 flex items-center gap-1">
-                      <Clock size={12} className="text-cyan-400" />
-                      {concept.recommendedDuration} min
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-white">{concept.title}</h3>
-                  <p className="text-xs text-gray-300 leading-relaxed">{concept.description}</p>
-
-                  {/* Why it was selected */}
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300">
-                    <strong className="text-cyan-300">Why this was selected: </strong>
-                    {concept.rationale}
-                  </div>
-
-                  {/* Recommendations */}
-                  <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-gray-400">
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                      Atmosphere: <strong className="text-gray-200">{concept.recommendedAtmosphere}</strong>
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                      Usage: <strong className="text-gray-200">{concept.recommendedUsage}</strong>
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                      Voice: <strong className="text-gray-200">{concept.recommendedVoiceStyle}</strong>
-                    </span>
-                  </div>
+        {/* ── Intention Summary ────────────────────────────────────────────── */}
+        {answers && (
+          <div className="cs-intention">
+            <div className="cs-intention__eyebrow">YOUR CURRENT DIRECTION</div>
+            <div className="cs-intention__row">
+              {answers.desire && (
+                <div className="cs-intention__field">
+                  <span className="cs-intention__key">Outcome</span>
+                  <span className="cs-intention__val cs-intention__val--outcome">{answers.desire}</span>
                 </div>
-
-                {/* Card Actions: Preview Atmosphere & Choose */}
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleToggleAtmospherePreview(concept.recommendedAtmosphere)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 hover:border-cyan-400/40 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
-                  >
-                    {previewingAmbience === concept.recommendedAtmosphere ? (
-                      <>
-                        <Pause size={14} className="text-cyan-400" /> Stop Preview
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 size={14} className="text-cyan-400" /> Preview Atmosphere
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleChooseConcept(concept)}
-                    className={`px-5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                      isSelected
-                        ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/25'
-                        : 'bg-white/10 hover:bg-cyan-500 hover:text-black text-white'
-                    }`}
-                  >
-                    {isSelected ? '✓ Chosen' : 'Choose →'}
-                  </button>
+              )}
+              {answers.identity && (
+                <div className="cs-intention__field">
+                  <span className="cs-intention__key">Identity</span>
+                  <span className="cs-intention__val cs-intention__val--identity">{answers.identity}</span>
                 </div>
+              )}
+              {answers.currentBlock && (
+                <div className="cs-intention__field">
+                  <span className="cs-intention__key">Releasing</span>
+                  <span className="cs-intention__val cs-intention__val--block">{answers.currentBlock}</span>
+                </div>
+              )}
+              {answers.action && (
+                <div className="cs-intention__field">
+                  <span className="cs-intention__key">Daily Action</span>
+                  <span className="cs-intention__val">{answers.action}</span>
+                </div>
+              )}
+            </div>
+            {answers.feelings && (
+              <div className="cs-intention__feelings">
+                {answers.feelings.split(',').map((f: string) => f.trim()).filter(Boolean).map((tag: string) => (
+                  <span key={tag} className="cs-intention__tag">{tag}</span>
+                ))}
               </div>
-            );
-          })}
+            )}
+          </div>
+        )}
+
+        {/* ── Concepts ─────────────────────────────────────────────────────── */}
+        <div>
+          <div className="cs-section-header" style={{ marginBottom: '1.25rem' }}>
+            <span className="cs-section-eyebrow">DIRECTIONS FOR YOUR SESSION</span>
+            <h2 className="cs-section-title">Choose a Path</h2>
+            <p className="cs-section-sub">
+              ORBIT found these directions based on your intention, identity, and current focus.
+            </p>
+          </div>
+
+          {/* Empty state */}
+          {!isLoading && concepts.length === 0 && (
+            <div className="cs-empty">
+              <div className="cs-empty__icon">
+                <Sparkles size={28} />
+              </div>
+              <h3 className="cs-empty__title">Your Next Direction</h3>
+              <p className="cs-empty__text">
+                Complete your intention questionnaire to let ORBIT build personalized session directions.
+              </p>
+              <Link to="/onboarding" className="cs-btn-action">
+                <RefreshCw size={15} />
+                Take Intention Questionnaire
+              </Link>
+            </div>
+          )}
+
+          {/* Skeleton loading */}
+          {isLoading && (
+            <div className="cs-skeleton-grid">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="cs-skeleton-card" />
+              ))}
+            </div>
+          )}
+
+          {/* Real concept cards */}
+          {concepts.length > 0 && (
+            <div className="cs-grid">
+              {concepts.map((concept, index) => (
+                <ConceptCard
+                  key={concept.id || index}
+                  concept={concept}
+                  index={index}
+                  total={concepts.length}
+                  isSelected={selectedConcept?.id === concept.id}
+                  isFirst={index === 0}
+                  previewingAmbience={previewingAmbience}
+                  onChoose={handleChooseConcept}
+                  onPreview={handleToggleAtmospherePreview}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Phase 8: Customization Section ("Make It Yours") */}
+        {/* ── Customization Panel ──────────────────────────────────────────── */}
         {selectedConcept && (
-          <div
-            id="customization-section"
-            className="p-8 rounded-3xl bg-gradient-to-b from-[#0e122b] to-[#07091a] border border-cyan-500/40 shadow-2xl space-y-8 animate-fade-in"
-          >
-            <div className="border-b border-white/10 pb-6">
-              <span className="text-xs uppercase tracking-wider text-cyan-400 font-bold">
-                Phase 8 Customization
-              </span>
-              <h2 className="text-2xl font-extrabold text-white mt-1">
-                Customize: "{selectedConcept.title}"
-              </h2>
-              <p className="text-xs text-gray-400 mt-1">
-                Fine-tune every acoustic and subliminal parameter before creating your session.
-              </p>
+          <div id="customization-section" className="cust-panel">
+
+            {/* Header */}
+            <div className="cust-header">
+              <div className="cust-eyebrow">MAKE IT YOURS</div>
+              <h2 className="cust-title">{selectedConcept.title}</h2>
+              <p className="cust-sub">Fine-tune every acoustic and subliminal parameter before generating your session.</p>
             </div>
 
-            {/* 1. DURATION */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-gray-200 uppercase tracking-wider flex items-center gap-2">
-                <Clock size={16} className="text-cyan-400" /> Duration
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {[5, 10, 15, 20, 30, 45, 60].map((mins) => (
+            {/* 1. Duration */}
+            <div>
+              <div className="cust-label">
+                <Clock size={14} style={{ color: '#67e8f9' }} />
+                Duration
+              </div>
+              <div className="cust-chips">
+                {[5, 10, 15, 20, 30, 45, 60].map(mins => (
                   <button
                     key={mins}
                     type="button"
-                    onClick={() => {
-                      setDurationMinutes(mins);
-                      setIsCustomDuration(false);
-                    }}
-                    className={`px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${
-                      durationMinutes === mins && !isCustomDuration
-                        ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-md shadow-cyan-500/20'
-                        : 'bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20'
-                    }`}
+                    onClick={() => { setDurationMinutes(mins); setIsCustomDuration(false); }}
+                    className={`cust-chip cust-chip--cyan ${durationMinutes === mins && !isCustomDuration ? 'cust-chip--active' : ''}`}
                   >
                     {mins} min
                   </button>
@@ -427,147 +587,126 @@ export const CreateSessionPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsCustomDuration(true)}
-                  className={`px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${
-                    isCustomDuration
-                      ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200'
-                      : 'bg-white/[0.03] border-white/10 text-gray-400'
-                  }`}
+                  className={`cust-chip cust-chip--cyan ${isCustomDuration ? 'cust-chip--active' : ''}`}
                 >
                   Custom
                 </button>
               </div>
               {isCustomDuration && (
-                <div className="mt-2 flex items-center gap-2">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginTop: '0.6rem' }}>
                   <input
                     type="number"
                     min="1"
                     max="180"
                     value={customDuration}
-                    onChange={(e) => setCustomDuration(e.target.value)}
-                    placeholder="Enter minutes (e.g. 25)"
-                    className="p-2.5 rounded-xl bg-white/[0.05] border border-cyan-400 text-white text-xs w-48 focus:outline-none"
+                    onChange={e => setCustomDuration(e.target.value)}
+                    placeholder="e.g. 25"
+                    className="cust-input"
                   />
-                  <span className="text-xs text-gray-400">minutes</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>minutes</span>
                 </div>
               )}
             </div>
 
-            {/* 2. USAGE */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-gray-200 uppercase tracking-wider flex items-center gap-2">
-                <Sliders size={16} className="text-purple-400" /> Usage
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {['Morning', 'Daytime', 'Focus', 'Evening', 'Night', 'Sleep / Overnight', 'Repeat / Anytime'].map(
-                  (u) => (
-                    <button
-                      key={u}
-                      type="button"
-                      onClick={() => setUsageContext(u)}
-                      className={`px-4 py-2 rounded-xl border text-xs font-semibold transition-all ${
-                        usageContext === u
-                          ? 'bg-purple-500/20 border-purple-400 text-purple-200 shadow-md shadow-purple-500/20'
-                          : 'bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20'
-                      }`}
-                    >
-                      {u}
-                    </button>
-                  )
-                )}
+            {/* 2. Usage */}
+            <div>
+              <div className="cust-label">
+                <Sliders size={14} style={{ color: '#c4b5fd' }} />
+                Usage Context
               </div>
-            </div>
-
-            {/* 3. AMBIENCE */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-gray-200 uppercase tracking-wider flex items-center gap-2">
-                <Waves size={16} className="text-emerald-400" /> Ambience Catalogue
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {[
-                  { id: 'rain-light', name: 'Gentle Rain', desc: 'Soft soothing rainfall' },
-                  { id: 'rain-window', name: 'Rain on the Window', desc: 'Warm intimate drops on glass' },
-                  { id: 'rain-lluvia', name: 'Deep Forest Rain', desc: 'Rich immersive shower' },
-                  { id: 'noise-brown', name: 'Cosmic Brown Noise', desc: 'Warm low rumble for deep work' },
-                  { id: 'noise-pink', name: 'Pink Flow', desc: 'Natural balanced breeze' }
-                ].map((amb) => (
+              <div className="cust-chips">
+                {['Morning', 'Daytime', 'Focus', 'Evening', 'Night', 'Sleep / Overnight', 'Repeat / Anytime'].map(u => (
                   <button
-                    key={amb.id}
+                    key={u}
                     type="button"
-                    onClick={() => setAmbienceTrackId(amb.id)}
-                    className={`p-3.5 rounded-xl border text-left transition-all ${
-                      ambienceTrackId === amb.id
-                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200'
-                        : 'bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20'
-                    }`}
+                    onClick={() => setUsageContext(u)}
+                    className={`cust-chip ${usageContext === u ? 'cust-chip--active' : ''}`}
                   >
-                    <div className="text-xs font-bold text-white">{amb.name}</div>
-                    <div className="text-[10px] text-gray-400 mt-0.5">{amb.desc}</div>
+                    {u}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* 4. FREQUENCY */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-gray-200 uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Sparkles size={16} className="text-amber-400" /> Frequency
+            {/* 3. Ambience */}
+            <div>
+              <div className="cust-label">
+                <Waves size={14} style={{ color: '#6ee7b7' }} />
+                Ambience
+              </div>
+              <div className="cust-ambience-grid">
+                {[
+                  { id: 'rain-light',  name: 'Gentle Rain',        desc: 'Soft soothing rainfall' },
+                  { id: 'rain-window', name: 'Rain on the Window', desc: 'Warm intimate drops on glass' },
+                  { id: 'rain-lluvia', name: 'Deep Forest Rain',   desc: 'Rich immersive shower' },
+                  { id: 'noise-brown', name: 'Cosmic Brown Noise', desc: 'Warm low rumble for deep work' },
+                  { id: 'noise-pink',  name: 'Pink Flow',          desc: 'Natural balanced breeze' }
+                ].map(amb => (
+                  <button
+                    key={amb.id}
+                    type="button"
+                    onClick={() => setAmbienceTrackId(amb.id)}
+                    className={`cust-ambience-card ${ambienceTrackId === amb.id ? 'cust-ambience-card--active' : ''}`}
+                  >
+                    <div className="cust-ambience-card__name">{amb.name}</div>
+                    <div className="cust-ambience-card__desc">{amb.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Frequency */}
+            <div>
+              <div className="cust-label" style={{ justifyContent: 'space-between' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Sparkles size={14} style={{ color: '#fde68a' }} />
+                  Frequency
                 </span>
-                <span className="text-[10px] text-gray-400 lowercase">subtle sine wave harmonic</span>
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {['None', '432', '528', '639', '741', '852', 'Custom'].map((freq) => (
+                <span style={{ fontSize: '0.62rem', color: 'var(--text-dim)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                  subtle sine wave harmonic
+                </span>
+              </div>
+              <div className="cust-chips">
+                {['None', '432', '528', '639', '741', '852', 'Custom'].map(freq => (
                   <button
                     key={freq}
                     type="button"
                     onClick={() => setFrequencyOption(freq)}
-                    className={`px-4 py-2 rounded-xl border text-xs font-semibold transition-all ${
-                      frequencyOption === freq
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-200'
-                        : 'bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20'
-                    }`}
+                    className={`cust-chip cust-chip--amber ${frequencyOption === freq ? 'cust-chip--active' : ''}`}
                   >
                     {freq === 'None' || freq === 'Custom' ? freq : `${freq} Hz`}
                   </button>
                 ))}
               </div>
               {frequencyOption === 'Custom' && (
-                <div className="mt-2 flex items-center gap-2">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginTop: '0.6rem' }}>
                   <input
                     type="number"
                     min="20"
                     max="1000"
                     value={customFrequency}
-                    onChange={(e) => setCustomFrequency(e.target.value)}
-                    placeholder="Enter Hz (e.g. 963)"
-                    className="p-2.5 rounded-xl bg-white/[0.05] border border-amber-400 text-white text-xs w-48 focus:outline-none"
+                    onChange={e => setCustomFrequency(e.target.value)}
+                    placeholder="e.g. 963"
+                    className="cust-input"
                   />
-                  <span className="text-xs text-gray-400">Hz</span>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Hz</span>
                 </div>
               )}
             </div>
 
-            {/* 5. TTS PROVIDER & 6. VOICE & 7. INTENSITY */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            {/* 5–7. TTS, Voice, Intensity */}
+            <div className="cust-settings-row">
               {/* TTS Provider */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-200 uppercase tracking-wider">
-                  TTS Provider
-                </label>
-                <div className="flex gap-2">
-                  {[
-                    { id: 'elevenlabs', label: 'ElevenLabs' },
-                    { id: 'azure', label: 'Microsoft Azure' }
-                  ].map((p) => (
+              <div className="cust-field">
+                <div className="cust-label">TTS Provider</div>
+                <div className="cust-chips" style={{ gap: '0.4rem' }}>
+                  {[{ id: 'elevenlabs', label: 'ElevenLabs' }, { id: 'azure', label: 'Azure' }].map(p => (
                     <button
                       key={p.id}
                       type="button"
                       onClick={() => setTtsProvider(p.id as any)}
-                      className={`flex-1 py-2 rounded-xl border text-xs font-semibold transition-all ${
-                        ttsProvider === p.id
-                          ? 'bg-blue-500/20 border-blue-400 text-blue-200'
-                          : 'bg-white/[0.03] border-white/10 text-gray-400'
-                      }`}
+                      className={`cust-chip ${ttsProvider === p.id ? 'cust-chip--active' : ''}`}
+                      style={{ flex: 1, justifyContent: 'center' }}
                     >
                       {p.label}
                     </button>
@@ -576,39 +715,33 @@ export const CreateSessionPage: React.FC = () => {
               </div>
 
               {/* Voice Style */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <Mic size={14} className="text-blue-400" /> Voice Style
-                </label>
+              <div className="cust-field">
+                <div className="cust-label">
+                  <Mic size={14} />
+                  Voice Style
+                </div>
                 <select
                   value={voiceStyle}
-                  onChange={(e) => setVoiceStyle(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-[#14162e] border border-white/10 text-xs text-white focus:outline-none focus:border-cyan-400"
+                  onChange={e => setVoiceStyle(e.target.value)}
+                  className="cust-select"
                 >
-                  {['Calm', 'Soft', 'Warm', 'Deep', 'Neutral', 'Gentle'].map((v) => (
-                    <option key={v} value={v}>
-                      {v} Voice
-                    </option>
+                  {['Calm', 'Soft', 'Warm', 'Deep', 'Neutral', 'Gentle'].map(v => (
+                    <option key={v} value={v}>{v} Voice</option>
                   ))}
                 </select>
               </div>
 
               {/* Intensity */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-200 uppercase tracking-wider">
-                  Intensity
-                </label>
-                <div className="flex gap-2">
-                  {(['Normal', 'Soft', 'Very Soft'] as const).map((lvl) => (
+              <div className="cust-field">
+                <div className="cust-label">Intensity</div>
+                <div className="cust-chips" style={{ gap: '0.4rem' }}>
+                  {(['Normal', 'Soft', 'Very Soft'] as const).map(lvl => (
                     <button
                       key={lvl}
                       type="button"
                       onClick={() => setIntensity(lvl)}
-                      className={`flex-1 py-2 rounded-xl border text-[11px] font-semibold transition-all ${
-                        intensity === lvl
-                          ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200'
-                          : 'bg-white/[0.03] border-white/10 text-gray-400'
-                      }`}
+                      className={`cust-chip ${intensity === lvl ? 'cust-chip--active' : ''}`}
+                      style={{ flex: 1, justifyContent: 'center' }}
                     >
                       {lvl}
                     </button>
@@ -617,89 +750,66 @@ export const CreateSessionPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Phase 9: Real-time Audio Generation Progress */}
+            {/* Generation pipeline progress */}
             {isGenerating && (
-              <div className="p-6 rounded-2xl bg-black/60 border border-cyan-500/30 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                    <Sparkles size={16} className="text-cyan-400 animate-pulse" />
+              <div className="cust-pipeline">
+                <div className="cust-pipeline__head">
+                  <h4 className="cust-pipeline__title">
+                    <Sparkles size={16} style={{ color: '#67e8f9', animation: 'ob-pulse 2s ease-in-out infinite' }} />
                     Audio Pipeline Synthesis
                   </h4>
-                  <span className="text-xs text-cyan-300 font-mono uppercase">{pipelineStatus}</span>
+                  <span className="cust-pipeline__status">{pipelineStatus}</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
-                  <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
-                    pipelineStatus === 'GENERATING_SCRIPT'
-                      ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 font-bold'
-                      : pipelineStatus === 'GENERATING_VOICE' || pipelineStatus === 'MIXING_AUDIO' || pipelineStatus === 'COMPLETED'
-                      ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                      : 'bg-white/5 border-white/5 text-gray-500'
-                  }`}>
-                    <CheckCircle2 size={14} /> 1. Gemini Script
+                <div className="cust-pipeline__steps">
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_SCRIPT', ['GENERATING_VOICE', 'MIXING_AUDIO', 'COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 1. Gemini Script
                   </div>
-                  <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
-                    pipelineStatus === 'GENERATING_VOICE'
-                      ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 font-bold'
-                      : pipelineStatus === 'MIXING_AUDIO' || pipelineStatus === 'COMPLETED'
-                      ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                      : 'bg-white/5 border-white/5 text-gray-500'
-                  }`}>
-                    <CheckCircle2 size={14} /> 2. {ttsProvider === 'azure' ? 'Azure' : 'ElevenLabs'} TTS
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_VOICE', ['MIXING_AUDIO', 'COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 2. {ttsProvider === 'azure' ? 'Azure' : 'ElevenLabs'} TTS
                   </div>
-                  <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
-                    pipelineStatus === 'MIXING_AUDIO'
-                      ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 font-bold'
-                      : pipelineStatus === 'COMPLETED'
-                      ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                      : 'bg-white/5 border-white/5 text-gray-500'
-                  }`}>
-                    <CheckCircle2 size={14} /> 3. FFmpeg Mixer
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('MIXING_AUDIO', ['COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 3. FFmpeg Mixer
                   </div>
-                  <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
-                    pipelineStatus === 'COMPLETED'
-                      ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200 font-bold'
-                      : 'bg-white/5 border-white/5 text-gray-500'
-                  }`}>
-                    <CheckCircle2 size={14} /> 4. Audio Ready
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('COMPLETED', [])}`}>
+                    <CheckCircle2 size={13} /> 4. Audio Ready
                   </div>
                 </div>
 
                 {generationError && (
-                  <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                  <div className="cust-pipeline__error">
                     <AlertCircle size={14} />
-                    <span>{generationError}</span>
+                    {generationError}
                   </div>
                 )}
 
                 {pipelineStatus === 'COMPLETED' && (
-                  <button
-                    type="button"
-                    onClick={handlePlayNow}
-                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-sm shadow-xl shadow-cyan-500/20 flex items-center justify-center gap-2 animate-bounce"
-                  >
-                    <Play size={18} /> Play Now in Orbit
+                  <button type="button" className="cust-btn-play" onClick={handlePlayNow}>
+                    <Play size={18} />
+                    Play Now in Orbit
                   </button>
                 )}
               </div>
             )}
 
-            {/* Action Bar */}
+            {/* Action bar */}
             {!isGenerating && (
-              <div className="pt-4 flex items-center justify-between">
+              <div className="cust-action-bar">
                 <button
                   type="button"
+                  className="cust-btn-back"
                   onClick={() => setSelectedConcept(null)}
-                  className="px-4 py-2 text-xs font-semibold text-gray-400 hover:text-white"
                 >
-                  ← Choose Another Concept
+                  <ArrowLeft size={14} />
+                  Choose Another
                 </button>
                 <button
                   type="button"
+                  className="cust-btn-generate"
                   onClick={handleStartGeneration}
-                  className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-sm shadow-xl shadow-cyan-500/25 flex items-center gap-2"
                 >
-                  <Sparkles size={16} /> GENERATE SESSION
+                  <Sparkles size={16} />
+                  GENERATE SESSION
                 </button>
               </div>
             )}
