@@ -602,4 +602,27 @@ export const api = {
   async listPersonalizedSessions() {
     return request('/sessions');
   },
+
+  // Onboarding Answers & Concept Generation
+  async submitOnboarding(answers: {
+    desire: string;
+    specificIntention: string;
+    identity: string;
+    feelings: string;
+    currentBlock: string;
+    action: string;
+  }) {
+    return request('/onboarding/submit', {
+      method: 'POST',
+      body: JSON.stringify(answers),
+    });
+  },
+
+  async getLatestOnboarding() {
+    return request('/onboarding/latest');
+  },
+
+  async getOnboarding(id: string) {
+    return request(`/onboarding/${id}`);
+  },
 };

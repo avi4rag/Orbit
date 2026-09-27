@@ -14,6 +14,7 @@ import CelestialUniversePage from './pages/CelestialUniversePage';
 import AIGeneratorPage from './pages/AIGeneratorPage';
 import ProfilePage from './pages/ProfilePage';
 import OnboardingPage from './pages/OnboardingPage';
+import CreateSessionPage from './pages/CreateSessionPage';
 
 export default function App() {
   return (
@@ -49,6 +50,14 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <SubliminalsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="subliminals/create"
+                element={
+                  <ProtectedRoute allowUnonboarded>
+                    <CreateSessionPage />
                   </ProtectedRoute>
                 }
               />
