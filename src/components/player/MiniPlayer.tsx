@@ -82,13 +82,32 @@ const MiniPlayer: React.FC = () => {
           onClick={player.openFullscreen}
           aria-label={`Open full player for ${track.title}`}
         >
-          <img
-            className="mini-player__thumb"
-            src={track.thumbnail}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-          />
+          {track.thumbnail ? (
+            <img
+              className="mini-player__thumb"
+              src={track.thumbnail}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+            />
+          ) : (
+            <div
+              className="mini-player__thumb mini-player__thumb--icon"
+              aria-hidden="true"
+              style={{
+                background: 'linear-gradient(135deg, #4c1d95 0%, #0c0a1e 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.2rem',
+                color: '#a78bfa',
+                flexShrink: 0,
+              }}
+            >
+              ✦
+            </div>
+          )}
           <div className="mini-player__meta">
             <span className="mini-player__title">{track.title}</span>
             <span className="mini-player__creator">{track.creator}</span>

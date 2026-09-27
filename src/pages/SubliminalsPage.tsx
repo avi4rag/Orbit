@@ -1,720 +1,553 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Sparkles, Filter, X, Compass, Radio, Menu } from 'lucide-react';
+import {
+  Sparkles, Plus, Play, Pause, Clock, Radio, RefreshCw,
+  AlertTriangle, CheckCircle, Loader2, Zap, ChevronRight
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import { api } from '../services/api';
-import type { SubliminalSession, UsageType } from '../types/subliminal';
-import { CATEGORY_DEFINITIONS } from '../types/subliminal';
-import { SubliminalCard } from '../components/subliminals/SubliminalCard';
-import { SubliminalRail } from '../components/subliminals/SubliminalRail';
-import { SubliminalDrawer } from '../components/subliminals/SubliminalDrawer';
 import './SubliminalsPage.css';
 
-const USAGE_FILTERS: (UsageType | 'All')[] = [
-  'All',
-  'MORNING',
-  'DAYTIME',
-  'ONE TIME',
-  'NIGHT',
-  'SLEEP',
-  'FOCUS',
-  'REPEAT',
-];
+// ── Types ──────────────────────────────────────────────────────────────────────
+type SessionStatus =
+  | 'PENDING'
+  | 'GENERATING_SCRIPT'
+  | 'GENERATING_VOICE'
+  | 'MIXING_AUDIO'
+  | 'COMPLETED'
+  | 'FAILED';
 
-const LOCAL_STORAGE_RECENT_KEY = 'orbit_recently_played_ids';
-
-export const SubliminalsPage: React.FC = () => {
-  const { user } = useAuth();
-  const { play } = usePlayer();
-
-  const [allSessions, setAllSessions] = useState<SubliminalSession[]>([]);
-  const [recentlyPlayedSessions, setRecentlyPlayedSessions] = useState<SubliminalSession[]>([]);
-  const [userGeneratedSessions, setUserGeneratedSessions] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedUsage, setSelectedUsage] = useState<UsageType | 'All'>('All');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [filterFavoritesOnly, setFilterFavoritesOnly] = useState<boolean>(false);
-
-  const railsContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    const loadSessions = async () => {
-      setLoading(true);
-      try {
-        // Load personalized AI sessions
-        try {
-          const pRes: any = await api.listPersonalizedSessions();
-          if (isMounted && pRes?.sessions) {
-            setUserGeneratedSessions(pRes.sessions);
-          }
-        } catch (pErr) {
-          console.warn('Personalized sessions load failed:', pErr);
-        }
-
-        const res = await api.getSubliminals();
-        if (isMounted && res?.subliminals) {
-          const sessions: SubliminalSession[] = res.subliminals;
-          setAllSessions(sessions);
-
-          // Attempt to load recently played from server or fallback to local storage
-          try {
-            const recentRes = await api.getRecentlyPlayed();
-            if (isMounted && recentRes?.sessions && recentRes.sessions.length > 0) {
-              setRecentlyPlayedSessions(recentRes.sessions);
-            } else {
-              // LocalStorage fallback
-              const savedIdsJson = localStorage.getItem(LOCAL_STORAGE_RECENT_KEY);
-              if (savedIdsJson) {
-                const ids: string[] = JSON.parse(savedIdsJson);
-                const matched = ids
-                  .map((id) => sessions.find((s) => s.id === id))
-                  .filter((s): s is SubliminalSession => Boolean(s));
-                if (matched.length > 0 && isMounted) {
-                  setRecentlyPlayedSessions(matched);
-                }
-              }
-            }
-          } catch {
-            const savedIdsJson = localStorage.getItem(LOCAL_STORAGE_RECENT_KEY);
-            if (savedIdsJson) {
-              const ids: string[] = JSON.parse(savedIdsJson);
-              const matched = ids
-                .map((id) => sessions.find((s) => s.id === id))
-                .filter((s): s is SubliminalSession => Boolean(s));
-              if (matched.length > 0 && isMounted) {
-                setRecentlyPlayedSessions(matched);
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error('Failed to fetch subliminals:', err);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    loadSessions();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const handlePlay = (session: SubliminalSession) => {
-    const track: SessionTrack = {
-      id: session.id,
-      title: session.title,
-      creator: session.source?.creator || 'Orbit Audio',
-      category: session.category,
-      duration: session.duration,
-      binauralFreq: session.binauralFreq || 7.83,
-      carrierFreq: session.carrierFreq || 432,
-      thumbnail: session.artworkUrl,
-      spokenAffirmations: session.spokenAffirmations,
-    };
-    play(track);
-
-    // Track recently played in state and localStorage
-    setRecentlyPlayedSessions((prev) => {
-      const filtered = prev.filter((s) => s.id !== session.id);
-      const updated = [session, ...filtered].slice(0, 20);
-      try {
-        localStorage.setItem(
-          LOCAL_STORAGE_RECENT_KEY,
-          JSON.stringify(updated.map((s) => s.id))
-        );
-      } catch {
-        // Ignore local storage error
-      }
-      return updated;
-    });
-
-    api.recordSubliminalPlay(session.id, { progress: 0, completed: false }).catch(() => {});
+interface PersonalizedSession {
+  _id: string;
+  title: string;
+  category: string;
+  status: SessionStatus;
+  error?: string;
+  intention: {
+    desiredOutcome: string;
+    desiredIdentity: string;
+    emotionalState: string;
+    currentBlock: string;
+    dailyAction: string;
+    category: string;
   };
-
-  const handlePlayPersonalized = (session: any) => {
-    if (!session.audio?.url) return;
-    const track: SessionTrack = {
-      id: session._id,
-      title: session.title,
-      creator: 'Orbit AI',
-      category: session.category || 'Manifestation',
-      duration: session.audio.durationSeconds,
-      audioUrl: session.audio.url,
-      thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-      spokenAffirmations: session.script?.affirmations || []
-    };
-    play(track);
+  settings: {
+    durationMinutes: number;
+    usageContext: string;
+    ambienceTrackId: string;
+    frequencyHz?: number;
+    voiceId: string;
+    ttsProvider: 'elevenlabs' | 'azure';
+    subliminalIntensity: 'subtle' | 'balanced' | 'prominent';
   };
-
-  const handleDrawerSelectCategory = (slug: string) => {
-    setSelectedCategory(slug);
-    setSelectedUsage('All');
-    setFilterFavoritesOnly(false);
+  script: {
+    affirmations: string[];
+    rawText: string;
+    tone: string;
   };
-
-  const handleDrawerSelectUsage = (usage: UsageType | 'All') => {
-    setSelectedUsage(usage);
-    setFilterFavoritesOnly(false);
+  audio: {
+    url: string;
+    durationSeconds: number;
+    fileSizeBytes: number;
   };
+  createdAt: string;
+}
 
-  const handleDrawerSelectDiscover = (tab: 'made-for-you' | 'recent' | 'favorites' | 'all') => {
-    if (tab === 'all') {
-      setSelectedCategory('all');
-      setSelectedUsage('All');
-      setSearchQuery('');
-      setFilterFavoritesOnly(false);
-    } else if (tab === 'favorites') {
-      setFilterFavoritesOnly(true);
-      setSelectedCategory('all');
-      setSelectedUsage('All');
-    } else if (tab === 'made-for-you') {
-      setSelectedCategory('all');
-      setSelectedUsage('All');
-      setFilterFavoritesOnly(false);
-      const el = document.getElementById('made-for-you-rail');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else if (tab === 'recent') {
-      setSelectedCategory('all');
-      setSelectedUsage('All');
-      setFilterFavoritesOnly(false);
-      const el = document.getElementById('recent-rail');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+// ── Deterministic Artwork ─────────────────────────────────────────────────────
+const CATEGORY_PALETTES: Record<string, { from: string; to: string; accent: string; symbol: string }> = {
+  'manifestation':   { from: '#4c1d95', to: '#0c0a1e', accent: '#a78bfa', symbol: '✦' },
+  'wealth':          { from: '#713f12', to: '#0c0a1e', accent: '#fbbf24', symbol: '◈' },
+  'confidence':      { from: '#164e63', to: '#0c0a1e', accent: '#38bdf8', symbol: '◉' },
+  'looks':           { from: '#831843', to: '#0c0a1e', accent: '#f43f5e', symbol: '◈' },
+  'self-concept':    { from: '#581c87', to: '#0c0a1e', accent: '#d946ef', symbol: '◎' },
+  'love':            { from: '#831843', to: '#0c0a1e', accent: '#ec4899', symbol: '♡' },
+  'career':          { from: '#1e1b4b', to: '#0c0a1e', accent: '#818cf8', symbol: '◇' },
+  'academic':        { from: '#0c4a6e', to: '#0c0a1e', accent: '#0ea5e9', symbol: '◆' },
+  'motivation':      { from: '#7c2d12', to: '#0c0a1e', accent: '#f97316', symbol: '▲' },
+  'discipline':      { from: '#14532d', to: '#0c0a1e', accent: '#4ade80', symbol: '▶' },
+  'focus':           { from: '#0e7490', to: '#0c0a1e', accent: '#06b6d4', symbol: '◎' },
+  'peace':           { from: '#1e3a5f', to: '#0c0a1e', accent: '#60a5fa', symbol: '~' },
+  'health':          { from: '#064e3b', to: '#0c0a1e', accent: '#10b981', symbol: '✦' },
+  'energy':          { from: '#713f12', to: '#0c0a1e', accent: '#eab308', symbol: '⚡' },
+  'sleep':           { from: '#1e1b4b', to: '#060612', accent: '#818cf8', symbol: '☾' },
+  'luck':            { from: '#065f46', to: '#0c0a1e', accent: '#34d399', symbol: '✦' },
+  'growth':          { from: '#4a1d96', to: '#0c0a1e', accent: '#a78bfa', symbol: '∞' },
+};
+
+function getCategoryPalette(category: string) {
+  const key = category.toLowerCase().replace(/ /g, '-');
+  return CATEGORY_PALETTES[key] || CATEGORY_PALETTES['manifestation'];
+}
+
+function SessionArtwork({ category, size = 64 }: { category: string; size?: number }) {
+  const pal = getCategoryPalette(category);
+  return (
+    <div
+      className="session-artwork"
+      style={{
+        width: size,
+        height: size,
+        background: `linear-gradient(135deg, ${pal.from} 0%, #0c0a1e 100%)`,
+        border: `1px solid ${pal.accent}30`,
+        borderRadius: size * 0.2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        fontSize: size * 0.38,
+        color: pal.accent,
+        boxShadow: `0 0 ${size * 0.3}px ${pal.accent}18`,
+        userSelect: 'none',
+      }}
+    >
+      {pal.symbol}
+    </div>
+  );
+}
+
+// ── Status Badge ──────────────────────────────────────────────────────────────
+const STATUS_CONFIG: Record<SessionStatus, { label: string; color: string; pulse: boolean }> = {
+  PENDING:           { label: 'Queued',            color: '#94a3b8', pulse: false },
+  GENERATING_SCRIPT: { label: 'Writing Script…',   color: '#a78bfa', pulse: true  },
+  GENERATING_VOICE:  { label: 'Generating Voice…', color: '#60a5fa', pulse: true  },
+  MIXING_AUDIO:      { label: 'Mixing Audio…',     color: '#34d399', pulse: true  },
+  COMPLETED:         { label: 'Ready to Play',     color: '#4ade80', pulse: false },
+  FAILED:            { label: 'Generation Failed', color: '#f87171', pulse: false },
+};
+
+function StatusBadge({ status }: { status: SessionStatus }) {
+  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG['PENDING'];
+  return (
+    <span
+      className={`session-status-badge ${cfg.pulse ? 'session-status-badge--pulse' : ''}`}
+      style={{ '--badge-color': cfg.color } as React.CSSProperties}
+    >
+      <span className="session-status-badge__dot" />
+      {cfg.label}
+    </span>
+  );
+}
+
+// ── Format Helpers ────────────────────────────────────────────────────────────
+function formatDuration(seconds: number) {
+  const m = Math.round(seconds / 60);
+  return `${m} min`;
+}
+
+function formatAmbienceLabel(trackId: string) {
+  return trackId
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+// ── Session Card ──────────────────────────────────────────────────────────────
+interface SessionCardProps {
+  session: PersonalizedSession;
+  isCurrentlyPlaying: boolean;
+  isPlaying: boolean;
+  onPlay: (session: PersonalizedSession) => void;
+  onPause: () => void;
+}
+
+const SessionCard: React.FC<SessionCardProps> = ({
+  session, isCurrentlyPlaying, isPlaying, onPlay, onPause
+}) => {
+  const pal = getCategoryPalette(session.category);
+  const isCompleted = session.status === 'COMPLETED';
+  const isGenerating = ['PENDING', 'GENERATING_SCRIPT', 'GENERATING_VOICE', 'MIXING_AUDIO'].includes(session.status);
+  const isFailed = session.status === 'FAILED';
+  const duration = session.audio?.durationSeconds || session.settings?.durationMinutes * 60 || 300;
+
+  const handleButtonClick = () => {
+    if (!isCompleted) return;
+    if (isCurrentlyPlaying && isPlaying) {
+      onPause();
+    } else {
+      onPlay(session);
     }
   };
 
-  // Filtered sessions for Search, Usage, Category, or Favorites selection
-  const filteredSessions = useMemo(() => {
-    return allSessions.filter((session) => {
-      const matchesSearch =
-        !searchQuery ||
-        session.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        session.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        session.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        session.categoryTitle?.toLowerCase().includes(searchQuery.toLowerCase());
+  return (
+    <div
+      className={`session-card ${isCurrentlyPlaying ? 'session-card--active' : ''} ${isCompleted ? 'session-card--playable' : ''}`}
+      style={{ '--card-accent': pal.accent } as React.CSSProperties}
+    >
+      {/* Active glow ring */}
+      {isCurrentlyPlaying && <div className="session-card__active-ring" />}
 
-      const matchesUsage =
-        selectedUsage === 'All' ||
-        session.usageTypes.includes(selectedUsage as UsageType);
+      <div className="session-card__inner">
+        {/* Artwork */}
+        <div className="session-card__artwork-wrap">
+          <SessionArtwork category={session.category} size={72} />
+          {isCurrentlyPlaying && isPlaying && (
+            <div className="session-card__playing-indicator">
+              <span /><span /><span />
+            </div>
+          )}
+        </div>
 
-      const matchesCategory =
-        selectedCategory === 'all' || session.category === selectedCategory;
+        {/* Content */}
+        <div className="session-card__content">
+          <div className="session-card__header">
+            <h3 className="session-card__title">{session.title}</h3>
+            <StatusBadge status={session.status} />
+          </div>
 
-      const matchesFavorite = !filterFavoritesOnly || Boolean(session.isFavorite);
+          {/* Intention snippet */}
+          <p className="session-card__intention">
+            {session.intention?.desiredIdentity || session.script?.affirmations?.[0] || 'Personalized subconscious session'}
+          </p>
 
-      return matchesSearch && matchesUsage && matchesCategory && matchesFavorite;
-    });
-  }, [allSessions, searchQuery, selectedUsage, selectedCategory, filterFavoritesOnly]);
+          {/* Meta row */}
+          <div className="session-card__meta">
+            <span className="session-card__meta-item">
+              <Clock size={11} />
+              {formatDuration(duration)}
+            </span>
+            {session.settings?.frequencyHz && (
+              <span className="session-card__meta-item">
+                <Radio size={11} />
+                {session.settings.frequencyHz} Hz
+              </span>
+            )}
+            <span className="session-card__meta-item">
+              <Zap size={11} />
+              {session.settings?.subliminalIntensity || 'subtle'}
+            </span>
+            <span className="session-card__meta-item session-card__meta-item--ambience">
+              {formatAmbienceLabel(session.settings?.ambienceTrackId || 'rain')}
+            </span>
+          </div>
+        </div>
 
-  // Personalized "Made For You" selection attuned to onboarding goals
-  const personalizedSessions = useMemo(() => {
-    if (!allSessions.length) return [];
-    const goalCategory = user?.goals?.[0]?.category || 'wealth';
-    const matched = allSessions.filter(
-      (s) =>
-        s.category === goalCategory ||
-        s.tags?.some((t) => goalCategory.toLowerCase().includes(t.toLowerCase()))
-    );
-    return matched.length > 0 ? matched : allSessions.slice(0, 10);
-  }, [allSessions, user?.goals]);
+        {/* Play button */}
+        <div className="session-card__actions">
+          {isCompleted ? (
+            <button
+              type="button"
+              className={`session-card__play-btn ${isCurrentlyPlaying ? 'session-card__play-btn--active' : ''}`}
+              onClick={handleButtonClick}
+              aria-label={isCurrentlyPlaying && isPlaying ? 'Pause session' : `Play ${session.title}`}
+            >
+              {isCurrentlyPlaying && isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            </button>
+          ) : isGenerating ? (
+            <div className="session-card__generating-icon">
+              <Loader2 size={20} className="session-card__spin" />
+            </div>
+          ) : isFailed ? (
+            <div className="session-card__failed-icon" title={session.error}>
+              <AlertTriangle size={20} />
+            </div>
+          ) : null}
+        </div>
+      </div>
 
-  // One-time sessions
-  const oneTimeSessions = useMemo(() => {
-    return allSessions.filter((s) => s.usageTypes.includes('ONE TIME'));
-  }, [allSessions]);
+      {/* Error message */}
+      {isFailed && session.error && (
+        <p className="session-card__error">
+          {session.error}
+        </p>
+      )}
+    </div>
+  );
+};
 
-  // Usage rails
-  const nightSessions = useMemo(() => {
-    return allSessions.filter((s) => s.usageTypes.includes('NIGHT'));
-  }, [allSessions]);
+// ── Empty State ───────────────────────────────────────────────────────────────
+const EmptyState: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => (
+  <div className="subliminals-empty">
+    <div className="subliminals-empty__orb" />
+    <div className="subliminals-empty__icon">
+      <Sparkles size={36} />
+    </div>
+    <h2 className="subliminals-empty__title">
+      Your Personalized Sessions Will Appear Here
+    </h2>
+    <p className="subliminals-empty__subtitle">
+      {isLoggedIn
+        ? "You haven't generated any sessions yet. Take the intention questionnaire to create your first personalized subliminal audio session."
+        : "Sign in to access your personalized AI-generated subliminal sessions."}
+    </p>
+    <Link to="/onboarding" className="subliminals-empty__cta">
+      <Sparkles size={16} />
+      Create My First Session
+    </Link>
+  </div>
+);
 
-  const sleepSessions = useMemo(() => {
-    return allSessions.filter((s) => s.usageTypes.includes('SLEEP'));
-  }, [allSessions]);
+// ── Loading Skeleton ──────────────────────────────────────────────────────────
+const LoadingSkeleton: React.FC = () => (
+  <div className="subliminals-skeleton-list">
+    {[0, 1, 2].map((i) => (
+      <div key={i} className="session-card-skeleton">
+        <div className="session-card-skeleton__artwork" />
+        <div className="session-card-skeleton__lines">
+          <div className="session-card-skeleton__line session-card-skeleton__line--title" />
+          <div className="session-card-skeleton__line session-card-skeleton__line--sub" />
+          <div className="session-card-skeleton__line session-card-skeleton__line--meta" />
+        </div>
+        <div className="session-card-skeleton__btn" />
+      </div>
+    ))}
+  </div>
+);
 
-  const focusSessions = useMemo(() => {
-    return allSessions.filter(
-      (s) => s.usageTypes.includes('FOCUS') || s.category === 'focus'
-    );
-  }, [allSessions]);
+// ── Main Page ─────────────────────────────────────────────────────────────────
+export const SubliminalsPage: React.FC = () => {
+  const { user } = useAuth();
+  const player = usePlayer();
 
-  // 17 Category Rails
-  const wealthSessions = useMemo(() => allSessions.filter((s) => s.category === 'wealth'), [allSessions]);
-  const confidenceSessions = useMemo(() => allSessions.filter((s) => s.category === 'confidence' || s.category === 'social-confidence'), [allSessions]);
-  const looksSessions = useMemo(() => allSessions.filter((s) => s.category === 'looks'), [allSessions]);
-  const selfConceptSessions = useMemo(() => allSessions.filter((s) => s.category === 'self-concept'), [allSessions]);
-  const loveSessions = useMemo(() => allSessions.filter((s) => s.category === 'love'), [allSessions]);
-  const careerSessions = useMemo(() => allSessions.filter((s) => s.category === 'career'), [allSessions]);
-  const academicSessions = useMemo(() => allSessions.filter((s) => s.category === 'academic'), [allSessions]);
-  const motivationSessions = useMemo(() => allSessions.filter((s) => s.category === 'motivation' || s.category === 'discipline'), [allSessions]);
-  const peaceSessions = useMemo(() => allSessions.filter((s) => s.category === 'peace' || s.category === 'health'), [allSessions]);
-  const energySessions = useMemo(() => allSessions.filter((s) => s.category === 'energy'), [allSessions]);
-  const luckSessions = useMemo(() => allSessions.filter((s) => s.category === 'luck'), [allSessions]);
-  const growthSessions = useMemo(() => allSessions.filter((s) => s.category === 'growth'), [allSessions]);
+  const [sessions, setSessions] = useState<PersonalizedSession[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const isFiltering =
-    searchQuery.trim().length > 0 ||
-    selectedUsage !== 'All' ||
-    selectedCategory !== 'all' ||
-    filterFavoritesOnly;
+  // Auto-poll for in-progress sessions every 4 seconds
+  const [pollActive, setPollActive] = useState(false);
+
+  const loadSessions = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    setError(null);
+    try {
+      const res = await api.listPersonalizedSessions();
+      if (res?.sessions) {
+        setSessions(res.sessions as PersonalizedSession[]);
+        // Activate polling if any session is still processing
+        const hasProcessing = (res.sessions as PersonalizedSession[]).some(
+          (s) => !['COMPLETED', 'FAILED'].includes(s.status)
+        );
+        setPollActive(hasProcessing);
+      }
+    } catch (err: any) {
+      if (!silent) setError(err.message || 'Failed to load sessions');
+    } finally {
+      if (!silent) setLoading(false);
+      setIsRefreshing(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadSessions();
+  }, [loadSessions]);
+
+  // Poll every 4 seconds while any session is processing
+  useEffect(() => {
+    if (!pollActive) return;
+    const timer = setInterval(() => {
+      loadSessions(true);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [pollActive, loadSessions]);
+
+  const handlePlay = useCallback((session: PersonalizedSession) => {
+    if (session.status !== 'COMPLETED' || !session.audio?.url) return;
+    const pal = getCategoryPalette(session.category);
+    const track: SessionTrack = {
+      id: session._id,
+      title: session.title,
+      creator: 'ORBIT · AI Session',
+      thumbnail: '',
+      category: session.category,
+      duration: session.audio.durationSeconds || session.settings.durationMinutes * 60,
+      audioUrl: session.audio.url,
+      processingStatus: 'COMPLETED',
+      spokenAffirmations: session.script?.affirmations || [],
+    };
+    // Store accent color as data attribute so MiniPlayer can use it
+    (track as any).__accentColor = pal.accent;
+    player.play(track);
+  }, [player]);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    loadSessions();
+  };
+
+  const completedSessions = sessions.filter((s) => s.status === 'COMPLETED');
+  const activeSessions = sessions.filter((s) => !['COMPLETED', 'FAILED'].includes(s.status));
+  const failedSessions = sessions.filter((s) => s.status === 'FAILED');
 
   return (
     <div className="orbit-subliminals-page">
-      {/* Subliminal Library Burger Menu Side Drawer */}
-      <SubliminalDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        activeCategory={selectedCategory}
-        activeUsage={selectedUsage}
-        onSelectCategory={handleDrawerSelectCategory}
-        onSelectUsage={handleDrawerSelectUsage}
-        onSelectDiscover={handleDrawerSelectDiscover}
-      />
-
-      {/* Dynamic Cosmic Background Glows */}
+      {/* Background glows */}
       <div className="orbit-subliminals-page__glow orbit-subliminals-page__glow--1" />
       <div className="orbit-subliminals-page__glow orbit-subliminals-page__glow--2" />
+      <div className="orbit-subliminals-page__glow orbit-subliminals-page__glow--3" />
 
       <div className="orbit-subliminals-page__container">
-        {/* Header Hero Section */}
-        <header className="orbit-subliminals-hero">
-          <div className="orbit-subliminals-top-bar">
-            {/* Library Burger Menu Button */}
-            <button
-              type="button"
-              className="orbit-subliminals-burger-btn"
-              onClick={() => setIsDrawerOpen(true)}
-              aria-label="Open subliminal library menu"
-            >
-              <Menu className="w-4 h-4 text-violet-300" />
-              <span>Library</span>
-            </button>
 
-            <div className="orbit-subliminals-hero__badge">
-              <Radio className="w-3.5 h-3.5 text-violet-400 animate-pulse" />
-              <span>REALITY ARCHITECTURE</span>
-            </div>
+        {/* ── Hero Header ────────────────────────────────────────────────────── */}
+        <header className="subliminals-header">
+          <div className="subliminals-header__badge">
+            <Radio size={13} className="subliminals-header__badge-icon" />
+            <span>REALITY ARCHITECTURE</span>
           </div>
-
-          <h1 className="orbit-subliminals-hero__title">
-            Your Reality <span className="orbit-subliminals-hero__title-accent">Library</span>
-          </h1>
-
-          <p className="orbit-subliminals-hero__subtitle">
-            Explore sessions aligned with the reality you're choosing to live from.
-          </p>
-
-          {/* Search Bar */}
-          <div className="orbit-subliminals-search">
-            <Search className="orbit-subliminals-search__icon" />
-            <input
-              type="text"
-              className="orbit-subliminals-search__input"
-              placeholder="Search subliminals, goals, moods, frequencies..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
+          <div className="subliminals-header__title-row">
+            <div>
+              <h1 className="subliminals-header__title">
+                Your <span className="subliminals-header__title-accent">Sessions</span>
+              </h1>
+              <p className="subliminals-header__subtitle">
+                AI-generated subliminal audio crafted around your specific intentions.
+                Each session is uniquely yours.
+              </p>
+            </div>
+            <div className="subliminals-header__actions">
               <button
                 type="button"
-                className="orbit-subliminals-search__clear"
-                onClick={() => setSearchQuery('')}
-                aria-label="Clear search"
+                className="subliminals-header__refresh-btn"
+                onClick={handleRefresh}
+                disabled={isRefreshing || loading}
+                aria-label="Refresh sessions"
+                title="Refresh"
               >
-                <X className="w-4 h-4" />
+                <RefreshCw size={16} className={isRefreshing ? 'subliminals-header__spin' : ''} />
               </button>
-            )}
-          </div>
-
-          {/* Usage Type Filters */}
-          <div className="orbit-subliminals-usage-bar">
-            <div className="orbit-subliminals-usage-bar__label">
-              <Filter className="w-3.5 h-3.5" />
-              <span>Intended Situation:</span>
-            </div>
-            <div className="orbit-subliminals-usage-bar__pills">
-              {USAGE_FILTERS.map((filter) => {
-                const isActive = selectedUsage === filter;
-                return (
-                  <button
-                    key={filter}
-                    type="button"
-                    className={`orbit-usage-filter-btn ${
-                      isActive ? 'orbit-usage-filter-btn--active' : ''
-                    }`}
-                    onClick={() => {
-                      setSelectedUsage(filter);
-                      setFilterFavoritesOnly(false);
-                    }}
-                  >
-                    {filter}
-                  </button>
-                );
-              })}
+              <Link to="/onboarding" className="subliminals-header__create-btn">
+                <Plus size={16} />
+                <span>New Session</span>
+              </Link>
             </div>
           </div>
         </header>
 
-        {/* Content Body */}
-        {loading ? (
-          <div className="orbit-subliminals-loading">
-            <div className="orbit-subliminals-loading__spinner" />
-            <p>Tuning neural frequencies...</p>
-          </div>
-        ) : isFiltering ? (
-          /* Filtered Results View */
-          <section className="orbit-subliminals-filtered">
-            <div className="orbit-subliminals-filtered__header">
-              <div>
-                <h2 className="orbit-subliminals-filtered__title">Search & Filter Results</h2>
-                <p className="orbit-subliminals-filtered__subtitle">
-                  Showing {filteredSessions.length} session{filteredSessions.length === 1 ? '' : 's'} matching your criteria
-                </p>
-              </div>
-              <button
-                type="button"
-                className="orbit-subliminals-filtered__reset-btn"
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedUsage('All');
-                  setSelectedCategory('all');
-                }}
-              >
-                Reset All Filters
-              </button>
+        {/* ── Stats Bar ──────────────────────────────────────────────────────── */}
+        {!loading && sessions.length > 0 && (
+          <div className="subliminals-stats">
+            <div className="subliminals-stats__item">
+              <span className="subliminals-stats__value">{sessions.length}</span>
+              <span className="subliminals-stats__label">Total Sessions</span>
             </div>
+            <div className="subliminals-stats__divider" />
+            <div className="subliminals-stats__item">
+              <span className="subliminals-stats__value subliminals-stats__value--green">{completedSessions.length}</span>
+              <span className="subliminals-stats__label">Ready to Play</span>
+            </div>
+            <div className="subliminals-stats__divider" />
+            <div className="subliminals-stats__item">
+              <span className="subliminals-stats__value subliminals-stats__value--purple">{activeSessions.length}</span>
+              <span className="subliminals-stats__label">Generating</span>
+            </div>
+          </div>
+        )}
 
-            {filteredSessions.length > 0 ? (
-              <div className="orbit-subliminals-grid">
-                {filteredSessions.map((session) => (
-                  <SubliminalCard
-                    key={session.id}
-                    session={session}
-                    onPlay={handlePlay}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="orbit-subliminals-empty">
-                <Compass className="w-12 h-12 text-slate-500 mb-3" />
-                <h3>No resonant sessions found</h3>
-                <p>Try searching with broader terms or removing usage filters.</p>
-                <button
-                  type="button"
-                  className="orbit-subliminals-empty__btn"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedUsage('All');
-                    setSelectedCategory('all');
-                  }}
-                >
-                  Clear Filters
-                </button>
-              </div>
-            )}
-          </section>
+        {/* ── Content ────────────────────────────────────────────────────────── */}
+        {loading ? (
+          <LoadingSkeleton />
+        ) : error ? (
+          <div className="subliminals-error">
+            <AlertTriangle size={24} />
+            <p>{error}</p>
+            <button type="button" className="subliminals-error__retry" onClick={() => loadSessions()}>
+              Retry
+            </button>
+          </div>
+        ) : sessions.length === 0 ? (
+          <EmptyState isLoggedIn={Boolean(user)} />
         ) : (
-          /* Spotify-Style Horizontal Rails View */
-          <div className="orbit-subliminals-rails" ref={railsContainerRef}>
-            {/* ✨ Personalized Subliminal Audio Journeys (AI Pivot) */}
-            <div className="orbit-personalized-banner p-6 rounded-2xl bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-cyan-900/40 border border-cyan-500/30 backdrop-blur-xl mb-8 relative overflow-hidden shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-bold uppercase tracking-wider mb-1.5">
-                    <Sparkles className="w-3.5 h-3.5" /> AI Personalized Realization
+          <div className="subliminals-content">
+
+            {/* ── Active/Generating Sessions ──────────────────────────────────── */}
+            {activeSessions.length > 0 && (
+              <section className="subliminals-section">
+                <div className="subliminals-section__header">
+                  <div className="subliminals-section__title-group">
+                    <Loader2 size={18} className="subliminals-section__spin subliminals-section__generating-icon" />
+                    <h2 className="subliminals-section__title">Generating Now</h2>
                   </div>
-                  <h2 className="text-xl font-bold text-white">Your Custom Subconscious Sessions</h2>
-                  <p className="text-xs text-gray-300">
-                    Bespoke acoustic realignment sessions generated specifically for your intention.
-                  </p>
+                  <span className="subliminals-section__badge subliminals-section__badge--live">LIVE</span>
                 </div>
-                <Link
-                  to="/onboarding"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition-all shrink-0"
-                >
-                  <Sparkles className="w-4 h-4" /> Create New Audio Session
-                </Link>
-              </div>
-
-              {userGeneratedSessions.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {userGeneratedSessions.map((ps) => (
-                    <div
-                      key={ps._id}
-                      onClick={() => handlePlayPersonalized(ps)}
-                      className="group p-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-cyan-400/50 transition-all cursor-pointer flex flex-col justify-between"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                            {ps.category || 'Manifestation'}
-                          </span>
-                          <span className="text-[10px] text-cyan-400 font-medium flex items-center gap-1">
-                            {ps.settings?.frequencyHz ? `${ps.settings.frequencyHz} Hz` : 'Rain Master'}
-                          </span>
-                        </div>
-                        <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
-                          {ps.title}
-                        </h4>
-                        <p className="text-xs text-gray-300 mt-1 line-clamp-2">
-                          "{ps.intention?.desiredIdentity || ps.script?.affirmations?.[0] || 'Personalized subconscious alignment'}"
-                        </p>
-                      </div>
-
-                      <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between">
-                        <span className="text-[11px] text-gray-400">
-                          {Math.round((ps.audio?.durationSeconds || 180) / 60)} min session
-                        </span>
-                        <button
-                          type="button"
-                          className="px-3 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 text-xs font-bold flex items-center gap-1.5 transition-colors"
-                        >
-                          ▶ Play
-                        </button>
-                      </div>
-                    </div>
+                <p className="subliminals-section__subtitle">
+                  These sessions are being crafted. They will appear as ready once complete — usually within 1–2 minutes.
+                </p>
+                <div className="subliminals-list">
+                  {activeSessions.map((session) => (
+                    <SessionCard
+                      key={session._id}
+                      session={session}
+                      isCurrentlyPlaying={player.currentTrack?.id === session._id}
+                      isPlaying={player.isPlaying}
+                      onPlay={handlePlay}
+                      onPause={player.pause}
+                    />
                   ))}
                 </div>
-              ) : (
-                <div className="p-4 rounded-xl bg-white/[0.02] border border-dashed border-white/10 text-center">
-                  <p className="text-xs text-gray-400">No custom sessions generated yet.</p>
-                  <Link to="/onboarding" className="text-xs text-cyan-400 hover:underline font-semibold mt-1 inline-block">
-                    Take the 6-question intention questionnaire to generate your first session →
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* 1. Made For You */}
-            <div id="made-for-you-rail">
-              <SubliminalRail
-                title="Made For You"
-                subtitle="Personalized recommendations attuned to your chosen reality baseline and daily focus."
-                sessions={personalizedSessions}
-                onPlay={handlePlay}
-                accentColor="#a855f7"
-              />
-            </div>
-
-            {/* 2. Recently Played (Rendered only when history exists) */}
-            {recentlyPlayedSessions.length > 0 && (
-              <div id="recent-rail">
-                <SubliminalRail
-                  title="Recently Played"
-                  subtitle="Jump back into your recent alignment frequencies and subconscious reprogramming."
-                  sessions={recentlyPlayedSessions}
-                  onPlay={handlePlay}
-                  accentColor="#38bdf8"
-                />
-              </div>
+              </section>
             )}
 
-            {/* 3. One-Time Alignment Sessions */}
-            <SubliminalRail
-              title="One-Time Alignment Resets"
-              subtitle="Short, high-intensity shifts (10–15 min) for immediate state change before important events."
-              sessions={oneTimeSessions}
-              onPlay={handlePlay}
-              accentColor="#f59e0b"
-            />
-
-            {/* 4. Wealth & Abundance */}
-            <SubliminalRail
-              title="Wealth & Sovereign Abundance"
-              subtitle="Compounding prosperity consciousness, money magnet frequencies, and overflow."
-              categorySlug="wealth"
-              sessions={wealthSessions}
-              onPlay={handlePlay}
-              accentColor="#fbbf24"
-            />
-
-            {/* 5. Core Confidence & Charisma */}
-            <SubliminalRail
-              title="Confidence & Magnetic Presence"
-              subtitle="Dissolve social anxiety, imposter feelings, and anchor into unshakeable self-trust."
-              categorySlug="confidence"
-              sessions={confidenceSessions}
-              onPlay={handlePlay}
-              accentColor="#38bdf8"
-            />
-
-            {/* 6. Looks & Physical Vitality */}
-            <SubliminalRail
-              title="Looks & Cellular Vitality"
-              subtitle="Cellular repair frequencies, somatic symmetry, radiant glow, and effortless magnetism."
-              categorySlug="looks"
-              sessions={looksSessions}
-              onPlay={handlePlay}
-              accentColor="#f43f5e"
-            />
-
-            {/* 7. Self Concept & Identity */}
-            <SubliminalRail
-              title="Self Concept & Quantum Identity"
-              subtitle="You do not attract what you want; you attract who you are. Rewire the foundational blueprint."
-              categorySlug="self-concept"
-              sessions={selfConceptSessions}
-              onPlay={handlePlay}
-              accentColor="#d946ef"
-            />
-
-            {/* 8. Love & Relational Harmony */}
-            <SubliminalRail
-              title="Love & Relational Harmony"
-              subtitle="639 Hz heart-chakra resonance, secure attachment, and magnetic devotion."
-              categorySlug="love"
-              sessions={loveSessions}
-              onPlay={handlePlay}
-              accentColor="#ec4899"
-            />
-
-            {/* 9. Career & Execution */}
-            <SubliminalRail
-              title="Career Mastery & Executive Momentum"
-              subtitle="Strategic leadership, fearless negotiation, and frictionless daily discipline."
-              categorySlug="career"
-              sessions={careerSessions}
-              onPlay={handlePlay}
-              accentColor="#8b5cf6"
-            />
-
-            {/* 10. Academic Success & Cognitive Mastery */}
-            <SubliminalRail
-              title="Academic Success & Brain Booster"
-              subtitle="Genius-level memory retention, rapid exam mastery, and effortless comprehension."
-              categorySlug="academic"
-              sessions={academicSessions}
-              onPlay={handlePlay}
-              accentColor="#6366f1"
-            />
-
-            {/* 11. Motivation & Iron Discipline */}
-            <SubliminalRail
-              title="Motivation & Iron Discipline"
-              subtitle="Obliterate procrastination, build unstoppable momentum, and execute with precision."
-              categorySlug="motivation"
-              sessions={motivationSessions}
-              onPlay={handlePlay}
-              accentColor="#ea580c"
-            />
-
-            {/* 12. Deep Work & Focus */}
-            <SubliminalRail
-              title="Focus & Cognitive Laser"
-              subtitle="High-gamma 40 Hz binaural beats for deep flow states, memory retention, and zero distraction."
-              categorySlug="focus"
-              sessions={focusSessions}
-              onPlay={handlePlay}
-              accentColor="#06b6d4"
-            />
-
-            {/* 13. Peace & Somatic Stillness */}
-            <SubliminalRail
-              title="Peace, Calm & Nervous System Reset"
-              subtitle="Gentle 432 Hz theta soundscapes to dissolve stress, panic, and bodily tension."
-              categorySlug="peace"
-              sessions={peaceSessions}
-              onPlay={handlePlay}
-              accentColor="#10b981"
-            />
-
-            {/* 14. Energy & Pranic Vitality */}
-            <SubliminalRail
-              title="Energy & Boundless Vitality"
-              subtitle="Recharge mitochondria, dissolve chronic fatigue, and radiate vibrant daily stamina."
-              categorySlug="energy"
-              sessions={energySessions}
-              onPlay={handlePlay}
-              accentColor="#eab308"
-            />
-
-            {/* 15. Luck & Serendipitous Opportunities */}
-            <SubliminalRail
-              title="Luck & Serendipitous Opportunities"
-              subtitle="Align with synchronicity, unexpected windfalls, and high-probability timelines."
-              categorySlug="luck"
-              sessions={luckSessions}
-              onPlay={handlePlay}
-              accentColor="#14b8a6"
-            />
-
-            {/* 16. Personal Growth & Evolution */}
-            <SubliminalRail
-              title="Personal Growth & Spiritual Expansion"
-              subtitle="Break generational patterns, awaken intuition, and align with your highest timeline."
-              categorySlug="growth"
-              sessions={growthSessions}
-              onPlay={handlePlay}
-              accentColor="#a855f7"
-            />
-
-            {/* 17. Night Sessions */}
-            <SubliminalRail
-              title="Night Sessions & Twilight Wind Down"
-              subtitle="Calming evening frequencies to quiet the conscious mind before entering restorative sleep."
-              sessions={nightSessions}
-              onPlay={handlePlay}
-              accentColor="#818cf8"
-            />
-
-            {/* 18. Sleep & Overnight Reprogramming */}
-            <SubliminalRail
-              title="Sleep & Overnight Delta Waves"
-              subtitle="Uninterrupted delta loops for subconscious reprogramming while your body and mind rest."
-              categorySlug="sleep"
-              sessions={sleepSessions}
-              onPlay={handlePlay}
-              accentColor="#4f46e5"
-            />
-
-            {/* Visual Category Discovery Grid (Pinterest / Spotify Explore Matrix) */}
-            <section className="orbit-subliminals-categories-section">
-              <div className="orbit-subliminals-categories-section__header">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-violet-400" />
-                  <h2 className="text-2xl font-bold text-white tracking-tight">
-                    Explore All 17 Spheres of Reality
-                  </h2>
+            {/* ── Completed Sessions ──────────────────────────────────────────── */}
+            {completedSessions.length > 0 && (
+              <section className="subliminals-section">
+                <div className="subliminals-section__header">
+                  <div className="subliminals-section__title-group">
+                    <CheckCircle size={18} className="subliminals-section__completed-icon" />
+                    <h2 className="subliminals-section__title">Ready to Play</h2>
+                  </div>
+                  <span className="subliminals-section__count">{completedSessions.length} session{completedSessions.length !== 1 ? 's' : ''}</span>
                 </div>
-                <p className="text-sm text-slate-400">
-                  Select a category to view full dedicated catalogs, filter by usage, and search specific intents.
-                </p>
-              </div>
+                <div className="subliminals-list">
+                  {completedSessions.map((session) => (
+                    <SessionCard
+                      key={session._id}
+                      session={session}
+                      isCurrentlyPlaying={player.currentTrack?.id === session._id}
+                      isPlaying={player.isPlaying}
+                      onPlay={handlePlay}
+                      onPause={player.pause}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
 
-              <div className="orbit-categories-browse-grid">
-                {Object.values(CATEGORY_DEFINITIONS).map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    to={`/subliminals/category/${cat.slug}`}
-                    className="orbit-category-tile"
-                    style={
-                      {
-                        '--category-accent': cat.accentColor,
-                        '--category-gradient': cat.gradient,
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="orbit-category-tile__backdrop" />
-                    <div className="orbit-category-tile__content">
-                      <span
-                        className="orbit-category-tile__dot"
-                        style={{ backgroundColor: cat.accentColor }}
-                      />
-                      <h3 className="orbit-category-tile__title">{cat.title}</h3>
-                      <p className="orbit-category-tile__tagline">{cat.tagline}</p>
-                      <div className="orbit-category-tile__footer">
-                        <span className="orbit-category-tile__explore-link">
-                          Explore Catalog →
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+            {/* ── Failed Sessions ─────────────────────────────────────────────── */}
+            {failedSessions.length > 0 && (
+              <section className="subliminals-section subliminals-section--collapsed">
+                <div className="subliminals-section__header">
+                  <div className="subliminals-section__title-group">
+                    <AlertTriangle size={16} className="subliminals-section__failed-icon" />
+                    <h2 className="subliminals-section__title subliminals-section__title--muted">Failed Sessions</h2>
+                  </div>
+                  <span className="subliminals-section__count subliminals-section__count--red">{failedSessions.length}</span>
+                </div>
+                <p className="subliminals-section__subtitle">
+                  These sessions encountered an error during generation. Create a new session to try again.
+                </p>
+                <div className="subliminals-list">
+                  {failedSessions.map((session) => (
+                    <SessionCard
+                      key={session._id}
+                      session={session}
+                      isCurrentlyPlaying={false}
+                      isPlaying={false}
+                      onPlay={handlePlay}
+                      onPause={player.pause}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* ── Create New CTA ──────────────────────────────────────────────── */}
+            <div className="subliminals-cta-card">
+              <div className="subliminals-cta-card__glow" />
+              <div className="subliminals-cta-card__content">
+                <div className="subliminals-cta-card__icon">
+                  <Sparkles size={28} />
+                </div>
+                <div>
+                  <h3 className="subliminals-cta-card__title">Create a New Personalized Session</h3>
+                  <p className="subliminals-cta-card__text">
+                    Answer 6 questions about your current intention and ORBIT's AI will generate a completely unique subliminal audio session — your voice, your frequency, your reality.
+                  </p>
+                </div>
               </div>
-            </section>
+              <Link to="/onboarding" className="subliminals-cta-card__btn">
+                Begin Intention Questionnaire
+                <ChevronRight size={16} />
+              </Link>
+            </div>
           </div>
         )}
       </div>

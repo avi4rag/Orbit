@@ -129,7 +129,12 @@ export async function getSessionById(req: Request, res: Response) {
 
 export async function listSessions(req: Request, res: Response) {
   try {
-    const sessions = await SubliminalSession.find().sort({ createdAt: -1 }).limit(30);
+    // Use userId from auth middleware if available, otherwise return all sessions
+    const userId = (req as any).userId;
+    const filter = userId ? { userId } : {};
+    const sessions = await SubliminalSession.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(50);
     res.json({ success: true, sessions });
   } catch (err) {
     res.status(500).json({ success: false, message: (err as Error).message });
