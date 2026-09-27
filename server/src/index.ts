@@ -11,6 +11,7 @@ import { actionsRouter } from './routes/actions.js';
 import { catalogRouter } from './routes/catalog.js';
 import { subliminalsRouter } from './routes/subliminals.js';
 import sessionRoutes from './routes/sessionRoutes.js';
+import onboardingRoutes from './routes/onboardingRoutes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -37,6 +38,7 @@ app.use('/api/actions', actionsRouter);
 app.use('/api/catalog', catalogRouter);
 app.use('/api/subliminals', subliminalsRouter);
 app.use('/api/sessions', sessionRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {
