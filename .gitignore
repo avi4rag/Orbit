@@ -13,6 +13,8 @@ dist-ssr
 *.local
 .env
 .env.*
+!.env.example
+!server/.env.example
 server/node_modules
 server/dist
 server/media/subliminals/*.mp3
