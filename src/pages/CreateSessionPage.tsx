@@ -340,23 +340,45 @@ export const CreateSessionPage: React.FC = () => {
     const intensityMapped = intensity === 'Very Soft' ? 'subtle' : intensity === 'Soft' ? 'balanced' : 'prominent';
 
     try {
+      const intentionPayload = {
+        desiredOutcome:
+          answers?.desiredOutcome ||
+          answers?.specificIntention ||
+          answers?.desire ||
+          selectedConcept.description ||
+          selectedConcept.title ||
+          'Optimal mental clarity and self-realization',
+        desiredIdentity:
+          answers?.desiredIdentity ||
+          answers?.identity ||
+          selectedConcept.title ||
+          'Aligned & Focused Creator',
+        emotionalState:
+          answers?.emotionalState ||
+          answers?.feelings ||
+          'Calm, Centered, Confident',
+        currentBlock:
+          answers?.currentBlock ||
+          'Overthinking',
+        dailyAction:
+          answers?.dailyAction ||
+          answers?.action ||
+          'Consistent creative focus',
+        category:
+          selectedConcept.category ||
+          answers?.category ||
+          answers?.desire ||
+          'Focus',
+        onboardingId: onboardingId || answers?.onboardingId || undefined
+      };
+
       const res: any = await api.createPersonalizedSession({
         concept: {
           title: selectedConcept.title,
           targetOutcome: selectedConcept.description,
           category: selectedConcept.category || answers?.desire || 'Focus'
         },
-        answers: {
-          ...(answers || {
-            desiredOutcome: selectedConcept.category,
-            desiredIdentity: selectedConcept.title,
-            emotionalState: 'Calm, Centered',
-            currentBlock: 'Overthinking',
-            dailyAction: 'Consistent creative focus',
-            category: selectedConcept.category
-          }),
-          onboardingId: onboardingId || undefined
-        },
+        answers: intentionPayload,
         settings: {
           durationMinutes: effectiveDuration,
           usageContext: usageContext.toLowerCase(),
@@ -410,7 +432,7 @@ export const CreateSessionPage: React.FC = () => {
       category: completedSession.category || 'Manifestation',
       duration: completedSession.audio.durationSeconds,
       audioUrl: completedSession.audio.url,
-      thumbnail: undefined,
+      thumbnail: completedSession.thumbnail || '',
       spokenAffirmations: completedSession.script?.affirmations || []
     };
     play(track);
