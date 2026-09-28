@@ -437,9 +437,30 @@ export const SubliminalsPage: React.FC = () => {
           <LoadingSkeleton />
         ) : error ? (
           <div className="subliminals-error">
-            <AlertTriangle size={24} />
-            <p>{error}</p>
-            <button type="button" className="subliminals-error__retry" onClick={() => loadSessions()}>
+            <div className="subliminals-error__icon">
+              <AlertTriangle size={28} />
+            </div>
+            <div className="subliminals-error__body">
+              <h3 className="subliminals-error__title">Could not load sessions</h3>
+              <p className="subliminals-error__detail">{error}</p>
+              {(error?.includes('401') || error?.includes('Authentication') || error?.includes('token')) ? (
+                <p className="subliminals-error__hint">
+                  Your session may have expired.{' '}
+                  <a href="/auth" className="subliminals-error__link">Sign in again</a> to continue.
+                </p>
+              ) : (error?.includes('Network') || error?.includes('fetch') || error?.includes('connect')) ? (
+                <p className="subliminals-error__hint">
+                  The ORBIT server appears to be offline. Make sure{' '}
+                  <code>npm run dev</code> is running, then retry.
+                </p>
+              ) : null}
+            </div>
+            <button
+              type="button"
+              className="subliminals-error__retry"
+              onClick={() => { setError(null); loadSessions(); }}
+            >
+              <RefreshCw size={14} />
               Retry
             </button>
           </div>

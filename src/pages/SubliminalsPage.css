@@ -688,34 +688,86 @@
 /* ── Error State ─────────────────────────────────────────────────────────── */
 .subliminals-error {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 3rem 1rem;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  background: rgba(248, 113, 113, 0.06);
+  border: 1px solid rgba(248, 113, 113, 0.22);
+  border-radius: 14px;
   color: #f87171;
-  text-align: center;
+  text-align: left;
+  margin: 0.5rem 0 1.5rem;
 }
 
-.subliminals-error p {
-  color: #94a3b8;
-  font-size: 0.9rem;
+.subliminals-error__icon {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  opacity: 0.85;
+}
+
+.subliminals-error__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.subliminals-error__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f87171;
   margin: 0;
 }
 
+.subliminals-error__detail {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+.subliminals-error__hint {
+  color: #64748b;
+  font-size: 0.82rem;
+  margin: 0.25rem 0 0;
+}
+
+.subliminals-error__hint code {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.78rem;
+  color: #a78bfa;
+}
+
+.subliminals-error__link {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
 .subliminals-error__retry {
-  padding: 0.5rem 1.25rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: center;
+  padding: 0.45rem 1rem;
   border-radius: 8px;
   background: rgba(248, 113, 113, 0.12);
   border: 1px solid rgba(248, 113, 113, 0.3);
   color: #f87171;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .subliminals-error__retry:hover {
-  background: rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.22);
+  border-color: rgba(248, 113, 113, 0.5);
 }
 
 /* ── CTA Card ────────────────────────────────────────────────────────────── */
