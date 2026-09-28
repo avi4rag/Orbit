@@ -5,7 +5,12 @@
 
 import { SEED_SUBLIMINALS } from '../data/seedSubliminals';
 
-const API_BASE = '/api';
+// In production set VITE_API_URL to the deployed backend origin, e.g.:
+//   https://orbit-api.onrender.com
+// In local dev leave it unset — Vite proxies /api → localhost:4000.
+const API_BASE = (import.meta as any).env?.VITE_API_URL
+  ? `${(import.meta as any).env.VITE_API_URL}/api`
+  : '/api';
 
 function getToken(): string | null {
   return localStorage.getItem('orbit_jwt_token');
@@ -232,6 +237,17 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       return { sessions: [] };
     }
 
+    // Sessions — return empty list offline; do not fake data.
+    // The UI will show the "No sessions yet" empty state.
+    if (endpoint === '/sessions' && (!options.method || options.method === 'GET')) {
+      return { sessions: [] };
+    }
+
+    // Session by ID — return null offline so polling stops gracefully.
+    if (/^\/sessions\/[a-f0-9]+$/i.test(endpoint) && (!options.method || options.method === 'GET')) {
+      return null;
+    }
+
     return undefined;
   } catch (err: any) {
     if (err.message === 'Invalid email or password.') {
@@ -252,18 +268,20 @@ async function request(endpoint: string, options: RequestInit = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
+  const url = `${API_BASE}${endpoint}`;
   let response: Response;
   try {
-    response = await fetch(`${API_BASE}${endpoint}`, {
+    response = await fetch(url, {
       ...options,
       headers,
     });
-  } catch (_err) {
-    // Network failure (offline, proxy down, or server offline) -> fallback
-    const fallback = handleOfflineFallback(endpoint, options);
-    if (fallback !== undefined) {
-      return fallback;
+  } catch (fetchErr) {
+    // Network failure — server offline, proxy down, or CORS preflight blocked
+    if (import.meta.env?.DEV) {
+      console.error(`[Orbit API] NETWORK ERROR\n  → ${options.method || 'GET'} ${url}\n  → ${(fetchErr as Error).message}`);
     }
+    const fallback = handleOfflineFallback(endpoint, options);
+    if (fallback !== undefined) return fallback;
     throw new Error('Network request failed. Please check your connection.');
   }
 
@@ -271,21 +289,25 @@ async function request(endpoint: string, options: RequestInit = {}) {
     // Handle proxy / gateway failures (502, 503, 504)
     if (response.status >= 502 && response.status <= 504) {
       const fallback = handleOfflineFallback(endpoint, options);
-      if (fallback !== undefined) {
-        return fallback;
-      }
+      if (fallback !== undefined) return fallback;
     }
 
-    let errorMsg = 'Network request failed';
+    let errorMsg = `${response.status} ${response.statusText}`;
+    let errData: any = null;
     try {
-      const errData = await response.json();
-      errorMsg = errData.error || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.error || errData.message || errorMsg;
     } catch {
       // Body not JSON (HTML error page from server or proxy)
       const fallback = handleOfflineFallback(endpoint, options);
-      if (fallback !== undefined) {
-        return fallback;
-      }
+      if (fallback !== undefined) return fallback;
+    }
+
+    if (import.meta.env?.DEV) {
+      console.error(
+        `[Orbit API] HTTP ${response.status}\n  → ${options.method || 'GET'} ${url}\n  → ${errorMsg}`,
+        errData ?? ''
+      );
     }
     throw new Error(errorMsg);
   }
