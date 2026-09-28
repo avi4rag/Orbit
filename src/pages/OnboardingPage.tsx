@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
   Brain,
-  CheckCircle2,
   AlertCircle,
   Compass,
   Flame,
