@@ -52,11 +52,11 @@ const SubliminalSessionSchema = new Schema<ISubliminalSession>(
     },
     error: { type: String },
     intention: {
-      desiredOutcome: { type: String, required: true },
-      desiredIdentity: { type: String, required: true },
-      emotionalState: { type: String, required: true },
-      currentBlock: { type: String, required: true },
-      dailyAction: { type: String, required: true },
+      desiredOutcome: { type: String, default: 'Optimal mental clarity and self-realization' },
+      desiredIdentity: { type: String, default: 'Aligned & Focused Creator' },
+      emotionalState: { type: String, default: 'Calm, Centered, Confident' },
+      currentBlock: { type: String, default: 'Overthinking' },
+      dailyAction: { type: String, default: 'Consistent creative focus' },
       category: { type: String, default: 'Manifestation' }
     },
     settings: {
