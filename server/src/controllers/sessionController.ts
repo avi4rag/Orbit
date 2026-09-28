@@ -58,29 +58,62 @@ export async function analyzeIntention(req: Request, res: Response) {
   }
 }
 
+function normalizeIntentionAnswers(answers: any, concept?: any): IntentionAnswers {
+  const ans = answers || {};
+  const c = concept || {};
+
+  return {
+    desiredOutcome:
+      ans.desiredOutcome ||
+      ans.specificIntention ||
+      ans.desire ||
+      c.targetOutcome ||
+      c.description ||
+      c.title ||
+      'Optimal mental clarity, calm focus, and self-realization',
+    desiredIdentity:
+      ans.desiredIdentity ||
+      ans.identity ||
+      c.title ||
+      'Aligned, confident, and focused creator',
+    emotionalState:
+      ans.emotionalState ||
+      ans.feelings ||
+      'Calm, centered, confident, and energized',
+    currentBlock:
+      ans.currentBlock ||
+      'Overthinking and hesitation',
+    dailyAction:
+      ans.dailyAction ||
+      ans.action ||
+      'Consistent daily focused action and creative flow',
+    category:
+      ans.category ||
+      ans.desire ||
+      c.category ||
+      'Manifestation'
+  };
+}
+
 export async function createSession(req: Request, res: Response) {
   try {
     const { concept, answers, settings } = req.body;
 
-    if (!answers || !concept) {
+    if (!concept) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid request: concept and answers are required.'
+        message: 'Invalid request: concept is required.'
       });
     }
 
+    const normalizedAnswers = normalizeIntentionAnswers(answers, concept);
+
     const session = new SubliminalSession({
+      userId: (req as any).userId,
       title: concept.title || 'Cosmic Alignment',
-      category: concept.category || answers.category || 'Manifestation',
+      category: concept.category || normalizedAnswers.category || 'Manifestation',
       status: 'GENERATING_SCRIPT',
-      intention: {
-        desiredOutcome: answers.desiredOutcome,
-        desiredIdentity: answers.desiredIdentity,
-        emotionalState: answers.emotionalState,
-        currentBlock: answers.currentBlock,
-        dailyAction: answers.dailyAction,
-        category: answers.category || 'Manifestation'
-      },
+      intention: normalizedAnswers,
       settings: {
         durationMinutes: settings?.durationMinutes || 5,
         usageContext: settings?.usageContext || 'meditation',
@@ -99,8 +132,8 @@ export async function createSession(req: Request, res: Response) {
 
     await session.save();
 
-    // Trigger asynchronous generation pipeline
-    processSessionPipeline(session._id.toString(), concept, answers).catch(err => {
+    // Trigger asynchronous generation pipeline with normalized answers
+    processSessionPipeline(session._id.toString(), concept, normalizedAnswers).catch(err => {
       console.error(`[SessionPipeline Error for ${session._id}]:`, err);
     });
 
