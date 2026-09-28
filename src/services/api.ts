@@ -312,7 +312,17 @@ async function request(endpoint: string, options: RequestInit = {}) {
     throw new Error(errorMsg);
   }
 
-  return response.json();
+  // Wrap response.json() — if Vercel serves index.html for /api/* routes
+  // (200 with HTML body), this would otherwise throw a SyntaxError that
+  // propagates as 'Network request failed'. Treat JSON parse failure as an
+  // offline/misconfigured-backend condition and try the offline fallback.
+  try {
+    return await response.json();
+  } catch {
+    const fallback = handleOfflineFallback(endpoint, options);
+    if (fallback !== undefined) return fallback;
+    throw new Error('Unexpected response from server. The API may be unavailable.');
+  }
 }
 
 export const api = {
