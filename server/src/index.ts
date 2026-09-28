@@ -23,8 +23,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173',
+  'https://orbit-self-eight.vercel.app',
+  // add additional Vercel preview URLs or custom domains here
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow same-origin requests (no Origin header) and known origins
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked: ${origin}`));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json());
+
 
 // Static Media with HTTP 206 Range support
 app.use('/media', express.static(path.resolve(__dirname, '../media')));
