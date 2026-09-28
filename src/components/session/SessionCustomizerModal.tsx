@@ -75,9 +75,41 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
     setCurrentStep('GENERATING_SCRIPT');
 
     try {
+      const normalizedAnswers = {
+        desiredOutcome:
+          answers?.desiredOutcome ||
+          answers?.specificIntention ||
+          answers?.desire ||
+          concept.targetOutcome ||
+          concept.description ||
+          concept.title ||
+          'Optimal mental clarity and self-realization',
+        desiredIdentity:
+          answers?.desiredIdentity ||
+          answers?.identity ||
+          concept.title ||
+          'Aligned & Focused Creator',
+        emotionalState:
+          answers?.emotionalState ||
+          answers?.feelings ||
+          'Calm, Centered, Confident',
+        currentBlock:
+          answers?.currentBlock ||
+          'Overthinking',
+        dailyAction:
+          answers?.dailyAction ||
+          answers?.action ||
+          'Consistent creative focus',
+        category:
+          concept.category ||
+          answers?.category ||
+          answers?.desire ||
+          'Focus'
+      };
+
       const res: any = await api.createPersonalizedSession({
         concept,
-        answers,
+        answers: normalizedAnswers,
         settings: {
           durationMinutes,
           usageContext,
