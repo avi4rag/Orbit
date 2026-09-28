@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ISubliminalSession extends Document {
-  userId?: mongoose.Types.ObjectId;
+  userId?: mongoose.Types.ObjectId | string;
   title: string;
   category: string;
   status: 'PENDING' | 'GENERATING_SCRIPT' | 'GENERATING_VOICE' | 'MIXING_AUDIO' | 'COMPLETED' | 'FAILED';
@@ -41,7 +41,7 @@ export interface ISubliminalSession extends Document {
 
 const SubliminalSessionSchema = new Schema<ISubliminalSession>(
   {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: false, index: true },
+    userId: { type: Schema.Types.Mixed, ref: 'User', required: false, index: true },
     title: { type: String, required: true },
     category: { type: String, default: 'General Alignment' },
     status: {
