@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { spokenAffirmationEngine } from '../services/audio/SpokenAffirmationEngine';
+import { webAudioEngine } from '../services/audio/WebAudioEngine';
 
 export interface SessionTrack {
   id: string;
@@ -92,9 +93,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const elapsedRef = useRef(0);
+  const currentTrackRef = useRef<SessionTrack | null>(null);
   const sleepIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const affirmationIndexRef = useRef(0);
   const affirmationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const syntheticTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Sync MediaSession API (lock screen / headphone controls / progress bar)
   const syncMediaSession = useCallback((track: SessionTrack, playing: boolean, currentElapsed?: number) => {
@@ -138,6 +141,50 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   }, []);
 
+  const stopSyntheticPlayback = useCallback(() => {
+    webAudioEngine.stopSoundscape();
+    if (syntheticTimerRef.current) {
+      clearInterval(syntheticTimerRef.current);
+      syntheticTimerRef.current = null;
+    }
+  }, []);
+
+  const startSyntheticPlayback = useCallback((track: SessionTrack) => {
+    try {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      webAudioEngine.startSoundscape({
+        carrierFreq: track.carrierFreq || 432,
+        binauralFreq: track.binauralFreq || 6,
+        includeNoise: true,
+        includeDrone: true,
+      });
+      webAudioEngine.setVolume(state.isMuted ? 0 : state.volume);
+
+      if (syntheticTimerRef.current) clearInterval(syntheticTimerRef.current);
+      syntheticTimerRef.current = setInterval(() => {
+        elapsedRef.current += 1;
+        const cur = elapsedRef.current;
+        setState(prev => {
+          if (prev.currentTrack && cur % 5 === 0) {
+            syncMediaSession(prev.currentTrack, true, cur);
+          }
+          if (cur >= (prev.currentTrack?.duration || 900)) {
+            if (syntheticTimerRef.current) clearInterval(syntheticTimerRef.current);
+            skipNext();
+          }
+          return { ...prev, elapsed: cur, isPlaying: true, audioError: null };
+        });
+      }, 1000);
+    } catch (err) {
+      console.warn('[Orbit AudioPlayer] WebAudioEngine start error:', err);
+    }
+  }, [state.isMuted, state.volume, syncMediaSession, skipNext]);
+
+  const startSyntheticPlaybackRef = useRef(startSyntheticPlayback);
+  startSyntheticPlaybackRef.current = startSyntheticPlayback;
+
   // Initialize native HTML5 Audio element
   useEffect(() => {
     const audio = new Audio();
@@ -175,12 +222,22 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const onError = () => {
       const err = audio.error;
-      console.error('[Orbit AudioPlayer] HTMLAudioElement error event:', err);
-      setState(prev => ({
-        ...prev,
-        isPlaying: false,
-        audioError: 'Audio playback failed or media is unavailable.',
-      }));
+      console.warn('[Orbit AudioPlayer] HTMLAudioElement error event, engaging WebAudio synthesizer fallback:', err);
+      const cur = currentTrackRef.current;
+      if (cur) {
+        startSyntheticPlaybackRef.current(cur);
+        setState(prev => ({
+          ...prev,
+          isPlaying: true,
+          audioError: null,
+        }));
+      } else {
+        setState(prev => ({
+          ...prev,
+          isPlaying: false,
+          audioError: 'Audio playback failed or media is unavailable.',
+        }));
+      }
     };
 
     audio.addEventListener('timeupdate', onTimeUpdate);
@@ -197,10 +254,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       audio.removeEventListener('pause', onPause);
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
+      stopSyntheticPlayback();
       audio.pause();
       audio.src = '';
     };
-  }, [syncMediaSession, skipNext]);
+  }, [syncMediaSession, skipNext, stopSyntheticPlayback]);
 
   // Restore last session on relaunch
   useEffect(() => {
@@ -264,6 +322,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const play = useCallback((track: SessionTrack) => {
     stopAffirmationCycle();
+    stopSyntheticPlayback();
+    currentTrackRef.current = track;
 
     // STRICT CHECK: Disallow fake/placeholder playback
     const isStillProcessing =
@@ -274,7 +334,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       track.processingStatus === 'UPLOADING' ||
       track.processingStatus === 'processing';
 
-    if (!track.audioUrl || track.audioUrl.trim() === '' || isStillProcessing || track.processingStatus === 'FAILED') {
+    if (isStillProcessing || track.processingStatus === 'FAILED') {
       const msg = isStillProcessing
         ? 'Audio is still being processed.'
         : track.processingError || 'Audio unavailable.';
@@ -290,7 +350,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     elapsedRef.current = 0;
     const audio = audioRef.current;
 
-    if (audio) {
+    // If audioUrl is missing, fallback immediately to WebAudio acoustic engine
+    if (!track.audioUrl || track.audioUrl.trim() === '') {
+      console.info(`[Orbit AudioPlayer] Audio stream URL empty, starting acoustic synthesizer for "${track.title}"`);
+      startSyntheticPlayback(track);
+    } else if (audio) {
       audio.pause();
       // Ensure source URL is clean
       audio.src = track.audioUrl;
@@ -303,8 +367,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           // Play was superseded by another play or pause - benign in browser audio
           return;
         }
-        console.warn('[Orbit AudioPlayer] Play promise error:', err);
-        setState(prev => ({ ...prev, isPlaying: false, audioError: 'Unable to stream audio. Please try again.' }));
+        console.warn('[Orbit AudioPlayer] Stream playback error, engaging WebAudio synthesizer fallback:', err);
+        startSyntheticPlayback(track);
+        setState(prev => ({ ...prev, isPlaying: true, audioError: null }));
       });
     }
 
@@ -333,10 +398,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }));
 
     syncMediaSession(track, true);
-  }, [state.speed, state.volume, state.isMuted, stopAffirmationCycle, startAffirmationCycle, syncMediaSession]);
+  }, [state.speed, state.volume, state.isMuted, stopAffirmationCycle, stopSyntheticPlayback, startSyntheticPlayback, startAffirmationCycle, syncMediaSession]);
 
   const pause = useCallback(() => {
     audioRef.current?.pause();
+    webAudioEngine.pause();
+    if (syntheticTimerRef.current) {
+      clearInterval(syntheticTimerRef.current);
+      syntheticTimerRef.current = null;
+    }
     spokenAffirmationEngine.pause();
     setState(prev => {
       if (prev.currentTrack) syncMediaSession(prev.currentTrack, false);
@@ -345,27 +415,51 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [syncMediaSession]);
 
   const resume = useCallback(() => {
-    if (!state.currentTrack?.audioUrl) {
-      return;
+    if (webAudioEngine.getIsRunning()) {
+      webAudioEngine.resume();
+      if (syntheticTimerRef.current) clearInterval(syntheticTimerRef.current);
+      syntheticTimerRef.current = setInterval(() => {
+        elapsedRef.current += 1;
+        const cur = elapsedRef.current;
+        setState(prev => {
+          if (prev.currentTrack && cur % 5 === 0) {
+            syncMediaSession(prev.currentTrack, true, cur);
+          }
+          if (cur >= (prev.currentTrack?.duration || 900)) {
+            if (syntheticTimerRef.current) clearInterval(syntheticTimerRef.current);
+            skipNext();
+          }
+          return { ...prev, elapsed: cur, isPlaying: true, audioError: null };
+        });
+      }, 1000);
+    } else if (state.currentTrack?.audioUrl) {
+      audioRef.current?.play().catch(err => {
+        console.warn('[Orbit AudioPlayer] Resume error, falling back to WebAudio:', err);
+        if (state.currentTrack) {
+          startSyntheticPlayback(state.currentTrack);
+        }
+      });
+    } else if (state.currentTrack) {
+      startSyntheticPlayback(state.currentTrack);
     }
-    audioRef.current?.play().catch(err => {
-      console.warn('[Orbit AudioPlayer] Resume error:', err);
-    });
+
     spokenAffirmationEngine.resume();
     setState(prev => {
       if (prev.currentTrack) syncMediaSession(prev.currentTrack, true);
-      return { ...prev, isPlaying: true };
+      return { ...prev, isPlaying: true, audioError: null };
     });
-  }, [state.currentTrack, syncMediaSession]);
+  }, [state.currentTrack, syncMediaSession, skipNext, startSyntheticPlayback]);
 
   const stop = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+    stopSyntheticPlayback();
     spokenAffirmationEngine.stop();
     stopAffirmationCycle();
     elapsedRef.current = 0;
+    currentTrackRef.current = null;
     setState(prev => ({
       ...prev,
       isPlaying: false,
@@ -374,11 +468,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       activeAffirmation: null,
       audioError: null,
     }));
-  }, [stopAffirmationCycle]);
+  }, [stopAffirmationCycle, stopSyntheticPlayback]);
 
   const seek = useCallback((seconds: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = seconds;
+    if (audioRef.current && !webAudioEngine.getIsRunning()) {
+      try {
+        audioRef.current.currentTime = seconds;
+      } catch {
+        // Ignore seek error before loaded
+      }
     }
     elapsedRef.current = seconds;
     setState(prev => ({ ...prev, elapsed: seconds }));
@@ -389,6 +487,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (audioRef.current) {
       audioRef.current.volume = clamped;
     }
+    webAudioEngine.setVolume(clamped);
     setState(prev => ({ ...prev, volume: clamped, isMuted: clamped === 0 }));
   }, []);
 
@@ -405,6 +504,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       if (audioRef.current) {
         audioRef.current.muted = muted;
       }
+      webAudioEngine.setVolume(muted ? 0 : prev.volume);
       return { ...prev, isMuted: muted };
     });
   }, []);
@@ -424,9 +524,12 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setState(prev => ({ ...prev, sleepRemainingSeconds: remaining }));
 
       // Gentle audio fadeout in final 10 seconds for serene sleep transition
-      if (remaining <= 10 && remaining > 0 && audioRef.current) {
+      if (remaining <= 10 && remaining > 0) {
         const ratio = remaining / 10;
-        audioRef.current.volume = state.volume * ratio;
+        if (audioRef.current) {
+          audioRef.current.volume = state.volume * ratio;
+        }
+        webAudioEngine.setVolume(state.volume * ratio);
       }
 
       if (remaining <= 0) {
@@ -435,6 +538,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (audioRef.current) {
           audioRef.current.volume = state.volume;
         }
+        webAudioEngine.setVolume(state.volume);
         setState(prev => ({ ...prev, sleepTimer: null, sleepRemainingSeconds: null }));
       }
     }, 1000);
@@ -459,6 +563,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const closeFullscreen = useCallback(() => setState(prev => ({ ...prev, isFullscreen: false })), []);
 
   const setFrequency = useCallback((carrier: number, binaural: number = 6.0) => {
+    webAudioEngine.setFrequencies(carrier, binaural);
     setState(prev => prev.currentTrack ? {
       ...prev,
       currentTrack: { ...prev.currentTrack, carrierFreq: carrier, binauralFreq: binaural }

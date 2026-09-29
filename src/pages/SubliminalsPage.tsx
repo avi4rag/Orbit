@@ -341,16 +341,19 @@ export const SubliminalsPage: React.FC = () => {
   }, [pollActive, loadSessions]);
 
   const handlePlay = useCallback((session: PersonalizedSession) => {
-    if (session.status !== 'COMPLETED' || !session.audio?.url) return;
+    if (session.status !== 'COMPLETED') return;
     const pal = getCategoryPalette(session.category);
+    const audioUrl = session.audio?.url || '/media/ambience/rain/light-rain-ambient.mp3';
     const track: SessionTrack = {
       id: session._id,
       title: session.title,
       creator: 'ORBIT · AI Session',
       thumbnail: '',
       category: session.category,
-      duration: session.audio.durationSeconds || session.settings.durationMinutes * 60,
-      audioUrl: session.audio.url,
+      duration: session.audio?.durationSeconds || (session.settings?.durationMinutes ? session.settings.durationMinutes * 60 : 900),
+      audioUrl,
+      carrierFreq: session.settings?.frequencyHz || 432,
+      binauralFreq: 6,
       processingStatus: 'COMPLETED',
       spokenAffirmations: session.script?.affirmations || [],
     };

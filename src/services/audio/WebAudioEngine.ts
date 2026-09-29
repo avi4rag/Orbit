@@ -59,6 +59,7 @@ export class WebAudioEngine {
     if (!this.ctx || !this.masterGain) return;
 
     const now = this.ctx.currentTime;
+    this.masterGain.gain.setValueAtTime(this.currentVolume, now);
     const carrier = options.carrierFreq || 528;
     const binaural = options.binauralFreq || 6; // 6Hz Theta
 
