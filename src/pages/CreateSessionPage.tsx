@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
+import { generateDeterministicConcepts } from '../utils/conceptGenerator';
 import './CreateSessionPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -254,6 +255,18 @@ export const CreateSessionPage: React.FC = () => {
         })
         .catch((err) => {
           console.warn('[CreateSessionPage] Load onboarding error:', err);
+          if (isMounted) {
+            const fallbackAnswers = {
+              desire: 'Focus & Productivity',
+              specificIntention: 'Unshakable mental clarity and creative momentum',
+              identity: 'A focused and disciplined creator',
+              feelings: 'Focused, Calm, Confident, Energized',
+              currentBlock: 'Overthinking',
+              action: 'Consistently working on meaningful projects'
+            };
+            setAnswers(fallbackAnswers);
+            setConcepts(generateDeterministicConcepts(fallbackAnswers));
+          }
         })
         .finally(() => {
           if (isMounted) setIsLoading(false);
@@ -395,6 +408,13 @@ export const CreateSessionPage: React.FC = () => {
       }
 
       const sessionId = res.session._id;
+
+      // If session is already completed (offline fallback mode), resolve immediately
+      if (res.session.status === 'COMPLETED') {
+        setPipelineStatus('COMPLETED');
+        setCompletedSession(res.session);
+        return;
+      }
 
       const pollInterval = setInterval(async () => {
         try {
