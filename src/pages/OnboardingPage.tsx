@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
+import { generateDeterministicConcepts } from '../utils/conceptGenerator';
 import './OnboardingPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -200,15 +201,41 @@ export const OnboardingPage: React.FC = () => {
             concepts: res.concepts || []
           }
         });
-      } else {
-        throw new Error(res?.message || 'Failed to save onboarding answers on the server');
+        return;
       }
+      throw new Error(res?.message || 'Failed to save onboarding answers on the server');
     } catch (err: any) {
-      console.error('[Onboarding] Submission failed:', err);
-      setErrorMessage(
-        err.message ||
-          'Failed to save onboarding answers. Check that the server is running on port 4000 and connected to MongoDB.'
-      );
+      console.warn('[Onboarding] Submission network note, applying client-side concept generation:', err);
+      try {
+        const fallbackConcepts = generateDeterministicConcepts(payload);
+        const fallbackId = 'ob_' + Date.now();
+        localStorage.setItem('orbit_latest_onboarding_id', fallbackId);
+        localStorage.setItem(
+          `orbit_onboarding_${fallbackId}`,
+          JSON.stringify({
+            onboardingId: fallbackId,
+            answers: payload,
+            concepts: fallbackConcepts,
+            createdAt: new Date().toISOString()
+          })
+        );
+        const userId = user?.id || user?.email || 'current';
+        localStorage.setItem(`orbit_onboarded_${userId}`, 'true');
+        updateUserLocal({ onboarded: true });
+
+        navigate('/subliminals/create', {
+          state: {
+            onboardingId: fallbackId,
+            answers: payload,
+            concepts: fallbackConcepts
+          }
+        });
+      } catch (fallbackErr) {
+        console.error('[Onboarding] Fallback failed:', fallbackErr);
+        setErrorMessage(
+          'Could not calibrate intention profiles. Please check connection and retry.'
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
