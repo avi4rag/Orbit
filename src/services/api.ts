@@ -4,6 +4,7 @@
  */
 
 import { SEED_SUBLIMINALS } from '../data/seedSubliminals';
+import { generateDeterministicConcepts } from '../utils/conceptGenerator';
 
 // In production set VITE_API_URL to the deployed backend origin, e.g.:
 //   https://orbit-api.onrender.com
@@ -237,15 +238,200 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       return { sessions: [] };
     }
 
-    // Sessions — return empty list offline; do not fake data.
-    // The UI will show the "No sessions yet" empty state.
-    if (endpoint === '/sessions' && (!options.method || options.method === 'GET')) {
-      return { sessions: [] };
+    // Sessions catalog options (ambience, voices, frequencies)
+    if (endpoint === '/sessions/catalog') {
+      return {
+        success: true,
+        ambience: [
+          { id: 'rain-light', name: 'Gentle Rain', category: 'nature', description: 'Soft rain falling on leaves' },
+          { id: 'rain-window', name: 'Rain on the Window', category: 'nature', description: 'Atmospheric patter against glass' },
+          { id: 'rain-lluvia', name: 'Deep Forest Rain', category: 'nature', description: 'Immersive woodland rainfall' },
+          { id: 'noise-brown', name: 'Cosmic Brown Noise', category: 'noise', description: 'Warm, deep low-frequency rumble' },
+          { id: 'noise-pink', name: 'Pink Flow', category: 'noise', description: 'Balanced, gentle rushing stream' }
+        ],
+        voices: [
+          { id: 'bella', name: 'Bella (Calm & Gentle)', provider: 'elevenlabs' },
+          { id: 'antoni', name: 'Antoni (Warm & Grounded)', provider: 'elevenlabs' },
+          { id: 'adam', name: 'Adam (Deep & Resonant)', provider: 'elevenlabs' },
+          { id: 'arnold', name: 'Arnold (Clear & Neutral)', provider: 'elevenlabs' }
+        ],
+        frequencies: [
+          { hz: 432, name: '432 Hz', description: 'Harmonic clarity & cellular peace' },
+          { hz: 528, name: '528 Hz', description: 'Transformation & creative resonance' },
+          { hz: 639, name: '639 Hz', description: 'Interconnected empathy & harmony' },
+          { hz: 741, name: '741 Hz', description: 'Intuition & mental detachment' },
+          { hz: 852, name: '852 Hz', description: 'Spiritual alignment & vision' }
+        ]
+      };
     }
 
-    // Session by ID — return null offline so polling stops gracefully.
-    if (/^\/sessions\/[a-f0-9]+$/i.test(endpoint) && (!options.method || options.method === 'GET')) {
-      return null;
+    // Onboarding submission fallback
+    if (endpoint === '/onboarding/submit' && options.method === 'POST') {
+      const answers = {
+        desire: rawBody.desire || 'Focus & Productivity',
+        specificIntention: rawBody.specificIntention || 'Unshakable mental clarity and creative momentum.',
+        identity: rawBody.identity || 'A focused and disciplined creator.',
+        feelings: rawBody.feelings || 'Focused, Calm, Confident, Energized',
+        currentBlock: rawBody.currentBlock || 'Overthinking',
+        action: rawBody.action || 'Consistently working on meaningful projects.'
+      };
+
+      const concepts = generateDeterministicConcepts(answers);
+      const onboardingId = 'ob_' + Date.now();
+
+      const record = {
+        onboardingId,
+        answers,
+        concepts,
+        createdAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('orbit_latest_onboarding_id', onboardingId);
+      localStorage.setItem(`orbit_onboarding_${onboardingId}`, JSON.stringify(record));
+
+      const rawRecords = localStorage.getItem('orbit_offline_onboardings');
+      const records = rawRecords ? JSON.parse(rawRecords) : [];
+      records.unshift(record);
+      localStorage.setItem('orbit_offline_onboardings', JSON.stringify(records.slice(0, 10)));
+
+      return {
+        success: true,
+        onboardingId,
+        answers,
+        concepts
+      };
+    }
+
+    // Latest onboarding fallback
+    if (endpoint === '/onboarding/latest') {
+      const latestId = localStorage.getItem('orbit_latest_onboarding_id');
+      if (latestId) {
+        const raw = localStorage.getItem(`orbit_onboarding_${latestId}`);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return { success: true, ...parsed };
+        }
+      }
+      const rawRecords = localStorage.getItem('orbit_offline_onboardings');
+      const records = rawRecords ? JSON.parse(rawRecords) : [];
+      if (records.length > 0) {
+        return { success: true, ...records[0] };
+      }
+      const defaultAnswers = {
+        desire: 'Focus & Productivity',
+        specificIntention: 'Unshakable mental clarity and creative momentum.',
+        identity: 'A focused and disciplined creator.',
+        feelings: 'Focused, Calm, Confident, Energized',
+        currentBlock: 'Overthinking',
+        action: 'Consistently working on meaningful projects.'
+      };
+      return {
+        success: true,
+        onboardingId: 'ob_default',
+        answers: defaultAnswers,
+        concepts: generateDeterministicConcepts(defaultAnswers)
+      };
+    }
+
+    // Specific onboarding by ID fallback
+    if (endpoint.startsWith('/onboarding/')) {
+      const id = endpoint.replace('/onboarding/', '');
+      const raw = localStorage.getItem(`orbit_onboarding_${id}`);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return { success: true, ...parsed };
+      }
+      const defaultAnswers = {
+        desire: 'Focus & Productivity',
+        specificIntention: 'Unshakable mental clarity and creative momentum.',
+        identity: 'A focused and disciplined creator.',
+        feelings: 'Focused, Calm, Confident, Energized',
+        currentBlock: 'Overthinking',
+        action: 'Consistently working on meaningful projects.'
+      };
+      return {
+        success: true,
+        onboardingId: id,
+        answers: defaultAnswers,
+        concepts: generateDeterministicConcepts(defaultAnswers)
+      };
+    }
+
+    // Session creation fallback (enables creating personalized sessions in offline/static mode)
+    if (endpoint === '/sessions' && options.method === 'POST') {
+      const sessionId = 'session_' + Date.now();
+      const concept = rawBody.concept || {};
+      const answers = rawBody.answers || {};
+      const settings = rawBody.settings || {};
+
+      let ambienceUrl = '/media/ambience/rain/light-rain-ambient.mp3';
+      if (settings.ambienceTrackId === 'rain-window') ambienceUrl = '/media/ambience/rain/rain-on-the-window.mp3';
+      if (settings.ambienceTrackId === 'rain-lluvia') ambienceUrl = '/media/ambience/rain/lluvia-rain.mp3';
+
+      const session = {
+        _id: sessionId,
+        userId: 'demo_user_traveler',
+        title: concept.title || 'Cosmic Realization',
+        category: concept.category || answers.category || 'Manifestation',
+        status: 'COMPLETED',
+        intention: answers,
+        settings: {
+          durationMinutes: settings.durationMinutes || 5,
+          usageContext: settings.usageContext || 'focus',
+          ambienceTrackId: settings.ambienceTrackId || 'rain-light',
+          frequencyHz: settings.frequencyHz || 432,
+          voiceId: settings.voiceId || 'bella',
+          ttsProvider: settings.ttsProvider || 'elevenlabs',
+          subliminalIntensity: settings.subliminalIntensity || 'subtle'
+        },
+        script: {
+          affirmations: [
+            `I am now embodying ${answers.desiredIdentity || 'my highest potential'}.`,
+            `Every action I take is anchored in ${answers.dailyAction || 'clarity and purpose'}.`,
+            `My nervous system rests in ${answers.emotionalState || 'calm, centered certainty'}.`,
+            `I effortlessly transcend ${answers.currentBlock || 'all perceived limits'}.`,
+            `I choose sovereign momentum and unshakable creative flow.`
+          ],
+          rawText: `I am now embodying ${answers.desiredIdentity || 'my highest potential'}. Every action I take is anchored in ${answers.dailyAction || 'clarity and purpose'}.`,
+          tone: 'Calm, authoritative, sovereign'
+        },
+        audio: {
+          url: ambienceUrl,
+          durationSeconds: (settings.durationMinutes || 5) * 60,
+          fileSizeBytes: 1048576,
+          voiceDurationSeconds: 60
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem(`orbit_session_${sessionId}`, JSON.stringify(session));
+      const rawSessions = localStorage.getItem('orbit_offline_sessions');
+      const sessions = rawSessions ? JSON.parse(rawSessions) : [];
+      sessions.unshift(session);
+      localStorage.setItem('orbit_offline_sessions', JSON.stringify(sessions));
+
+      return {
+        success: true,
+        session
+      };
+    }
+
+    // Session by ID — return offline session if present, otherwise null so polling stops gracefully
+    if (endpoint.startsWith('/sessions/')) {
+      const id = endpoint.replace('/sessions/', '');
+      const raw = localStorage.getItem(`orbit_session_${id}`);
+      if (raw) {
+        return { success: true, session: JSON.parse(raw) };
+      }
+      return { success: false, session: null };
+    }
+
+    // Sessions list
+    if (endpoint === '/sessions' && (!options.method || options.method === 'GET')) {
+      const raw = localStorage.getItem('orbit_offline_sessions');
+      const sessions = raw ? JSON.parse(raw) : [];
+      return { success: true, sessions };
     }
 
     return undefined;
@@ -286,8 +472,8 @@ async function request(endpoint: string, options: RequestInit = {}) {
   }
 
   if (!response.ok) {
-    // Handle proxy / gateway failures (502, 503, 504)
-    if (response.status >= 502 && response.status <= 504) {
+    // Handle 404 (e.g. backend routes unconfigured on Vercel) or server gateway errors (500-504)
+    if (response.status === 404 || (response.status >= 500 && response.status <= 504)) {
       const fallback = handleOfflineFallback(endpoint, options);
       if (fallback !== undefined) return fallback;
     }
