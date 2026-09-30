@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import { Router, Request, Response } from 'express';
 import { SubliminalRepository } from '../models/Subliminal.js';
 import { UserRepository } from '../models/User.js';
@@ -7,7 +6,6 @@ import { requireAuth, AuthRequest } from '../middleware/auth.js';
 import { youtubeDiscoveryEngine } from '../services/youtubeDiscovery.js';
 import { playlistIngestionService } from '../services/playlistIngestion.js';
 import { audioProcessorService } from '../services/audioProcessor.js';
-import { storageService } from '../services/storage.js';
 import { PLAYLIST_SOURCES, getUniquePlaylistIds } from '../config/playlists.js';
 
 export const subliminalsRouter = Router();
