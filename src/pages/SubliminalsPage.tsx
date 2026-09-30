@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
-import { api } from '../services/api';
+import { api, resolveAmbienceAudioUrl } from '../services/api';
 import './SubliminalsPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -343,7 +343,17 @@ export const SubliminalsPage: React.FC = () => {
   const handlePlay = useCallback((session: PersonalizedSession) => {
     if (session.status !== 'COMPLETED') return;
     const pal = getCategoryPalette(session.category);
-    const audioUrl = session.audio?.url || '/media/ambience/rain/light-rain-ambient.mp3';
+    const audioUrl = session.audio?.url?.includes('/media/ambience/') && session.settings?.ambienceTrackId
+      ? resolveAmbienceAudioUrl(session.settings.ambienceTrackId)
+      : session.audio?.url || resolveAmbienceAudioUrl(session.settings?.ambienceTrackId);
+
+    const voiceStyleMap: Record<string, string> = {
+      bella: 'Calm',
+      adam: 'Deep',
+      antoni: 'Warm',
+      arnold: 'Neutral'
+    };
+
     const track: SessionTrack = {
       id: session._id,
       title: session.title,
@@ -354,8 +364,17 @@ export const SubliminalsPage: React.FC = () => {
       audioUrl,
       carrierFreq: session.settings?.frequencyHz || 432,
       binauralFreq: 6,
+      atmosphere: session.settings?.ambienceTrackId || 'rain-light',
+      voiceStyle: voiceStyleMap[session.settings?.voiceId || 'bella'] || 'Calm',
+      intensity: session.settings?.subliminalIntensity || 'balanced',
       processingStatus: 'COMPLETED',
-      spokenAffirmations: session.script?.affirmations || [],
+      spokenAffirmations: session.script?.affirmations?.length
+        ? session.script.affirmations
+        : [
+            `I am now embodying ${session.intention?.desiredIdentity || 'my highest potential'}.`,
+            `Every action I take is anchored in clarity and purposeful momentum.`,
+            `My nervous system rests in calm, centered certainty.`
+          ],
     };
     // Store accent color as data attribute so MiniPlayer can use it
     (track as any).__accentColor = pal.accent;
