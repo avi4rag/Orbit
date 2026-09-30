@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { spokenAffirmationEngine } from '../services/audio/SpokenAffirmationEngine';
-import { webAudioEngine } from '../services/audio/WebAudioEngine';
+import { webAudioEngine, resolveAtmosphereTexture } from '../services/audio/WebAudioEngine';
 
 export interface SessionTrack {
   id: string;
@@ -26,6 +26,9 @@ export interface SessionTrack {
   audioFileHash?: string; // SHA-256 fingerprint
   binauralFreq?: number;
   carrierFreq?: number;
+  atmosphere?: string;
+  voiceStyle?: string;
+  intensity?: 'subtle' | 'balanced' | 'prominent';
   spokenAffirmations?: string[];
 }
 
@@ -154,9 +157,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       if (audioRef.current) {
         audioRef.current.pause();
       }
+      const texture = resolveAtmosphereTexture(track.atmosphere || track.title || track.category);
       webAudioEngine.startSoundscape({
         carrierFreq: track.carrierFreq || 432,
         binauralFreq: track.binauralFreq || 6,
+        texture,
         includeNoise: true,
         includeDrone: true,
       });
@@ -350,7 +355,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     elapsedRef.current = 0;
     const audio = audioRef.current;
 
-    // If audioUrl is missing, fallback immediately to WebAudio acoustic engine
+    // 1. Ambience & Frequency Soundbed Layer
     if (!track.audioUrl || track.audioUrl.trim() === '') {
       console.info(`[Orbit AudioPlayer] Audio stream URL empty, starting acoustic synthesizer for "${track.title}"`);
       startSyntheticPlayback(track);
@@ -364,29 +369,38 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       audio.play().catch(err => {
         if (err.name === 'AbortError') {
-          // Play was superseded by another play or pause - benign in browser audio
           return;
         }
         console.warn('[Orbit AudioPlayer] Stream playback error, engaging WebAudio synthesizer fallback:', err);
         startSyntheticPlayback(track);
         setState(prev => ({ ...prev, isPlaying: true, audioError: null }));
       });
+
+      // Layer in pure Solfeggio carrier frequency harmonic underneath the audio stream if frequency is specified
+      if (track.carrierFreq) {
+        webAudioEngine.startSoundscape({
+          carrierFreq: track.carrierFreq,
+          binauralFreq: track.binauralFreq || 6,
+          texture: 'none',
+        });
+        webAudioEngine.setVolume(state.isMuted ? 0 : state.volume * 0.25);
+      }
     }
 
-    // Start spoken affirmations if available
-    if (track.spokenAffirmations?.length) {
+    // 2. Subliminal Spoken Affirmations Layer (Trigger immediately inside user click gesture)
+    if (track.spokenAffirmations && track.spokenAffirmations.length > 0) {
       startAffirmationCycle(track.spokenAffirmations);
-      setTimeout(() => {
-        if (spokenAffirmationEngine.supported) {
-          spokenAffirmationEngine.speakSequence(
-            track.spokenAffirmations!,
-            { rate: 0.82, pitch: 1.1 },
-            (_idx, text) => setState(prev => ({ ...prev, activeAffirmation: text })),
-            undefined,
-            3000
-          );
-        }
-      }, 5000);
+      const intensity = track.intensity || 'balanced';
+      const speechVolume = intensity === 'subtle' ? 0.35 : intensity === 'balanced' ? 0.55 : 0.85;
+      spokenAffirmationEngine.speakSequence(
+        track.spokenAffirmations,
+        {
+          voiceStyle: track.voiceStyle || 'Calm',
+          volume: state.isMuted ? 0 : state.volume * speechVolume,
+          loop: true,
+        },
+        (_idx, text) => setState(prev => ({ ...prev, activeAffirmation: text }))
+      );
     }
 
     setState(prev => ({
@@ -488,6 +502,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       audioRef.current.volume = clamped;
     }
     webAudioEngine.setVolume(clamped);
+    spokenAffirmationEngine.setVolume(clamped * 0.7);
     setState(prev => ({ ...prev, volume: clamped, isMuted: clamped === 0 }));
   }, []);
 
@@ -505,6 +520,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         audioRef.current.muted = muted;
       }
       webAudioEngine.setVolume(muted ? 0 : prev.volume);
+      spokenAffirmationEngine.setVolume(muted ? 0 : prev.volume * 0.7);
       return { ...prev, isMuted: muted };
     });
   }, []);
