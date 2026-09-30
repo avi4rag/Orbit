@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
+import { resolveAmbienceAudioUrl } from '../services/api';
 import './SessionModesPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────
@@ -172,6 +173,15 @@ export const SessionModesPage: React.FC = () => {
 
   const handleLaunchMode = (mode: SessionModeDef) => {
     const chosenDuration = selectedDurations[mode.id] || mode.defaultDurationMin;
+    const ambMap: Record<string, string> = {
+      'mode-morning': 'water-waves',
+      'mode-visualization': 'noise-pink',
+      'mode-affirmation': 'noise-brown',
+      'mode-powerhour': 'noise-brown',
+      'mode-evening': 'space-drone',
+    };
+    const ambId = ambMap[mode.id] || 'rain-light';
+
     const track: SessionTrack = {
       id: mode.id,
       title: `${mode.name} (${chosenDuration}m)`,
@@ -179,8 +189,12 @@ export const SessionModesPage: React.FC = () => {
       thumbnail: mode.thumbnail,
       category: mode.name,
       duration: chosenDuration * 60,
+      audioUrl: resolveAmbienceAudioUrl(ambId),
+      atmosphere: ambId,
       carrierFreq: mode.frequencyCarrier,
       binauralFreq: mode.binauralBeat,
+      voiceStyle: 'Calm',
+      intensity: 'balanced',
       spokenAffirmations: [mode.coreAffirmation]
     };
 
