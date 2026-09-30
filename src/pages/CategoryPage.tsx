@@ -13,7 +13,7 @@ import {
   Menu,
 } from 'lucide-react';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
-import { api } from '../services/api';
+import { api, resolveAmbienceAudioUrl } from '../services/api';
 import type { SubliminalSession, UsageType, CategorySlug } from '../types/subliminal';
 import { CATEGORY_DEFINITIONS } from '../types/subliminal';
 import { SubliminalCard } from '../components/subliminals/SubliminalCard';
@@ -87,6 +87,8 @@ export const CategoryPage: React.FC = () => {
       creator: session.source?.creator || 'Orbit Audio',
       category: session.category,
       duration: session.duration,
+      audioUrl: session.audioUrl || resolveAmbienceAudioUrl(session.category),
+      atmosphere: session.category,
       binauralFreq: session.binauralFreq || 7.83,
       carrierFreq: session.carrierFreq || 432,
       thumbnail: session.artworkUrl,
