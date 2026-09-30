@@ -13,6 +13,18 @@ const API_BASE = (import.meta as any).env?.VITE_API_URL
   ? `${(import.meta as any).env.VITE_API_URL}/api`
   : '/api';
 
+export function resolveAmbienceAudioUrl(trackId?: string): string {
+  if (!trackId) return '/media/ambience/rain/light-rain-ambient.mp3';
+  const id = trackId.toLowerCase();
+  if (id.includes('window')) return '/media/ambience/rain/rain-on-the-window.mp3';
+  if (id.includes('forest') || id.includes('lluvia')) return '/media/ambience/rain/lluvia-rain.mp3';
+  if (id.includes('brown')) return '/media/ambience/noise/cosmic-brown-noise.mp3';
+  if (id.includes('pink')) return '/media/ambience/noise/pink-flow.mp3';
+  if (id.includes('space') || id.includes('drone') || id.includes('celestial')) return '/media/ambience/space/celestial-drone.mp3';
+  if (id.includes('water') || id.includes('wave') || id.includes('ocean')) return '/media/ambience/water/ocean-waves.mp3';
+  return '/media/ambience/rain/light-rain-ambient.mp3';
+}
+
 function getToken(): string | null {
   return localStorage.getItem('orbit_jwt_token');
 }
@@ -364,9 +376,7 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       const answers = rawBody.answers || {};
       const settings = rawBody.settings || {};
 
-      let ambienceUrl = '/media/ambience/rain/light-rain-ambient.mp3';
-      if (settings.ambienceTrackId === 'rain-window') ambienceUrl = '/media/ambience/rain/rain-on-the-window.mp3';
-      if (settings.ambienceTrackId === 'rain-lluvia') ambienceUrl = '/media/ambience/rain/lluvia-rain.mp3';
+      const ambienceUrl = resolveAmbienceAudioUrl(settings.ambienceTrackId);
 
       const session = {
         _id: sessionId,
@@ -382,7 +392,7 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
           frequencyHz: settings.frequencyHz || 432,
           voiceId: settings.voiceId || 'bella',
           ttsProvider: settings.ttsProvider || 'elevenlabs',
-          subliminalIntensity: settings.subliminalIntensity || 'subtle'
+          subliminalIntensity: settings.subliminalIntensity || 'balanced'
         },
         script: {
           affirmations: [
@@ -414,6 +424,35 @@ function handleOfflineFallback(endpoint: string, options: RequestInit = {}): any
       return {
         success: true,
         session
+      };
+    }
+
+    // Sessions catalog fallback
+    if (endpoint === '/sessions/catalog') {
+      return {
+        success: true,
+        ambience: [
+          { id: 'rain-light', name: 'Gentle Rain', description: 'Soft soothing rainfall', relativeUrl: '/media/ambience/rain/light-rain-ambient.mp3' },
+          { id: 'rain-window', name: 'Rain on Window', description: 'Warm rhythmic drops on glass', relativeUrl: '/media/ambience/rain/rain-on-the-window.mp3' },
+          { id: 'rain-lluvia', name: 'Deep Forest Rain', description: 'Immersive forest showers', relativeUrl: '/media/ambience/rain/lluvia-rain.mp3' },
+          { id: 'noise-brown', name: 'Cosmic Brown Noise', description: 'Warm low rumble for deep work', relativeUrl: '/media/ambience/noise/cosmic-brown-noise.mp3' },
+          { id: 'noise-pink', name: 'Pink Flow', description: 'Natural balanced breeze', relativeUrl: '/media/ambience/noise/pink-flow.mp3' },
+          { id: 'space-drone', name: 'Celestial Drone', description: 'Ethereal cosmic resonance', relativeUrl: '/media/ambience/space/celestial-drone.mp3' },
+          { id: 'water-waves', name: 'Ocean Waves', description: 'Calming rhythmic tides', relativeUrl: '/media/ambience/water/ocean-waves.mp3' }
+        ],
+        frequencies: [
+          { hz: 432, name: '432 Hz - Deep Restoration & Harmony' },
+          { hz: 528, name: '528 Hz - Transformation & Miracles' },
+          { hz: 639, name: '639 Hz - Heart Coherence & Interpersonal Flow' },
+          { hz: 741, name: '741 Hz - Intuition & Mental Clarity' },
+          { hz: 852, name: '852 Hz - Higher Awareness & Spiritual Realization' }
+        ],
+        voices: [
+          { id: 'bella', name: 'Bella (Calm, Soothing)' },
+          { id: 'adam', name: 'Adam (Deep, Grounding)' },
+          { id: 'antoni', name: 'Antoni (Warm, Affirming)' },
+          { id: 'arnold', name: 'Arnold (Neutral, Direct)' }
+        ]
       };
     }
 
