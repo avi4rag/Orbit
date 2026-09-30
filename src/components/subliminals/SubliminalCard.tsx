@@ -3,7 +3,7 @@ import { Play, Pause, Heart, Loader2 } from 'lucide-react';
 import type { SubliminalSession } from '../../types/subliminal';
 import { UsageBadge } from './UsageBadge';
 import { usePlayer, type SessionTrack } from '../../context/PlayerContext';
-import { api } from '../../services/api';
+import { api, resolveAmbienceAudioUrl } from '../../services/api';
 import './SubliminalCard.css';
 
 interface SubliminalCardProps {
@@ -24,9 +24,10 @@ export const SubliminalCard: React.FC<SubliminalCardProps> = ({
   const isCurrentlyPlaying = isCurrentTrack && player.isPlaying;
 
   const isPlayable = Boolean(
-    session.audioUrl &&
-    session.audioUrl.trim() !== '' &&
-    (session.processingStatus === 'COMPLETED' || session.processingStatus === 'ready')
+    session.audioUrl?.trim() ||
+    session.carrierFreq ||
+    session.binauralFreq ||
+    session.category
   );
 
   const handlePlayClick = (e: React.MouseEvent) => {
@@ -46,15 +47,20 @@ export const SubliminalCard: React.FC<SubliminalCardProps> = ({
       return;
     }
 
+    const effectiveAudioUrl = session.audioUrl && session.audioUrl.trim() !== ''
+      ? session.audioUrl
+      : resolveAmbienceAudioUrl(session.category);
+
     const track: SessionTrack = {
       id: session.id,
       title: session.title,
       creator: session.source?.creator || 'ORBIT Subliminal',
       thumbnail: session.artworkUrl,
       category: session.categoryTitle || session.category,
-      duration: session.duration,
-      audioUrl: session.audioUrl,
-      processingStatus: session.processingStatus,
+      duration: session.duration || 600,
+      audioUrl: effectiveAudioUrl,
+      atmosphere: session.category,
+      processingStatus: session.processingStatus || 'COMPLETED',
       audioFileHash: session.audioFileHash,
       binauralFreq: session.binauralFreq || 7.83,
       carrierFreq: session.carrierFreq || 432,

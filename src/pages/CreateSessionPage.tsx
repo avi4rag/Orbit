@@ -21,7 +21,7 @@ import {
   Shield,
   RefreshCw
 } from 'lucide-react';
-import { api } from '../services/api';
+import { api, resolveAmbienceAudioUrl } from '../services/api';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
 import { generateDeterministicConcepts } from '../utils/conceptGenerator';
 import './CreateSessionPage.css';
@@ -290,12 +290,16 @@ export const CreateSessionPage: React.FC = () => {
 
     if (concept.recommendedAtmosphere?.includes('Window')) {
       setAmbienceTrackId('rain-window');
-    } else if (concept.recommendedAtmosphere?.includes('Forest')) {
+    } else if (concept.recommendedAtmosphere?.includes('Forest') || concept.recommendedAtmosphere?.includes('lluvia')) {
       setAmbienceTrackId('rain-lluvia');
     } else if (concept.recommendedAtmosphere?.includes('Brown')) {
       setAmbienceTrackId('noise-brown');
     } else if (concept.recommendedAtmosphere?.includes('Pink')) {
       setAmbienceTrackId('noise-pink');
+    } else if (concept.recommendedAtmosphere?.includes('Drone') || concept.recommendedAtmosphere?.includes('Celestial') || concept.recommendedAtmosphere?.includes('Space')) {
+      setAmbienceTrackId('space-drone');
+    } else if (concept.recommendedAtmosphere?.includes('Ocean') || concept.recommendedAtmosphere?.includes('Wave') || concept.recommendedAtmosphere?.includes('Water')) {
+      setAmbienceTrackId('water-waves');
     } else {
       setAmbienceTrackId('rain-light');
     }
@@ -305,24 +309,24 @@ export const CreateSessionPage: React.FC = () => {
     }, 100);
   };
 
-  const handleToggleAtmospherePreview = (atmosphereName: string) => {
-    if (previewingAmbience === atmosphereName) {
+  const handleToggleAtmospherePreview = (atmosphereNameOrId: string) => {
+    if (previewingAmbience === atmosphereNameOrId) {
       if (previewAudioRef.current) previewAudioRef.current.pause();
       setPreviewingAmbience(null);
       return;
     }
 
-    let audioSrc = '/media/ambience/rain/light-rain-ambient.mp3';
-    if (atmosphereName.includes('Window')) audioSrc = '/media/ambience/rain/rain-on-the-window.mp3';
-    if (atmosphereName.includes('Forest') || atmosphereName.includes('lluvia')) audioSrc = '/media/ambience/rain/lluvia-rain.mp3';
+    const audioSrc = resolveAmbienceAudioUrl(atmosphereNameOrId);
 
     if (!previewAudioRef.current) {
       previewAudioRef.current = new Audio();
     }
     previewAudioRef.current.src = audioSrc;
-    previewAudioRef.current.volume = 0.4;
-    previewAudioRef.current.play().catch(console.warn);
-    setPreviewingAmbience(atmosphereName);
+    previewAudioRef.current.volume = 0.45;
+    previewAudioRef.current.play().catch(err => {
+      console.warn('[CreateSessionPage] Ambience preview playback error:', err);
+    });
+    setPreviewingAmbience(atmosphereNameOrId);
   };
 
   const handleStartGeneration = async () => {
@@ -409,10 +413,19 @@ export const CreateSessionPage: React.FC = () => {
 
       const sessionId = res.session._id;
 
-      // If session is already completed (offline fallback mode), resolve immediately
+      // If session completed in client offline fallback mode, step smoothly through pipeline phases
       if (res.session.status === 'COMPLETED') {
-        setPipelineStatus('COMPLETED');
-        setCompletedSession(res.session);
+        setPipelineStatus('GENERATING_SCRIPT');
+        setTimeout(() => {
+          setPipelineStatus('GENERATING_VOICE');
+          setTimeout(() => {
+            setPipelineStatus('MIXING_AUDIO');
+            setTimeout(() => {
+              setPipelineStatus('COMPLETED');
+              setCompletedSession(res.session);
+            }, 600);
+          }, 600);
+        }, 600);
         return;
       }
 
@@ -445,15 +458,32 @@ export const CreateSessionPage: React.FC = () => {
 
   const handlePlayNow = () => {
     if (!completedSession) return;
+
+    const effectiveFreq = completedSession.settings?.frequencyHz
+      || (frequencyOption !== 'None' && frequencyOption !== 'Custom' ? parseInt(frequencyOption, 10) : undefined)
+      || (frequencyOption === 'Custom' ? parseInt(customFrequency, 10) : undefined)
+      || 432;
+
+    const intensityMapped = intensity === 'Very Soft' ? 'subtle' : intensity === 'Soft' ? 'balanced' : 'prominent';
+
     const track: SessionTrack = {
       id: completedSession._id,
       title: completedSession.title,
       creator: 'Orbit AI',
       category: completedSession.category || 'Manifestation',
-      duration: completedSession.audio.durationSeconds,
-      audioUrl: completedSession.audio.url,
+      duration: completedSession.audio?.durationSeconds || durationMinutes * 60,
+      audioUrl: completedSession.audio?.url || resolveAmbienceAudioUrl(ambienceTrackId),
       thumbnail: completedSession.thumbnail || '',
-      spokenAffirmations: completedSession.script?.affirmations || []
+      carrierFreq: effectiveFreq,
+      binauralFreq: 6,
+      atmosphere: completedSession.settings?.ambienceTrackId || ambienceTrackId,
+      voiceStyle: voiceStyle,
+      intensity: intensityMapped,
+      spokenAffirmations: completedSession.script?.affirmations || [
+        `I am now embodying ${answers?.desiredIdentity || 'my highest potential'}.`,
+        `Every action I take is anchored in clarity and purposeful momentum.`,
+        `My mind is calm, razor-focused, and centered in certainty.`
+      ]
     };
     play(track);
     navigate('/subliminals');
@@ -682,15 +712,25 @@ export const CreateSessionPage: React.FC = () => {
                   { id: 'rain-window', name: 'Rain on the Window', desc: 'Warm intimate drops on glass' },
                   { id: 'rain-lluvia', name: 'Deep Forest Rain',   desc: 'Rich immersive shower' },
                   { id: 'noise-brown', name: 'Cosmic Brown Noise', desc: 'Warm low rumble for deep work' },
-                  { id: 'noise-pink',  name: 'Pink Flow',          desc: 'Natural balanced breeze' }
+                  { id: 'noise-pink',  name: 'Pink Flow',          desc: 'Natural balanced breeze' },
+                  { id: 'space-drone', name: 'Celestial Drone',   desc: 'Harmonic meditative resonance' },
+                  { id: 'water-waves', name: 'Ocean Waves',        desc: 'Rhythmic tides and soothing surf' }
                 ].map(amb => (
                   <button
                     key={amb.id}
                     type="button"
-                    onClick={() => setAmbienceTrackId(amb.id)}
+                    onClick={() => {
+                      setAmbienceTrackId(amb.id);
+                      handleToggleAtmospherePreview(amb.id);
+                    }}
                     className={`cust-ambience-card ${ambienceTrackId === amb.id ? 'cust-ambience-card--active' : ''}`}
                   >
-                    <div className="cust-ambience-card__name">{amb.name}</div>
+                    <div className="cust-ambience-card__name">
+                      {amb.name}
+                      {previewingAmbience === amb.id && (
+                        <span style={{ marginLeft: '0.4rem', fontSize: '0.65rem', color: '#6ee7b7' }}>♪ playing</span>
+                      )}
+                    </div>
                     <div className="cust-ambience-card__desc">{amb.desc}</div>
                   </button>
                 ))}

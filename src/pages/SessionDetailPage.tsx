@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
+import { resolveAmbienceAudioUrl } from '../services/api';
 import './SessionDetailPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────
@@ -212,8 +213,12 @@ export const SessionDetailPage: React.FC = () => {
         thumbnail: session.thumbnail,
         category: session.category,
         duration: session.duration,
+        audioUrl: session.audioUrl || resolveAmbienceAudioUrl(session.category || session.title),
+        atmosphere: session.category,
         carrierFreq: session.carrierFreq,
         binauralFreq: session.binauralFreq,
+        voiceStyle: 'Calm',
+        intensity: selectedMode === 'ambient' ? 'subtle' : 'balanced',
         spokenAffirmations: selectedMode === 'ambient' ? [] : session.spokenAffirmations
       });
     }

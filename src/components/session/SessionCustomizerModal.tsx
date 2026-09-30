@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   X,
   Sparkles,
@@ -15,7 +15,7 @@ import {
   Footprints
 } from 'lucide-react';
 import type { ConceptItem } from './IntentionBreakdown';
-import { api } from '../../services/api';
+import { api, resolveAmbienceAudioUrl } from '../../services/api';
 import { usePlayer, type SessionTrack } from '../../context/PlayerContext';
 
 interface SessionCustomizerModalProps {
@@ -44,6 +44,10 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
   const [ttsProvider, setTtsProvider] = useState<'elevenlabs' | 'azure'>('elevenlabs');
   const [subliminalIntensity, setSubliminalIntensity] = useState<'subtle' | 'balanced' | 'prominent'>('subtle');
 
+  // Preview state
+  const [previewingAmbience, setPreviewingAmbience] = useState<string | null>(null);
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
+
   // Catalog options fetched from backend
   const [ambienceOptions, setAmbienceOptions] = useState<any[]>([]);
   const [voiceOptions, setVoiceOptions] = useState<any[]>([]);
@@ -64,8 +68,31 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
         setFrequencyOptions(res.frequencies || []);
       }
     }).catch(console.warn);
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (previewAudioRef.current) {
+        previewAudioRef.current.pause();
+      }
+    };
   }, []);
+
+  const handleTogglePreview = (trackId: string) => {
+    if (previewingAmbience === trackId) {
+      if (previewAudioRef.current) previewAudioRef.current.pause();
+      setPreviewingAmbience(null);
+      return;
+    }
+    const src = resolveAmbienceAudioUrl(trackId);
+    if (!previewAudioRef.current) {
+      previewAudioRef.current = new Audio();
+    }
+    previewAudioRef.current.src = src;
+    previewAudioRef.current.volume = 0.45;
+    previewAudioRef.current.play().catch(err => {
+      console.warn('[SessionCustomizerModal] Ambience preview error:', err);
+    });
+    setPreviewingAmbience(trackId);
+  };
 
   if (!isOpen) return null;
 
@@ -127,6 +154,23 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
 
       const sessionId = res.session._id;
 
+      // If session completed in client offline fallback mode, step smoothly through pipeline phases
+      if (res.session.status === 'COMPLETED') {
+        setCurrentStep('GENERATING_SCRIPT');
+        setTimeout(() => {
+          setCurrentStep('GENERATING_VOICE');
+          setTimeout(() => {
+            setCurrentStep('MIXING_AUDIO');
+            setTimeout(() => {
+              setCurrentStep('COMPLETED');
+              setCompletedSession(res.session);
+              onSuccess(res.session);
+            }, 600);
+          }, 600);
+        }, 600);
+        return;
+      }
+
       // Poll session status until completed or failed
       const pollInterval = setInterval(async () => {
         try {
@@ -159,15 +203,35 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
   const handlePlayNow = () => {
     if (!completedSession) return;
 
+    if (previewAudioRef.current) {
+      previewAudioRef.current.pause();
+    }
+
+    const voiceStyleMap: Record<string, string> = {
+      bella: 'Calm',
+      adam: 'Deep',
+      antoni: 'Warm',
+      arnold: 'Neutral'
+    };
+
     const track: SessionTrack = {
       id: completedSession._id,
       title: completedSession.title,
       creator: 'Orbit AI',
-      category: completedSession.category || 'Manifestation',
-      duration: completedSession.audio.durationSeconds,
-      audioUrl: completedSession.audio.url,
+      category: completedSession.category || concept.category || 'Manifestation',
+      duration: completedSession.audio?.durationSeconds || durationMinutes * 60,
+      audioUrl: completedSession.audio?.url || resolveAmbienceAudioUrl(ambienceTrackId),
       thumbnail: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop&q=80',
-      spokenAffirmations: completedSession.script?.affirmations || []
+      carrierFreq: frequencyHz || completedSession.settings?.frequencyHz || 432,
+      binauralFreq: 6,
+      atmosphere: completedSession.settings?.ambienceTrackId || ambienceTrackId,
+      voiceStyle: voiceStyleMap[voiceId] || 'Calm',
+      intensity: subliminalIntensity,
+      spokenAffirmations: completedSession.script?.affirmations || [
+        `I am now embodying ${answers?.desiredIdentity || 'my highest potential'}.`,
+        `Every action I take is anchored in clarity and purposeful momentum.`,
+        `My mind is calm, razor-focused, and centered in certainty.`
+      ]
     };
 
     play(track);
@@ -339,18 +403,29 @@ export const SessionCustomizerModal: React.FC<SessionCustomizerModalProps> = ({
                     { id: 'rain-light', name: 'Gentle Rain', description: 'Soft soothing rainfall' },
                     { id: 'rain-window', name: 'Rain on Window', description: 'Warm rhythmic drops on glass' },
                     { id: 'rain-lluvia', name: 'Deep Forest Rain', description: 'Immersive forest showers' },
-                    { id: 'noise-brown', name: 'Cosmic Brown Noise', description: 'Deep low frequency rumble' }
+                    { id: 'noise-brown', name: 'Cosmic Brown Noise', description: 'Deep low frequency rumble' },
+                    { id: 'noise-pink', name: 'Pink Flow', description: 'Natural balanced breeze' },
+                    { id: 'space-drone', name: 'Celestial Drone', description: 'Harmonic meditative resonance' },
+                    { id: 'water-waves', name: 'Ocean Waves', description: 'Calming rhythmic tides' }
                   ]).map((amb) => (
                     <button
                       key={amb.id}
-                      onClick={() => setAmbienceTrackId(amb.id)}
+                      onClick={() => {
+                        setAmbienceTrackId(amb.id);
+                        handleTogglePreview(amb.id);
+                      }}
                       className={`p-3 rounded-xl border text-left transition-all ${
                         ambienceTrackId === amb.id
                           ? 'bg-emerald-500/20 border-emerald-400 text-emerald-200'
                           : 'bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20'
                       }`}
                     >
-                      <div className="text-xs font-bold text-white">{amb.name}</div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white">{amb.name}</span>
+                        {previewingAmbience === amb.id && (
+                          <span className="text-[10px] text-emerald-400 font-normal">♪ playing</span>
+                        )}
+                      </div>
                       <div className="text-[10px] text-gray-400 truncate mt-0.5">{amb.description}</div>
                     </button>
                   ))}

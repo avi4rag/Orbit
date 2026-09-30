@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
-import { api } from '../services/api';
+import { api, resolveAmbienceAudioUrl } from '../services/api';
 import './ExplorePage.css';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -23,6 +23,7 @@ interface CatalogItem {
   tags: string[];
   source?: string;
   credits?: string;
+  audioUrl?: string;
 }
 
 // ── Seed data (mirrors server catalog) ────────────────────────────────
@@ -247,6 +248,8 @@ const ExplorePage: React.FC = () => {
       thumbnail: item.thumbnail,
       category: item.category,
       duration: item.duration,
+      audioUrl: item.audioUrl || resolveAmbienceAudioUrl(item.category || item.title),
+      atmosphere: item.category,
       binauralFreq: item.binauralFreq,
       carrierFreq: item.carrierFreq,
       spokenAffirmations: item.spokenAffirmations,

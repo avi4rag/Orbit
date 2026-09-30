@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePlayer, type SessionTrack } from '../context/PlayerContext';
-import { api } from '../services/api';
+import { api, resolveAmbienceAudioUrl } from '../services/api';
 import './AIGeneratorPage.css';
 
 // ── Types ──────────────────────────────────────────────────────────
@@ -146,6 +146,12 @@ export const AIGeneratorPage: React.FC = () => {
       setIsSpeaking(false);
     }
 
+    const ambId = category.toLowerCase().includes('peace')
+      ? 'rain-light'
+      : category.toLowerCase().includes('health')
+      ? 'water-waves'
+      : 'noise-brown';
+
     const track: SessionTrack = {
       id: `ai-custom-${Date.now()}`,
       title: `AI Guided: ${goal.slice(0, 36)}...`,
@@ -153,8 +159,12 @@ export const AIGeneratorPage: React.FC = () => {
       thumbnail: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800&q=80',
       category: category,
       duration: durationMinutes * 60,
+      audioUrl: resolveAmbienceAudioUrl(ambId),
+      atmosphere: ambId,
       carrierFreq: result.carrierFreq,
       binauralFreq: result.binauralFreq,
+      voiceStyle: 'Calm',
+      intensity: 'balanced',
       spokenAffirmations: result.affirmations
     };
 
