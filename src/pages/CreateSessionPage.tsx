@@ -228,8 +228,8 @@ export const CreateSessionPage: React.FC = () => {
   const [ambienceTrackId, setAmbienceTrackId] = useState<string>('rain-light');
   const [frequencyOption, setFrequencyOption] = useState<string>('432');
   const [customFrequency, setCustomFrequency] = useState<string>('');
-  const [ttsProvider, setTtsProvider] = useState<'elevenlabs' | 'azure'>('elevenlabs');
-  const [voiceStyle, setVoiceStyle] = useState<string>('Calm');
+  const [selectedVoiceId, setSelectedVoiceId] = useState<string>('en-US-JennyNeural');
+  const [musicProvider, setMusicProvider] = useState<'elevenlabs' | 'ambience_catalog'>('elevenlabs');
   const [intensity, setIntensity] = useState<'Normal' | 'Soft' | 'Very Soft'>('Soft');
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -286,7 +286,11 @@ export const CreateSessionPage: React.FC = () => {
     setDurationMinutes(concept.recommendedDuration || 15);
     setIsCustomDuration(false);
     setUsageContext(concept.recommendedUsage || 'Focus');
-    setVoiceStyle(concept.recommendedVoiceStyle || 'Calm');
+    const recVoice = concept.recommendedVoiceStyle || 'Calm';
+    if (recVoice === 'Deep') setSelectedVoiceId('en-US-GuyNeural');
+    else if (recVoice === 'Reflective') setSelectedVoiceId('en-US-AriaNeural');
+    else if (recVoice === 'Steady') setSelectedVoiceId('en-US-DavisNeural');
+    else setSelectedVoiceId('en-US-JennyNeural');
 
     if (concept.recommendedAtmosphere?.includes('Window')) {
       setAmbienceTrackId('rain-window');
@@ -347,13 +351,7 @@ export const CreateSessionPage: React.FC = () => {
       frequencyHz = parseInt(frequencyOption, 10) || undefined;
     }
 
-    let voiceId = 'bella';
-    if (voiceStyle === 'Deep') voiceId = 'adam';
-    if (voiceStyle === 'Warm') voiceId = 'antoni';
-    if (voiceStyle === 'Neutral') voiceId = 'arnold';
-    if (voiceStyle === 'Gentle') voiceId = 'bella';
-    if (voiceStyle === 'Calm') voiceId = 'bella';
-
+    const voiceId = selectedVoiceId || 'en-US-JennyNeural';
     const intensityMapped = intensity === 'Very Soft' ? 'subtle' : intensity === 'Soft' ? 'balanced' : 'prominent';
 
     try {
@@ -402,7 +400,9 @@ export const CreateSessionPage: React.FC = () => {
           ambienceTrackId,
           frequencyHz,
           voiceId,
-          ttsProvider,
+          ttsProvider: 'azure',
+          musicProvider,
+          allowAmbienceFallback: true,
           subliminalIntensity: intensityMapped
         }
       });
@@ -477,7 +477,7 @@ export const CreateSessionPage: React.FC = () => {
       carrierFreq: effectiveFreq,
       binauralFreq: 6,
       atmosphere: completedSession.settings?.ambienceTrackId || ambienceTrackId,
-      voiceStyle: voiceStyle,
+      voiceStyle: selectedVoiceId,
       intensity: intensityMapped,
       spokenAffirmations: completedSession.script?.affirmations || [
         `I am now embodying ${answers?.desiredIdentity || 'my highest potential'}.`,
@@ -776,41 +776,50 @@ export const CreateSessionPage: React.FC = () => {
               )}
             </div>
 
-            {/* 5–7. TTS, Voice, Intensity */}
+            {/* 5–7. Azure Speech Voice, ElevenLabs Music, Intensity */}
             <div className="cust-settings-row">
-              {/* TTS Provider */}
+              {/* Spoken Voice (Azure Speech) */}
               <div className="cust-field">
-                <div className="cust-label">TTS Provider</div>
+                <div className="cust-label">
+                  <Mic size={14} style={{ color: '#38bdf8' }} />
+                  Voice (Azure Speech)
+                </div>
+                <select
+                  value={selectedVoiceId}
+                  onChange={e => setSelectedVoiceId(e.target.value)}
+                  className="cust-select"
+                >
+                  <option value="en-US-JennyNeural">Jenny (Warm & Natural)</option>
+                  <option value="en-US-GuyNeural">Guy (Calm & Grounded)</option>
+                  <option value="en-US-AriaNeural">Aria (Deep & Reflective)</option>
+                  <option value="en-US-DavisNeural">Davis (Soothing & Steady)</option>
+                  <option value="en-US-JaneNeural">Jane (Clear & Present)</option>
+                  <option value="en-US-JasonNeural">Jason (Confident & Warm)</option>
+                </select>
+              </div>
+
+              {/* Music / Soundtrack Provider */}
+              <div className="cust-field">
+                <div className="cust-label">
+                  <Waves size={14} style={{ color: '#a78bfa' }} />
+                  Music Soundtrack
+                </div>
                 <div className="cust-chips" style={{ gap: '0.4rem' }}>
-                  {[{ id: 'elevenlabs', label: 'ElevenLabs' }, { id: 'azure', label: 'Azure' }].map(p => (
+                  {[
+                    { id: 'elevenlabs', label: 'ElevenLabs AI' },
+                    { id: 'ambience_catalog', label: 'Verified Ambience' }
+                  ].map(p => (
                     <button
                       key={p.id}
                       type="button"
-                      onClick={() => setTtsProvider(p.id as any)}
-                      className={`cust-chip ${ttsProvider === p.id ? 'cust-chip--active' : ''}`}
-                      style={{ flex: 1, justifyContent: 'center' }}
+                      onClick={() => setMusicProvider(p.id as any)}
+                      className={`cust-chip ${musicProvider === p.id ? 'cust-chip--active' : ''}`}
+                      style={{ flex: 1, justifyContent: 'center', fontSize: '0.72rem' }}
                     >
                       {p.label}
                     </button>
                   ))}
                 </div>
-              </div>
-
-              {/* Voice Style */}
-              <div className="cust-field">
-                <div className="cust-label">
-                  <Mic size={14} />
-                  Voice Style
-                </div>
-                <select
-                  value={voiceStyle}
-                  onChange={e => setVoiceStyle(e.target.value)}
-                  className="cust-select"
-                >
-                  {['Calm', 'Soft', 'Warm', 'Deep', 'Neutral', 'Gentle'].map(v => (
-                    <option key={v} value={v}>{v} Voice</option>
-                  ))}
-                </select>
               </div>
 
               {/* Intensity */}
@@ -844,17 +853,20 @@ export const CreateSessionPage: React.FC = () => {
                 </div>
 
                 <div className="cust-pipeline__steps">
-                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_SCRIPT', ['GENERATING_VOICE', 'MIXING_AUDIO', 'COMPLETED'])}`}>
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_SCRIPT', ['GENERATING_VOICE', 'GENERATING_MUSIC', 'MIXING_AUDIO', 'UPLOADING', 'COMPLETED'])}`}>
                     <CheckCircle2 size={13} /> 1. Gemini Script
                   </div>
-                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_VOICE', ['MIXING_AUDIO', 'COMPLETED'])}`}>
-                    <CheckCircle2 size={13} /> 2. {ttsProvider === 'azure' ? 'Azure' : 'ElevenLabs'} TTS
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_VOICE', ['GENERATING_MUSIC', 'MIXING_AUDIO', 'UPLOADING', 'COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 2. Azure Speech TTS
                   </div>
-                  <div className={`cust-pipeline__step ${getPipelineStepClass('MIXING_AUDIO', ['COMPLETED'])}`}>
-                    <CheckCircle2 size={13} /> 3. FFmpeg Mixer
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('GENERATING_MUSIC', ['MIXING_AUDIO', 'UPLOADING', 'COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 3. ElevenLabs Music
+                  </div>
+                  <div className={`cust-pipeline__step ${getPipelineStepClass('MIXING_AUDIO', ['UPLOADING', 'COMPLETED'])}`}>
+                    <CheckCircle2 size={13} /> 4. FFmpeg Mixer
                   </div>
                   <div className={`cust-pipeline__step ${getPipelineStepClass('COMPLETED', [])}`}>
-                    <CheckCircle2 size={13} /> 4. Audio Ready
+                    <CheckCircle2 size={13} /> 5. Session Ready
                   </div>
                 </div>
 

@@ -842,7 +842,9 @@ export const api = {
       ambienceTrackId: string;
       frequencyHz?: number;
       voiceId: string;
-      ttsProvider: string;
+      ttsProvider?: string;
+      musicProvider?: string;
+      allowAmbienceFallback?: boolean;
       subliminalIntensity: string;
     };
   }) {
