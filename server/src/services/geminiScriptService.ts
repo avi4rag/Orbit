@@ -32,6 +32,10 @@ export interface AffirmationScriptResult {
   title: string;
   tone: string;
   affirmations: string[];
+  identityStatements: string[];
+  visualizationPrompts: string[];
+  actionAnchors: string[];
+  closingStatements: string[];
   rawText: string;
 }
 
@@ -131,11 +135,12 @@ Return ONLY valid JSON matching this schema:
   }
 
   /**
-   * Generates a subliminal affirmation script strictly adhering to Orbit's 4 core rules:
+   * Generates a structured narration script strictly adhering to Orbit's core principles:
    * 1. Present tense ONLY ("I am", "I naturally", "I choose", "Every day I")
    * 2. ZERO negative or negation words (NO "not", "no", "never", "stop", "quit", "lack", "struggle", "anxiety", "fear")
    * 3. Emotion-grounded and identity-focused
-   * 4. Spacious, poetic, rhythmic cadence suitable for subliminal looping
+   * 4. Structured sections: affirmations, identity statements, visualization prompts, action anchors, closing statements
+   * 5. Avoid guaranteed manifestation claims, keep delivery grounded and dignified
    */
   async generateAffirmationScript(params: {
     concept: Partial<SessionConcept>;
@@ -146,28 +151,43 @@ Return ONLY valid JSON matching this schema:
 
     const prompt = `
 You are the master voice and subconscious scriptwriter for ORBIT.
-Write a personalized subliminal affirmation script for the session:
-Title: "${concept.title || 'Cosmic Realization'}"
+Write a personalized, structured subconscious narration script for the session:
+Title: "${concept.title || 'Focused Creator Identity'}"
 Target Outcome: "${concept.targetOutcome || answers.desiredOutcome}"
 Desired Identity: "${answers.desiredIdentity}"
 Emotional Tone: "${answers.emotionalState}"
 Subliminal Intensity: "${intensity}"
 
 STRICT SCRIPTWRITING MANDATES:
-1. PRESENT TENSE ONLY: Every sentence must start with or center on present reality ("I am", "I now embody", "I naturally attract", "I walk with", "Every cell of my being resonates with").
+1. PRESENT TENSE ONLY: Every statement must reflect present grounded reality ("I give my attention", "I embody", "I am becoming", "I choose").
 2. ABSOLUTELY ZERO NEGATIONS OR NEGATIVE WORDS:
    Do NOT use: "no", "not", "never", "won't", "can't", "stop", "quit", "leave behind", "fear", "anxiety", "lack", "doubt", "pain", "struggle", "block".
-   Instead of "I am free of fear", write "I embody calm, sovereign peace."
-   Instead of "I no longer doubt myself", write "My self-trust is unwavering and clear."
-3. EMOTION & IDENTITY BASED: Fuse sensory feelings with clear self-identity.
-4. RHYTHMIC AND SPACIOUS: Craft 12 to 18 distinct affirmations that loop gracefully.
-
-Return ONLY valid JSON matching this schema:
-{
-  "title": string,
-  "tone": string,
-  "affirmations": string[]
-}
+   Instead of "I am free of fear", write "I embody calm, sovereign certainty."
+   Instead of "I no longer doubt myself", write "My self-trust is clear and unwavering."
+3. REALISTIC & GROUNDED: Avoid grandiose or magical guarantees (e.g., no "guaranteed instant wealth or magic manifestation"). Focus on psychological clarity, identity, and action.
+4. STRUCTURED FORMAT REQUIRED:
+   Return ONLY a valid JSON object matching this exact schema:
+   {
+     "title": "${concept.title || 'Focused Creator Identity'}",
+     "tone": "Calm, grounded, sovereign",
+     "affirmations": [
+       "I give my attention to the work that matters.",
+       "I build consistency through the actions I take each day."
+     ],
+     "identityStatements": [
+       "I am becoming a focused and disciplined creator."
+     ],
+     "visualizationPrompts": [
+       "Picture yourself beginning an important task calmly and working through it with intention."
+     ],
+     "actionAnchors": [
+       "Today, I complete one meaningful step toward my project."
+     ],
+     "closingStatements": [
+       "I can return to clarity by choosing my next action."
+     ]
+   }
+   Provide 4-6 affirmations, 2-3 identityStatements, 2 visualizationPrompts, 2 actionAnchors, and 2 closingStatements.
 `.trim();
 
     const response = await this.callWithRetry(() =>
@@ -181,16 +201,67 @@ Return ONLY valid JSON matching this schema:
     );
 
     const text = response.text || '{}';
-    const parsed = JSON.parse(text);
+    let parsed: any;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      parsed = {};
+    }
 
-    const affirmations: string[] = Array.isArray(parsed.affirmations) ? parsed.affirmations : [];
-    // Ensure affirmations are clean and spaced
-    const rawText = affirmations.join(' ... ... ');
+    // Sanitize and validate sections
+    const cleanArray = (arr: any, fallback: string[]): string[] => {
+      if (!Array.isArray(arr) || arr.length === 0) return fallback;
+      return arr
+        .map(item => String(item || '').trim())
+        .filter(item => item.length > 5);
+    };
+
+    const affirmations = cleanArray(parsed.affirmations, [
+      'I give my attention to the work that matters most.',
+      'I build momentum through calm, consistent daily action.',
+      'My mind is clear, centered, and aligned with my highest intention.',
+      'I trust my capability to create meaningful results.'
+    ]);
+
+    const identityStatements = cleanArray(parsed.identityStatements, [
+      `I am becoming a deeply grounded and focused ${answers.desiredIdentity || 'creator'}.`,
+      'I embody confidence, clarity, and unwavering purpose.'
+    ]);
+
+    const visualizationPrompts = cleanArray(parsed.visualizationPrompts, [
+      'Picture yourself beginning each day with deep calm, moving with purposeful focus and peace.',
+      'Notice the feeling of steady accomplishment as you complete your most meaningful tasks.'
+    ]);
+
+    const actionAnchors = cleanArray(parsed.actionAnchors, [
+      `Today, I take deliberate action toward ${answers.dailyAction || 'my core vision'}.`,
+      'I ground my clarity into physical reality through focused execution.'
+    ]);
+
+    const closingStatements = cleanArray(parsed.closingStatements, [
+      'I return to center whenever I pause and breathe.',
+      'I walk forward in alignment with my chosen identity.'
+    ]);
+
+    // Build the synthesized narrative text with natural pacing pauses for audio synthesis
+    const narrationSegments: string[] = [
+      ...identityStatements,
+      ...visualizationPrompts,
+      ...affirmations,
+      ...actionAnchors,
+      ...closingStatements
+    ];
+
+    const rawText = narrationSegments.join(' ... ... ');
 
     return {
       title: parsed.title || concept.title || 'Personalized Alignment',
       tone: parsed.tone || 'Calm, grounded, sovereign',
       affirmations,
+      identityStatements,
+      visualizationPrompts,
+      actionAnchors,
+      closingStatements,
       rawText
     };
   }
