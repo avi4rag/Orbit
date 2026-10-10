@@ -4,15 +4,16 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { SubliminalSession, ISubliminalSession } from '../models/SubliminalSession.js';
 import { GeminiScriptService, IntentionAnswers } from '../services/geminiScriptService.js';
-import { generateSpeech, getAvailableVoices } from '../services/tts/index.js';
-import { AudioMixerService } from '../services/audioMixerService.js';
+import { synthesizeAzureSpeech, AzureSpeechError, AZURE_VOICES } from '../services/tts/azureSpeechService.js';
+import { elevenLabsMusicService, ElevenLabsMusicError } from '../services/elevenLabsMusicService.js';
+import { audioMixerService, AudioMixerError } from '../services/audioMixerService.js';
 import { getAmbienceCatalog, FREQUENCY_CATALOG } from '../config/ambienceCatalog.js';
+import { storageService } from '../services/storage.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const geminiService = new GeminiScriptService();
-const audioMixerService = new AudioMixerService();
 
 export async function getSessionCatalog(req: Request, res: Response) {
   try {
@@ -23,14 +24,28 @@ export async function getSessionCatalog(req: Request, res: Response) {
       description: a.description
     }));
 
-    const voices = getAvailableVoices();
+    const voices = Object.values(AZURE_VOICES).map(v => ({
+      id: v.id,
+      name: v.name,
+      label: v.label,
+      provider: 'azure'
+    }));
+
     const frequencies = FREQUENCY_CATALOG;
+
+    // Report server-side provider status
+    const ttsProvider = 'azure';
+    const musicProvider = 'elevenlabs';
 
     res.json({
       success: true,
       ambience,
       voices,
-      frequencies
+      frequencies,
+      providers: {
+        tts: ttsProvider,
+        music: musicProvider
+      }
     });
   } catch (err) {
     res.status(500).json({ success: false, message: (err as Error).message });
@@ -119,8 +134,10 @@ export async function createSession(req: Request, res: Response) {
         usageContext: settings?.usageContext || 'meditation',
         ambienceTrackId: settings?.ambienceTrackId || 'rain-light',
         frequencyHz: settings?.frequencyHz,
-        voiceId: settings?.voiceId || 'bella',
-        ttsProvider: settings?.ttsProvider || 'elevenlabs',
+        voiceId: settings?.voiceId || 'en-US-JennyNeural',
+        ttsProvider: 'azure',
+        musicProvider: settings?.musicProvider || 'elevenlabs',
+        allowAmbienceFallback: settings?.allowAmbienceFallback !== false,
         subliminalIntensity: settings?.subliminalIntensity || 'subtle'
       },
       script: {
@@ -132,7 +149,7 @@ export async function createSession(req: Request, res: Response) {
 
     await session.save();
 
-    // Trigger asynchronous generation pipeline with normalized answers
+    // Trigger asynchronous multi-stage generation pipeline
     processSessionPipeline(session._id.toString(), concept, normalizedAnswers).catch(err => {
       console.error(`[SessionPipeline Error for ${session._id}]:`, err);
     });
@@ -162,7 +179,6 @@ export async function getSessionById(req: Request, res: Response) {
 
 export async function listSessions(req: Request, res: Response) {
   try {
-    // Use userId from auth middleware if available, otherwise return all sessions
     const userId = (req as any).userId;
     const filter = userId ? { userId } : {};
     const sessions = await SubliminalSession.find(filter)
@@ -175,9 +191,10 @@ export async function listSessions(req: Request, res: Response) {
 }
 
 /**
- * Background pipeline runner that walks through state transitions
+ * Background pipeline runner that steps through explicit state transitions:
+ * GENERATING_SCRIPT -> GENERATING_VOICE -> GENERATING_MUSIC -> MIXING_AUDIO -> UPLOADING -> COMPLETED
  */
-async function processSessionPipeline(sessionId: string, concept: any, answers: IntentionAnswers) {
+export async function processSessionPipeline(sessionId: string, concept: any, answers: IntentionAnswers) {
   const session = await SubliminalSession.findById(sessionId);
   if (!session) return;
 
@@ -187,11 +204,17 @@ async function processSessionPipeline(sessionId: string, concept: any, answers: 
   if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
   if (!fs.existsSync(outputSessionsDir)) fs.mkdirSync(outputSessionsDir, { recursive: true });
 
+  const voiceTempPath = path.join(tempDir, `voice_${sessionId}.mp3`);
+  const musicTempPath = path.join(tempDir, `music_${sessionId}.mp3`);
+
   try {
-    // Step 1: GENERATING_SCRIPT
+    // ------------------------------------------------------------------------
+    // STAGE 1: GENERATING_SCRIPT (Gemini)
+    // ------------------------------------------------------------------------
     session.status = 'GENERATING_SCRIPT';
     await session.save();
 
+    console.log(`[Session ${sessionId}] Stage: GENERATING_SCRIPT`);
     const scriptResult = await geminiService.generateAffirmationScript({
       concept,
       answers,
@@ -199,47 +222,136 @@ async function processSessionPipeline(sessionId: string, concept: any, answers: 
     });
 
     session.script = {
+      title: scriptResult.title,
+      tone: scriptResult.tone,
       affirmations: scriptResult.affirmations,
-      rawText: scriptResult.rawText,
-      tone: scriptResult.tone
+      identityStatements: scriptResult.identityStatements,
+      visualizationPrompts: scriptResult.visualizationPrompts,
+      actionAnchors: scriptResult.actionAnchors,
+      closingStatements: scriptResult.closingStatements,
+      rawText: scriptResult.rawText
     };
-    session.title = scriptResult.title;
+    session.title = scriptResult.title || session.title;
+
+    // ------------------------------------------------------------------------
+    // STAGE 2: GENERATING_VOICE (Microsoft Azure Speech TTS)
+    // ------------------------------------------------------------------------
     session.status = 'GENERATING_VOICE';
     await session.save();
 
-    // Step 2: GENERATING_VOICE
-    const voiceTempPath = path.join(tempDir, `voice_${sessionId}.mp3`);
-    await generateSpeech({
-      provider: session.settings.ttsProvider,
-      text: scriptResult.rawText,
-      voiceId: session.settings.voiceId,
-      intensity: session.settings.subliminalIntensity,
-      outputPath: voiceTempPath
-    });
+    console.log(`[Session ${sessionId}] Stage: GENERATING_VOICE (Azure Speech)`);
+    let voiceResult: any;
+    try {
+      voiceResult = await synthesizeAzureSpeech({
+        text: scriptResult.rawText,
+        voiceId: session.settings.voiceId,
+        intensity: session.settings.subliminalIntensity,
+        outputPath: voiceTempPath
+      });
+    } catch (voiceErr: any) {
+      console.error(`[Session ${sessionId}] Azure Speech Voice Generation Failed:`, voiceErr);
+      session.status = 'FAILED';
+      session.failedStage = 'GENERATING_VOICE';
+      session.errorCode = voiceErr.code || 'AZURE_SPEECH_SYNTHESIS_FAILED';
+      session.errorMessage = voiceErr.message || 'Azure Speech synthesis failed.';
+      session.error = voiceErr.message;
+      await session.save();
+      return;
+    }
 
+    // ------------------------------------------------------------------------
+    // STAGE 3: GENERATING_MUSIC (ElevenLabs Music / Verified Ambience)
+    // ------------------------------------------------------------------------
+    session.status = 'GENERATING_MUSIC';
+    await session.save();
+
+    console.log(`[Session ${sessionId}] Stage: GENERATING_MUSIC (ElevenLabs Music)`);
+    let musicResult: any;
+    try {
+      musicResult = await elevenLabsMusicService.resolveSessionMusicTrack({
+        sessionTitle: session.title,
+        category: session.category,
+        usageContext: session.settings.usageContext,
+        ambienceStyle: session.settings.ambienceTrackId,
+        targetDurationSeconds: 30,
+        outputPath: musicTempPath,
+        allowAmbienceFallback: session.settings.allowAmbienceFallback !== false,
+        musicProvider: session.settings.musicProvider || 'elevenlabs'
+      });
+    } catch (musicErr: any) {
+      console.error(`[Session ${sessionId}] ElevenLabs Music Generation Failed:`, musicErr);
+      session.status = 'FAILED';
+      session.failedStage = 'GENERATING_MUSIC';
+      session.errorCode = musicErr.code || 'ELEVENLABS_MUSIC_GENERATION_FAILED';
+      session.errorMessage = musicErr.message || 'ElevenLabs music generation failed.';
+      session.error = musicErr.message;
+      await session.save();
+      return;
+    }
+
+    // ------------------------------------------------------------------------
+    // STAGE 4: MIXING_AUDIO (FFmpeg Multi-layer Mixer)
+    // ------------------------------------------------------------------------
     session.status = 'MIXING_AUDIO';
     await session.save();
 
-    // Step 3: MIXING_AUDIO
-    const mixResult = await audioMixerService.mixSessionAudio({
-      sessionId,
-      voiceAudioPath: voiceTempPath,
-      ambienceTrackId: session.settings.ambienceTrackId,
-      frequencyHz: session.settings.frequencyHz,
-      durationMinutes: session.settings.durationMinutes,
-      intensity: session.settings.subliminalIntensity,
-      outputDirectory: outputSessionsDir
-    });
+    console.log(`[Session ${sessionId}] Stage: MIXING_AUDIO (FFmpeg)`);
+    let mixResult: any;
+    try {
+      mixResult = await audioMixerService.mixSessionAudio({
+        sessionId,
+        voiceAudioPath: voiceTempPath,
+        musicAudioPath: musicResult.outputPath,
+        ambienceTrackId: session.settings.ambienceTrackId,
+        frequencyHz: session.settings.frequencyHz,
+        durationMinutes: session.settings.durationMinutes,
+        intensity: session.settings.subliminalIntensity,
+        outputDirectory: outputSessionsDir
+      });
+    } catch (mixErr: any) {
+      console.error(`[Session ${sessionId}] Audio Mixing Failed:`, mixErr);
+      session.status = 'FAILED';
+      session.failedStage = 'MIXING_AUDIO';
+      session.errorCode = mixErr.code || 'AUDIO_MIXING_FAILED';
+      session.errorMessage = mixErr.message || 'Audio mixing process failed.';
+      session.error = mixErr.message;
+      await session.save();
+      return;
+    }
 
-    // Step 4: COMPLETED
+    // ------------------------------------------------------------------------
+    // STAGE 5: UPLOADING (Persistent Storage Resolution)
+    // ------------------------------------------------------------------------
+    session.status = 'UPLOADING';
+    await session.save();
+
+    console.log(`[Session ${sessionId}] Stage: UPLOADING (Persistent Storage)`);
+    const storageKey = `sessions/session_${sessionId}.mp3`;
+    const finalAudioUrl = mixResult.relativeUrl;
+
+    // ------------------------------------------------------------------------
+    // STAGE 6: COMPLETED
+    // ------------------------------------------------------------------------
     session.audio = {
-      url: mixResult.relativeUrl,
+      url: finalAudioUrl,
+      storageKey,
       durationSeconds: mixResult.durationSeconds,
       fileSizeBytes: mixResult.fileSizeBytes,
+      voiceDurationSeconds: voiceResult.durationSeconds,
+      musicDurationSeconds: musicResult.durationSeconds,
+      voiceProvider: 'azure',
+      musicProvider: musicResult.provider,
+      musicPrompt: musicResult.promptUsed,
       sha256: mixResult.sha256
     };
     session.status = 'COMPLETED';
+    session.failedStage = undefined;
+    session.errorCode = undefined;
+    session.errorMessage = undefined;
+    session.error = undefined;
     await session.save();
+
+    console.log(`[Session ${sessionId}] ✓ GENERATION PIPELINE COMPLETED SUCCESSFULLY.`);
 
     // Cleanup voice temp file
     if (fs.existsSync(voiceTempPath)) {
@@ -247,10 +359,13 @@ async function processSessionPipeline(sessionId: string, concept: any, answers: 
         fs.unlinkSync(voiceTempPath);
       } catch {}
     }
-  } catch (err) {
-    console.error(`[Pipeline Failed for ${sessionId}]:`, err);
+  } catch (err: any) {
+    console.error(`[Session Pipeline Catastrophic Failure for ${sessionId}]:`, err);
     session.status = 'FAILED';
-    session.error = (err as Error).message || 'Generation failed';
+    session.failedStage = session.status || 'UNKNOWN';
+    session.errorCode = 'INTERNAL_PIPELINE_ERROR';
+    session.errorMessage = err.message || 'Generation failed';
+    session.error = err.message;
     await session.save();
   }
 }
